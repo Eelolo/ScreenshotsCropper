@@ -51,7 +51,7 @@ class App(Frame):
             up_coords[2],
             up_coords[3],
             fill='red',
-            tag = 'up'
+            tag = 'upper_handle'
 
         )
         bottom_handle = self.canv.create_rectangle(
@@ -59,7 +59,9 @@ class App(Frame):
             down_coords[1],
             down_coords[2],
             down_coords[3],
-            fill='red'
+            fill='red',
+            tag='bottom_handle'
+
         )
         left_handle = self.canv.create_rectangle(
             left_coords[0],
@@ -67,14 +69,47 @@ class App(Frame):
             left_coords[2],
             left_coords[3],
             fill='red',
+            tag='left_handle'
+
         )
         right_handle = self.canv.create_rectangle(
             right_coords[0],
             right_coords[1],
             right_coords[2],
             right_coords[3],
-            fill='red'
+            fill='red',
+            tag='right_handle'
+
         )
+        self.canv.tag_bind(upper_handle, '<B1-Motion>', lambda event, tag='upper_handle': self.move_vert(event, tag))
+        self.canv.tag_bind(upper_handle, "<ButtonPress-1>", lambda event, tag='upper_handle': self.move_start_vert(event, tag))
+
+        self.canv.tag_bind(bottom_handle, '<B1-Motion>', lambda event, tag='bottom_handle': self.move_vert(event, tag))
+        self.canv.tag_bind(bottom_handle, "<ButtonPress-1>", lambda event, tag='bottom_handle': self.move_start_vert(event, tag))
+
+        self.canv.tag_bind(left_handle, '<B1-Motion>', lambda event, tag='left_handle': self.move_hor(event, tag))
+        self.canv.tag_bind(left_handle, "<ButtonPress-1>", lambda event, tag='left_handle': self.move_start_hor(event, tag))
+
+        self.canv.tag_bind(right_handle, '<B1-Motion>', lambda event, tag='right_handle': self.move_hor(event, tag))
+        self.canv.tag_bind(right_handle, "<ButtonPress-1>", lambda event, tag='right_handle': self.move_start_hor(event, tag))
+
+    def move_start_hor(self, event, tag):
+        x, y, x1, y1 = self.canv.coords(tag)
+        self.to_left_border = event.x - x
+        self.to_right_border = x1 - event.x
+
+    def move_hor(self, event, tag):
+        x, y, x1, y1 = self.canv.coords(tag)
+        self.canv.coords(tag, event.x-self.to_left_border, y, event.x+self.to_right_border, y1)
+
+    def move_start_vert(self, event, tag):
+        x, y, x1, y1 = self.canv.coords(tag)
+        self.to_upper_border = event.y - y
+        self.to_bottom_border = y1 - event.y
+
+    def move_vert(self, event, tag):
+        x, y, x1, y1 = self.canv.coords(tag)
+        self.canv.coords(tag, x, event.y-self.to_upper_border, x1, event.y+self.to_bottom_border)
 
     def create_image(self):
         width = self.screenshot.width()
