@@ -1,6 +1,6 @@
 from tkinter import *
 from PIL import ImageGrab, ImageTk, Image
-from pystray import MenuItem, Icon
+from pystray import MenuItem, Icon, Menu
 import keyboard
 
 
@@ -30,7 +30,7 @@ class App(Frame):
 
     def withdraw_window(self):
         self.root.withdraw()
-        menu = (MenuItem('Show', self.show_window), MenuItem('Quit', self.quit_window))
+        menu = Menu(MenuItem('Show', self.show_window, default=True), MenuItem('Quit', self.quit_window))
         self.icon = Icon("ScreenshotsCutter", self.icon_img, "Screenshots\nCutter", menu)
         self.icon.run()
 
