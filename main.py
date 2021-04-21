@@ -28,6 +28,30 @@ class App(Frame):
         if self.icon:
             self.icon.stop()
             self.root.after(0, self.root.deiconify)
+            self.icon = None
+
+    def show_after_printscreen(self):
+        self.show_window()
+        self.lbl.pack_forget()
+        time.sleep(0.1)
+        self.grab_image()
+        self.update_image()
+
+    def create_image(self):
+        width = self.screenshot.width()
+        height = self.screenshot.height()
+        self.canv.configure(width=width, height=height)
+        self.canv.create_image(0, 0, anchor='nw', image=self.screenshot)
+        self.canv.pack()
+
+    def update_image(self):
+        if not self.canv.find_all():
+            self.create_image()
+        else:
+            width = self.screenshot.width()
+            height = self.screenshot.height()
+            self.canv.configure(width=width, height=height)
+            self.canv.itemconfigure(self.canv.find_all()[-1], image=self.screenshot)
 
     def withdraw_window(self):
         self.root.withdraw()
@@ -58,7 +82,10 @@ class App(Frame):
         return image
 
     def grab_image(self):
-        self.screenshot = ImageTk.PhotoImage(ImageGrab.grabclipboard())
+        self.screenshot = ImageGrab.grabclipboard()
+        height = int(self.screenshot.size[0]/2.5)
+        self.screenshot = self.proportional_resize(self.screenshot, new_height=height)
+        self.screenshot = ImageTk.PhotoImage(self.screenshot)
 
 
 if __name__ == '__main__':
