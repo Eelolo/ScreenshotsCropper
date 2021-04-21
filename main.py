@@ -36,6 +36,45 @@ class App(Frame):
         time.sleep(0.1)
         self.grab_image()
         self.update_image()
+        self.create_handles()
+
+    def create_handles(self):
+        width = self.screenshot.width()
+        height = self.screenshot.height()
+        left_coords = 0, height / 2 - 100, 20, height / 2 + 100
+        right_coords = width, height / 2 - 100, width - 20, height / 2 + 100
+        up_coords = width / 2 - 100, 0, width / 2 + 100, 20
+        down_coords = width / 2 - 100, height, width / 2 + 100, height - 20
+        upper_handle = self.canv.create_rectangle(
+            up_coords[0],
+            up_coords[1],
+            up_coords[2],
+            up_coords[3],
+            fill='red',
+            tag = 'up'
+
+        )
+        bottom_handle = self.canv.create_rectangle(
+            down_coords[0],
+            down_coords[1],
+            down_coords[2],
+            down_coords[3],
+            fill='red'
+        )
+        left_handle = self.canv.create_rectangle(
+            left_coords[0],
+            left_coords[1],
+            left_coords[2],
+            left_coords[3],
+            fill='red',
+        )
+        right_handle = self.canv.create_rectangle(
+            right_coords[0],
+            right_coords[1],
+            right_coords[2],
+            right_coords[3],
+            fill='red'
+        )
 
     def create_image(self):
         width = self.screenshot.width()
