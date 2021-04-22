@@ -41,10 +41,10 @@ class App(Frame):
     def create_handles(self):
         width = self.screenshot.width()
         height = self.screenshot.height()
-        left_coords = 0, height / 2 - 100, 20, height / 2 + 100
-        right_coords = width, height / 2 - 100, width - 20, height / 2 + 100
-        up_coords = width / 2 - 100, 0, width / 2 + 100, 20
-        down_coords = width / 2 - 100, height, width / 2 + 100, height - 20
+        left_coords = 0, height / 2 - 25, 5, height / 2 + 25
+        right_coords = width, height / 2 - 25, width - 5, height / 2 + 25
+        up_coords = width / 2 - 25, 0, width / 2 + 25, 5
+        down_coords = width / 2 - 25, height, width / 2 + 25, height - 5
         upper_handle = self.canv.create_rectangle(
             up_coords[0],
             up_coords[1],
@@ -122,8 +122,8 @@ class App(Frame):
 
         between_handles = rx - ((rx - lx1) / 2)
 
-        self.canv.coords('upper_handle', between_handles - 100, uy, between_handles + 100, uy1)
-        self.canv.coords('bottom_handle', between_handles - 100, by, between_handles + 100, by1)
+        self.canv.coords('upper_handle', between_handles - 25, uy, between_handles + 25, uy1)
+        self.canv.coords('bottom_handle', between_handles - 25, by, between_handles + 25, by1)
 
     def update_handles_pos_vert(self):
         _, uy, _, uy1 = self.canv.coords('upper_handle')
@@ -134,8 +134,8 @@ class App(Frame):
 
         between_handles = uy - ((uy - by1) / 2)
 
-        self.canv.coords('left_handle', lx, between_handles - 100, lx1, between_handles + 100)
-        self.canv.coords('right_handle', rx, between_handles - 100, rx1, between_handles + 100)
+        self.canv.coords('left_handle', lx, between_handles - 25, lx1, between_handles + 25)
+        self.canv.coords('right_handle', rx, between_handles - 25, rx1, between_handles + 25)
 
     def create_image(self):
         width = self.screenshot.width()
