@@ -43,9 +43,9 @@ class App(Frame):
         width = self.screenshot.width()
         height = self.screenshot.height()
 
-        left_coords = 0, height / 2 - 25, 5, height / 2 + 25
+        left_coords = 0+2, height / 2 - 25, 5+2, height / 2 + 25
         right_coords = width, height / 2 - 25, width - 5, height / 2 + 25
-        up_coords = width / 2 - 25, 0, width / 2 + 25, 5
+        up_coords = width / 2 - 25, 0+2, width / 2 + 25, 5+2
         down_coords = width / 2 - 25, height, width / 2 + 25, height - 5
 
         upper_left = [
