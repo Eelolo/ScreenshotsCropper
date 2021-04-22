@@ -43,58 +43,40 @@ class App(Frame):
         width = self.screenshot.width()
         height = self.screenshot.height()
 
-        left_coords = 0+2, height / 2 - 25, 5+2, height / 2 + 25
-        right_coords = width, height / 2 - 25, width - 5, height / 2 + 25
-        up_coords = width / 2 - 25, 0+2, width / 2 + 25, 5+2
-        down_coords = width / 2 - 25, height, width / 2 + 25, height - 5
+        left_coords = 2, height / 2 - 25, 7, height / 2 + 25
+        right_coords = width-1, height / 2 - 25, width - 6, height / 2 + 25
+        up_coords = width / 2 - 25, 2, width / 2 + 25, 7
+        down_coords = width / 2 - 25, height-2, width / 2 + 25, height - 7
 
-        upper_left = [
-            0+2, 0+2, 0+2, 50+2, 5+2, 50+2, 5+2, 5+2, 50+2, 5+2, 50+2, 0+2
-        ]
-        lower_left = [
-            0+2, height, 0+2, height-50, 5+2, height-50, 5+2, height-5,  50+2, height-5, 50+2, height
-        ]
+        upper_left = 2, 2, 2, 52, 7, 52, 7, 7, 52, 7, 52, 2
+        lower_left = 2, height, 2, height-50, 7, height-50, 7, height-5,  52, height-5, 52, height
 
-        upper_right = [
-            width, 0+2, width-50, 0+2, width-50, 5+2, width-5, 5+2, width-5, 50+2, width, 50+2
-        ]
-        lower_right = [
-            width, height, width-50, height, width-50, height-5,
-            width-5, height-5, width-5, height-50, width, height-50
-        ]
+        upper_right = width-1, 2, width-52, 2, width-52, 7, width-6, 7, width-6, 52, width-1, 52
+        lower_right = (
+            width-1, height, width-51, height, width-51, height-5, width-6, height-5, width-6,
+            height-50, width-1, height-50
+        )
 
         upper_handle = self.canv.create_rectangle(
-            up_coords[0],
-            up_coords[1],
-            up_coords[2],
-            up_coords[3],
+            up_coords,
             fill='white',
             tag = 'upper_handle'
 
         )
         bottom_handle = self.canv.create_rectangle(
-            down_coords[0],
-            down_coords[1],
-            down_coords[2],
-            down_coords[3],
+            down_coords,
             fill='white',
             tag='bottom_handle'
 
         )
         left_handle = self.canv.create_rectangle(
-            left_coords[0],
-            left_coords[1],
-            left_coords[2],
-            left_coords[3],
+            left_coords,
             fill='white',
             tag='left_handle'
 
         )
         right_handle = self.canv.create_rectangle(
-            right_coords[0],
-            right_coords[1],
-            right_coords[2],
-            right_coords[3],
+            right_coords,
             fill='white',
             tag='right_handle'
         )
