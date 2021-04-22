@@ -3,7 +3,7 @@ from PIL import ImageGrab, ImageTk, Image
 from pystray import MenuItem, Icon, Menu
 import keyboard
 import time
-import math
+
 
 class App(Frame):
     def __init__(self, root):
@@ -57,79 +57,79 @@ class App(Frame):
             height-50, width-1, height-50
         )
 
-        upper_handle = self.canv.create_rectangle(
+        upper_handle = self.img_canv.create_rectangle(
             up_coords,
             fill='white',
             tag = 'upper_handle'
 
         )
-        lower_handle = self.canv.create_rectangle(
+        lower_handle = self.img_canv.create_rectangle(
             down_coords,
             fill='white',
             tag='lower_handle'
 
         )
-        left_handle = self.canv.create_rectangle(
+        left_handle = self.img_canv.create_rectangle(
             left_coords,
             fill='white',
             tag='left_handle'
 
         )
-        right_handle = self.canv.create_rectangle(
+        right_handle = self.img_canv.create_rectangle(
             right_coords,
             fill='white',
             tag='right_handle'
         )
-        upper_left_handle = self.canv.create_polygon(
+        upper_left_handle = self.img_canv.create_polygon(
             upper_left,
             fill='white',
             tag='upper_left_handle',
             outline='black'
         )
-        lower_left_handle = self.canv.create_polygon(
+        lower_left_handle = self.img_canv.create_polygon(
             lower_left,
             fill='white',
             tag='lower_left_handle',
             outline='black'
         )
-        upper_right_handle = self.canv.create_polygon(
+        upper_right_handle = self.img_canv.create_polygon(
             upper_right,
             fill='white',
             tag='upper_right_handle',
             outline='black'
         )
-        lower_right_handle = self.canv.create_polygon(
+        lower_right_handle = self.img_canv.create_polygon(
             lower_right,
             fill='white',
             tag='lower_right_handle',
             outline='black'
         )
 
-        self.canv.tag_bind(upper_handle, '<B1-Motion>', lambda event, tag='upper_handle': self.move_vert(event, tag))
-        self.canv.tag_bind(upper_handle, "<ButtonPress-1>", lambda event, tag='upper_handle': self.move_start_vert(event, tag))
+        self.img_canv.tag_bind(upper_handle, '<B1-Motion>', lambda event, tag='upper_handle': self.move_vert(event, tag))
+        self.img_canv.tag_bind(upper_handle, "<ButtonPress-1>", lambda event, tag='upper_handle': self.move_start_vert(event, tag))
 
-        self.canv.tag_bind(lower_handle, '<B1-Motion>', lambda event, tag='lower_handle': self.move_vert(event, tag))
-        self.canv.tag_bind(lower_handle, "<ButtonPress-1>", lambda event, tag='lower_handle': self.move_start_vert(event, tag))
+        self.img_canv.tag_bind(lower_handle, '<B1-Motion>', lambda event, tag='lower_handle': self.move_vert(event, tag))
+        self.img_canv.tag_bind(lower_handle, "<ButtonPress-1>", lambda event, tag='lower_handle': self.move_start_vert(event, tag))
 
-        self.canv.tag_bind(left_handle, '<B1-Motion>', lambda event, tag='left_handle': self.move_hor(event, tag))
-        self.canv.tag_bind(left_handle, "<ButtonPress-1>", lambda event, tag='left_handle': self.move_start_hor(event, tag))
+        self.img_canv.tag_bind(left_handle, '<B1-Motion>', lambda event, tag='left_handle': self.move_hor(event, tag))
+        self.img_canv.tag_bind(left_handle, "<ButtonPress-1>", lambda event, tag='left_handle': self.move_start_hor(event, tag))
 
-        self.canv.tag_bind(right_handle, '<B1-Motion>', lambda event, tag='right_handle': self.move_hor(event, tag))
-        self.canv.tag_bind(right_handle, "<ButtonPress-1>", lambda event, tag='right_handle': self.move_start_hor(event, tag))
+        self.img_canv.tag_bind(right_handle, '<B1-Motion>', lambda event, tag='right_handle': self.move_hor(event, tag))
+        self.img_canv.tag_bind(right_handle, "<ButtonPress-1>", lambda event, tag='right_handle': self.move_start_hor(event, tag))
 
 
     def move_start_hor(self, event, tag):
-        x, y, x1, y1 = self.canv.coords(tag)
+        x, y, x1, y1 = self.img_canv.coords(tag)
         self.to_left_border = event.x - x
         self.to_right_border = x1 - event.x
 
     def move_hor(self, event, tag):
-        x, y, x1, y1 = self.canv.coords(tag)
-        self.canv.coords(tag, event.x-self.to_left_border, y, event.x+self.to_right_border, y1)
+        x, y, x1, y1 = self.img_canv.coords(tag)
+        self.img_canv.coords(tag, event.x-self.to_left_border, y, event.x+self.to_right_border, y1)
         self.update_handles_pos_gor()
 
     def move_start_vert(self, event, tag):
-        x, y, x1, y1 = self.canv.coords(tag)
+        x, y, x1, y1 = self.img_canv.coords(tag)
         self.to_upper_border = event.y - y
         self.to_lower_border = y1 - event.y
         self.event = event
@@ -147,50 +147,50 @@ class App(Frame):
             return None
 
     def move_vert(self, event, tag):
-        x, y, x1, y1 = self.canv.coords(tag)
-        self.canv.coords(tag, x, event.y-self.to_upper_border, x1, event.y+self.to_lower_border)
+        x, y, x1, y1 = self.img_canv.coords(tag)
+        self.img_canv.coords(tag, x, event.y-self.to_upper_border, x1, event.y+self.to_lower_border)
         self.update_handles_pos_vert()
 
     def update_handles_pos_gor(self):
-        lx, _, lx1, _ = self.canv.coords('left_handle')
-        rx, _, rx1, _ = self.canv.coords('right_handle')
+        lx, _, lx1, _ = self.img_canv.coords('left_handle')
+        rx, _, rx1, _ = self.img_canv.coords('right_handle')
 
-        _, uy, _, uy1 = self.canv.coords('upper_handle')
-        _, loy, _, loy1 = self.canv.coords('lower_handle')
+        _, uy, _, uy1 = self.img_canv.coords('upper_handle')
+        _, loy, _, loy1 = self.img_canv.coords('lower_handle')
 
         between_handles = rx - ((rx - lx1) / 2)
 
-        self.canv.coords('upper_handle', between_handles - 25, uy, between_handles + 25, uy1)
-        self.canv.coords('lower_handle', between_handles - 25, loy, between_handles + 25, loy1)
+        self.img_canv.coords('upper_handle', between_handles - 25, uy, between_handles + 25, uy1)
+        self.img_canv.coords('lower_handle', between_handles - 25, loy, between_handles + 25, loy1)
 
 
     def update_handles_pos_vert(self):
-        _, uy, _, uy1 = self.canv.coords('upper_handle')
-        _, loy, _, loy1 = self.canv.coords('lower_handle')
+        _, uy, _, uy1 = self.img_canv.coords('upper_handle')
+        _, loy, _, loy1 = self.img_canv.coords('lower_handle')
 
-        lx, _, lx1, _ = self.canv.coords('left_handle')
-        rx, _, rx1, _ = self.canv.coords('right_handle')
+        lx, _, lx1, _ = self.img_canv.coords('left_handle')
+        rx, _, rx1, _ = self.img_canv.coords('right_handle')
 
         between_handles = uy - ((uy - loy1) / 2)
 
-        self.canv.coords('left_handle', lx, between_handles - 25, lx1, between_handles + 25)
-        self.canv.coords('right_handle', rx, between_handles - 25, rx1, between_handles + 25)
+        self.img_canv.coords('left_handle', lx, between_handles - 25, lx1, between_handles + 25)
+        self.img_canv.coords('right_handle', rx, between_handles - 25, rx1, between_handles + 25)
 
     def create_image(self):
         width = self.screenshot.width()
         height = self.screenshot.height()
-        self.canv.configure(width=width, height=height)
-        self.canv.create_image(0, 0, anchor='nw', image=self.screenshot, tag='screenshot')
-        self.canv.pack()
+        self.img_canv.configure(width=width, height=height)
+        self.img_canv.create_image(0, 0, anchor='nw', image=self.screenshot, tag='screenshot')
+        self.img_canv.pack()
 
     def update_image(self):
-        if not self.canv.find_all():
+        if not self.img_canv.find_all():
             self.create_image()
         else:
             width = self.screenshot.width()
             height = self.screenshot.height()
-            self.canv.configure(width=width, height=height)
-            self.canv.itemconfigure('screenshot', image=self.screenshot)
+            self.img_canv.configure(width=width, height=height)
+            self.img_canv.itemconfigure('screenshot', image=self.screenshot)
 
     def withdraw_window(self):
         self.root.withdraw()
@@ -200,10 +200,10 @@ class App(Frame):
 
     def create_widgets(self):
         self.lbl = Label(self, text='There is no image here.\nUse the Print Screen button.')
-        self.canv = Canvas(self)
+        self.img_canv = Canvas(self)
 
     def configure_widgets(self):
-        self.canv.bind("<Motion>", self.change_cursor)
+        self.img_canv.bind("<Motion>", self.change_cursor)
 
     def draw_widgets(self):
         self.lbl.pack()
@@ -212,10 +212,10 @@ class App(Frame):
         self.mainloop()
 
     def in_crop_area_check(self, event):
-        uy1 = self.canv.coords('upper_handle')[3]
-        loy = self.canv.coords('lower_handle')[1]
-        lx1 = self.canv.coords('left_handle')[2]
-        rx = self.canv.coords('right_handle')[0]
+        uy1 = self.img_canv.coords('upper_handle')[3]
+        loy = self.img_canv.coords('lower_handle')[1]
+        lx1 = self.img_canv.coords('left_handle')[2]
+        rx = self.img_canv.coords('right_handle')[0]
 
         if event.x > lx1 and event.x < rx and event.y > uy1 and event.y < loy:
             return True
@@ -225,9 +225,9 @@ class App(Frame):
     def change_cursor(self, event):
         # cursors = ['fleur', 'sizing', 'sb_h_double_arrow', 'sb_v_double_arrow']
         if self.in_crop_area_check(event):
-            self.canv.config(cursor='fleur')
+            self.img_canv.config(cursor='fleur')
         else:
-            self.canv.config(cursor='arrow')
+            self.img_canv.config(cursor='arrow')
 
     def proportional_resize(self, image, new_height=800, new_width=None):
         width, height = image.size
