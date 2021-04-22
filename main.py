@@ -111,6 +111,7 @@ class App(Frame):
     def move_vert(self, event, tag):
         x, y, x1, y1 = self.canv.coords(tag)
         self.canv.coords(tag, x, event.y-self.to_upper_border, x1, event.y+self.to_bottom_border)
+        self.update_handles_pos_vert()
 
     def update_handles_pos_gor(self):
         lx, _, lx1, _ = self.canv.coords('left_handle')
@@ -124,6 +125,17 @@ class App(Frame):
         self.canv.coords('upper_handle', between_handles - 100, uy, between_handles + 100, uy1)
         self.canv.coords('bottom_handle', between_handles - 100, by, between_handles + 100, by1)
 
+    def update_handles_pos_vert(self):
+        _, uy, _, uy1 = self.canv.coords('upper_handle')
+        _, by, _, by1 = self.canv.coords('bottom_handle')
+
+        lx, _, lx1, _ = self.canv.coords('left_handle')
+        rx, _, rx1, _ = self.canv.coords('right_handle')
+
+        between_handles = uy - ((uy - by1) / 2)
+
+        self.canv.coords('left_handle', lx, between_handles - 100, lx1, between_handles + 100)
+        self.canv.coords('right_handle', rx, between_handles - 100, rx1, between_handles + 100)
 
     def create_image(self):
         width = self.screenshot.width()
