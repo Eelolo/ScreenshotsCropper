@@ -42,10 +42,27 @@ class App(Frame):
     def create_handles(self):
         width = self.screenshot.width()
         height = self.screenshot.height()
+
         left_coords = 0, height / 2 - 25, 5, height / 2 + 25
         right_coords = width, height / 2 - 25, width - 5, height / 2 + 25
         up_coords = width / 2 - 25, 0, width / 2 + 25, 5
         down_coords = width / 2 - 25, height, width / 2 + 25, height - 5
+
+        upper_left = [
+            0+2, 0+2, 0+2, 50+2, 5+2, 50+2, 5+2, 5+2, 50+2, 5+2, 50+2, 0+2
+        ]
+        lower_left = [
+            0+2, height, 0+2, height-50, 5+2, height-50, 5+2, height-5,  50+2, height-5, 50+2, height
+        ]
+
+        upper_right = [
+            width, 0+2, width-50, 0+2, width-50, 5+2, width-5, 5+2, width-5, 50+2, width, 50+2
+        ]
+        lower_right = [
+            width, height, width-50, height, width-50, height-5,
+            width-5, height-5, width-5, height-50, width, height-50
+        ]
+
         upper_handle = self.canv.create_rectangle(
             up_coords[0],
             up_coords[1],
@@ -80,8 +97,32 @@ class App(Frame):
             right_coords[3],
             fill='white',
             tag='right_handle'
-
         )
+        upper_left_handle = self.canv.create_polygon(
+            upper_left,
+            fill='white',
+            tag='upper_left_handle',
+            outline='black'
+        )
+        lower_left_handle = self.canv.create_polygon(
+            lower_left,
+            fill='white',
+            tag='lower_left_handle',
+            outline='black'
+        )
+        upper_right_handle = self.canv.create_polygon(
+            upper_right,
+            fill='white',
+            tag='upper_right_handle',
+            outline='black'
+        )
+        lower_right_handle = self.canv.create_polygon(
+            lower_right,
+            fill='white',
+            tag='lower_right_handle',
+            outline='black'
+        )
+
         self.canv.tag_bind(upper_handle, '<B1-Motion>', lambda event, tag='upper_handle': self.move_vert(event, tag))
         self.canv.tag_bind(upper_handle, "<ButtonPress-1>", lambda event, tag='upper_handle': self.move_start_vert(event, tag))
 
