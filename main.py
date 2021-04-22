@@ -115,7 +115,7 @@ class App(Frame):
         width = self.screenshot.width()
         height = self.screenshot.height()
         self.canv.configure(width=width, height=height)
-        self.canv.create_image(0, 0, anchor='nw', image=self.screenshot)
+        self.canv.create_image(0, 0, anchor='nw', image=self.screenshot, tag='screenshot')
         self.canv.pack()
 
     def update_image(self):
@@ -125,7 +125,7 @@ class App(Frame):
             width = self.screenshot.width()
             height = self.screenshot.height()
             self.canv.configure(width=width, height=height)
-            self.canv.itemconfigure(self.canv.find_all()[-1], image=self.screenshot)
+            self.canv.itemconfigure('screenshot', image=self.screenshot)
 
     def withdraw_window(self):
         self.root.withdraw()
