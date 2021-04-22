@@ -15,6 +15,7 @@ class App(Frame):
 
         self.configure_root()
         self.create_widgets()
+        self.configure_widgets()
         self.draw_widgets()
 
     def configure_root(self):
@@ -163,11 +164,32 @@ class App(Frame):
         self.lbl = Label(self, text='There is no image here.\nUse the Print Screen button.')
         self.canv = Canvas(self)
 
+    def configure_widgets(self):
+        self.canv.bind("<Motion>", self.change_cursor)
+
     def draw_widgets(self):
         self.lbl.pack()
 
     def run(self):
         self.mainloop()
+
+    def in_crop_area_check(self, event):
+        uy1 = self.canv.coords('upper_handle')[3]
+        by = self.canv.coords('bottom_handle')[1]
+        lx1 = self.canv.coords('left_handle')[2]
+        rx = self.canv.coords('right_handle')[0]
+
+        if event.x > lx1 and event.x < rx and event.y > uy1 and event.y < by:
+            return True
+
+        return False
+
+    def change_cursor(self, event):
+        # cursors = ['fleur', 'sizing', 'sb_h_double_arrow', 'sb_v_double_arrow']
+        if self.in_crop_area_check(event):
+            self.canv.config(cursor='fleur')
+        else:
+            self.canv.config(cursor='arrow')
 
     def proportional_resize(self, image, new_height=800, new_width=None):
         width, height = image.size
