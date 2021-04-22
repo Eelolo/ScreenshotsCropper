@@ -63,10 +63,10 @@ class App(Frame):
             tag = 'upper_handle'
 
         )
-        bottom_handle = self.canv.create_rectangle(
+        lower_handle = self.canv.create_rectangle(
             down_coords,
             fill='white',
-            tag='bottom_handle'
+            tag='lower_handle'
 
         )
         left_handle = self.canv.create_rectangle(
@@ -108,14 +108,15 @@ class App(Frame):
         self.canv.tag_bind(upper_handle, '<B1-Motion>', lambda event, tag='upper_handle': self.move_vert(event, tag))
         self.canv.tag_bind(upper_handle, "<ButtonPress-1>", lambda event, tag='upper_handle': self.move_start_vert(event, tag))
 
-        self.canv.tag_bind(bottom_handle, '<B1-Motion>', lambda event, tag='bottom_handle': self.move_vert(event, tag))
-        self.canv.tag_bind(bottom_handle, "<ButtonPress-1>", lambda event, tag='bottom_handle': self.move_start_vert(event, tag))
+        self.canv.tag_bind(lower_handle, '<B1-Motion>', lambda event, tag='lower_handle': self.move_vert(event, tag))
+        self.canv.tag_bind(lower_handle, "<ButtonPress-1>", lambda event, tag='lower_handle': self.move_start_vert(event, tag))
 
         self.canv.tag_bind(left_handle, '<B1-Motion>', lambda event, tag='left_handle': self.move_hor(event, tag))
         self.canv.tag_bind(left_handle, "<ButtonPress-1>", lambda event, tag='left_handle': self.move_start_hor(event, tag))
 
         self.canv.tag_bind(right_handle, '<B1-Motion>', lambda event, tag='right_handle': self.move_hor(event, tag))
         self.canv.tag_bind(right_handle, "<ButtonPress-1>", lambda event, tag='right_handle': self.move_start_hor(event, tag))
+
 
     def move_start_hor(self, event, tag):
         x, y, x1, y1 = self.canv.coords(tag)
@@ -130,11 +131,24 @@ class App(Frame):
     def move_start_vert(self, event, tag):
         x, y, x1, y1 = self.canv.coords(tag)
         self.to_upper_border = event.y - y
-        self.to_bottom_border = y1 - event.y
+        self.to_lower_border = y1 - event.y
+        self.event = event
+
+    def get_angle_handle_tags(self, handle_tag):
+        if handle_tag == 'upper_handle':
+            return 'upper_left_handle', 'upper_right_handle'
+        elif handle_tag == 'lower_handle':
+            return 'lower_left_handle', 'lower_right_handle'
+        elif handle_tag == 'left_handle':
+            return 'upper_left_handle', 'lower_left_handle'
+        elif handle_tag == 'right_handle':
+            return 'upper_right_handle', 'lower_right_handle'
+        else:
+            return None
 
     def move_vert(self, event, tag):
         x, y, x1, y1 = self.canv.coords(tag)
-        self.canv.coords(tag, x, event.y-self.to_upper_border, x1, event.y+self.to_bottom_border)
+        self.canv.coords(tag, x, event.y-self.to_upper_border, x1, event.y+self.to_lower_border)
         self.update_handles_pos_vert()
 
     def update_handles_pos_gor(self):
@@ -142,21 +156,22 @@ class App(Frame):
         rx, _, rx1, _ = self.canv.coords('right_handle')
 
         _, uy, _, uy1 = self.canv.coords('upper_handle')
-        _, by, _, by1 = self.canv.coords('bottom_handle')
+        _, loy, _, loy1 = self.canv.coords('lower_handle')
 
         between_handles = rx - ((rx - lx1) / 2)
 
         self.canv.coords('upper_handle', between_handles - 25, uy, between_handles + 25, uy1)
-        self.canv.coords('bottom_handle', between_handles - 25, by, between_handles + 25, by1)
+        self.canv.coords('lower_handle', between_handles - 25, loy, between_handles + 25, loy1)
+
 
     def update_handles_pos_vert(self):
         _, uy, _, uy1 = self.canv.coords('upper_handle')
-        _, by, _, by1 = self.canv.coords('bottom_handle')
+        _, loy, _, loy1 = self.canv.coords('lower_handle')
 
         lx, _, lx1, _ = self.canv.coords('left_handle')
         rx, _, rx1, _ = self.canv.coords('right_handle')
 
-        between_handles = uy - ((uy - by1) / 2)
+        between_handles = uy - ((uy - loy1) / 2)
 
         self.canv.coords('left_handle', lx, between_handles - 25, lx1, between_handles + 25)
         self.canv.coords('right_handle', rx, between_handles - 25, rx1, between_handles + 25)
@@ -198,11 +213,11 @@ class App(Frame):
 
     def in_crop_area_check(self, event):
         uy1 = self.canv.coords('upper_handle')[3]
-        by = self.canv.coords('bottom_handle')[1]
+        loy = self.canv.coords('lower_handle')[1]
         lx1 = self.canv.coords('left_handle')[2]
         rx = self.canv.coords('right_handle')[0]
 
-        if event.x > lx1 and event.x < rx and event.y > uy1 and event.y < by:
+        if event.x > lx1 and event.x < rx and event.y > uy1 and event.y < loy:
             return True
 
         return False
