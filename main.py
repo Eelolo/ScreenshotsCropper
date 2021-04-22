@@ -3,7 +3,7 @@ from PIL import ImageGrab, ImageTk, Image
 from pystray import MenuItem, Icon, Menu
 import keyboard
 import time
-
+import math
 
 class App(Frame):
     def __init__(self, root):
@@ -50,7 +50,7 @@ class App(Frame):
             up_coords[1],
             up_coords[2],
             up_coords[3],
-            fill='red',
+            fill='white',
             tag = 'upper_handle'
 
         )
@@ -59,7 +59,7 @@ class App(Frame):
             down_coords[1],
             down_coords[2],
             down_coords[3],
-            fill='red',
+            fill='white',
             tag='bottom_handle'
 
         )
@@ -68,7 +68,7 @@ class App(Frame):
             left_coords[1],
             left_coords[2],
             left_coords[3],
-            fill='red',
+            fill='white',
             tag='left_handle'
 
         )
@@ -77,7 +77,7 @@ class App(Frame):
             right_coords[1],
             right_coords[2],
             right_coords[3],
-            fill='red',
+            fill='white',
             tag='right_handle'
 
         )
@@ -101,6 +101,7 @@ class App(Frame):
     def move_hor(self, event, tag):
         x, y, x1, y1 = self.canv.coords(tag)
         self.canv.coords(tag, event.x-self.to_left_border, y, event.x+self.to_right_border, y1)
+        self.update_handles_pos_gor()
 
     def move_start_vert(self, event, tag):
         x, y, x1, y1 = self.canv.coords(tag)
@@ -110,6 +111,19 @@ class App(Frame):
     def move_vert(self, event, tag):
         x, y, x1, y1 = self.canv.coords(tag)
         self.canv.coords(tag, x, event.y-self.to_upper_border, x1, event.y+self.to_bottom_border)
+
+    def update_handles_pos_gor(self):
+        lx, _, lx1, _ = self.canv.coords('left_handle')
+        rx, _, rx1, _ = self.canv.coords('right_handle')
+
+        _, uy, _, uy1 = self.canv.coords('upper_handle')
+        _, by, _, by1 = self.canv.coords('bottom_handle')
+
+        between_handles = rx - ((rx - lx1) / 2)
+
+        self.canv.coords('upper_handle', between_handles - 100, uy, between_handles + 100, uy1)
+        self.canv.coords('bottom_handle', between_handles - 100, by, between_handles + 100, by1)
+
 
     def create_image(self):
         width = self.screenshot.width()
