@@ -14,115 +14,77 @@ class Cropping_area:
         up_coords = width / 2 - 25, 0, width / 2 + 25, 5
         down_coords = width / 2 - 25, height, width / 2 + 25, height - 5
 
-        upper_left = 0, 0, 0, 50, 5, 50, 5, 5, 50, 5, 50, 0
-        lower_left = 0, height, 0, height-50, 5, height-50, 5, height-5,  50, height-5, 50, height
+        upper_left_coords = 0, 0, 0, 50, 5, 50, 5, 5, 50, 5, 50, 0
+        lower_left_coords = 0, height, 0, height-50, 5, height-50, 5, height-5,  50, height-5, 50, height
 
-        upper_right = width, 0, width, 50, width-5, 50, width-5, 5, width-50, 5, width-50, 0
-        lower_right = (
+        upper_right_coords = width, 0, width, 50, width-5, 50, width-5, 5, width-50, 5, width-50, 0
+        lower_right_coords = (
             width, height, width, height-50, width-5, height-50, width-5, height-5, width-50,
             height-5, width-50, height
         )
-        upper_handle = self.canvas.create_rectangle(
-            up_coords,
-            fill='white',
-            tag = 'upper_handle'
+        self.canvas.create_rectangle(up_coords, fill='white', tag = 'upper_handle')
+        self.canvas.create_rectangle(down_coords, fill='white', tag='lower_handle')
+        self.canvas.create_rectangle(left_coords, fill='white', tag='left_handle')
+        self.canvas.create_rectangle(right_coords, fill='white', tag='right_handle')
 
-        )
-        lower_handle = self.canvas.create_rectangle(
-            down_coords,
-            fill='white',
-            tag='lower_handle'
-
-        )
-        left_handle = self.canvas.create_rectangle(
-            left_coords,
-            fill='white',
-            tag='left_handle'
-
-        )
-        right_handle = self.canvas.create_rectangle(
-            right_coords,
-            fill='white',
-            tag='right_handle'
-        )
-        upper_left_handle = self.canvas.create_polygon(
-            upper_left,
-            fill='white',
-            tag='upper_left_handle',
-            outline='black'
-        )
-        lower_left_handle = self.canvas.create_polygon(
-            lower_left,
-            fill='white',
-            tag='lower_left_handle',
-            outline='black'
-        )
-        upper_right_handle = self.canvas.create_polygon(
-            upper_right,
-            fill='white',
-            tag='upper_right_handle',
-            outline='black'
-        )
-        lower_right_handle = self.canvas.create_polygon(
-            lower_right,
-            fill='white',
-            tag='lower_right_handle',
-            outline='black'
-        )
+        self.canvas.create_polygon(upper_left_coords, fill='white', tag='upper_left_handle', outline='black')
+        self.canvas.create_polygon(lower_left_coords, fill='white', tag='lower_left_handle', outline='black')
+        self.canvas.create_polygon(upper_right_coords, fill='white', tag='upper_right_handle', outline='black')
+        self.canvas.create_polygon(lower_right_coords, fill='white', tag='lower_right_handle', outline='black')
 
         self.canvas.tag_bind(
-            upper_left_handle, '<B1-Motion>', self.upper_left_handle_move
+            'upper_left_handle', '<B1-Motion>', self.upper_left_handle_move
         )
         self.canvas.tag_bind(
-            upper_left_handle, "<ButtonPress-1>",
+            'upper_left_handle', "<ButtonPress-1>",
             lambda event, tag='upper_left_handle': self.angle_move_start(event, tag)
         )
         self.canvas.tag_bind(
-            lower_left_handle, '<B1-Motion>', self.lower_left_handle_move
+            'lower_left_handle', '<B1-Motion>', self.lower_left_handle_move
         )
         self.canvas.tag_bind(
-            lower_left_handle, "<ButtonPress-1>",
+            'lower_left_handle', "<ButtonPress-1>",
             lambda event, tag='lower_left_handle': self.angle_move_start(event, tag)
         )
         self.canvas.tag_bind(
-            upper_right_handle, '<B1-Motion>', self.upper_right_handle_move
+            'upper_right_handle', '<B1-Motion>', self.upper_right_handle_move
         )
         self.canvas.tag_bind(
-            upper_right_handle, "<ButtonPress-1>",
+            'upper_right_handle', "<ButtonPress-1>",
             lambda event, tag='upper_right_handle': self.angle_move_start(event, tag)
         )
         self.canvas.tag_bind(
-            lower_right_handle, '<B1-Motion>', self.lower_right_handle_move
+            'lower_right_handle', '<B1-Motion>', self.lower_right_handle_move
         )
         self.canvas.tag_bind(
-            lower_right_handle, "<ButtonPress-1>",
+            'lower_right_handle', "<ButtonPress-1>",
             lambda event, tag='lower_right_handle': self.angle_move_start(event, tag)
         )
 
 
         self.canvas.tag_bind(
-            upper_handle, '<B1-Motion>', lambda event, tag='upper_handle': self.move_vert(event, tag)
+            'upper_handle', '<B1-Motion>', lambda event, tag='upper_handle': self.move_vert(event, tag)
         )
         self.canvas.tag_bind(
-            upper_handle, "<ButtonPress-1>", lambda event, tag='upper_handle': self.move_start_vert(event, tag)
+            'upper_handle', "<ButtonPress-1>", lambda event, tag='upper_handle': self.move_start_vert(event, tag)
         )
         self.canvas.tag_bind(
-            lower_handle, '<B1-Motion>', lambda event, tag='lower_handle': self.move_vert(event, tag)
+            'lower_handle', '<B1-Motion>', lambda event, tag='lower_handle': self.move_vert(event, tag)
         )
         self.canvas.tag_bind(
-            lower_handle, "<ButtonPress-1>", lambda event, tag='lower_handle': self.move_start_vert(event, tag)
+            'lower_handle', "<ButtonPress-1>", lambda event, tag='lower_handle': self.move_start_vert(event, tag)
         )
         self.canvas.tag_bind(
-            left_handle, '<B1-Motion>', lambda event, tag='left_handle': self.move_hor(event, tag)
+            'left_handle', '<B1-Motion>', lambda event, tag='left_handle': self.move_hor(event, tag)
         )
         self.canvas.tag_bind(
-            left_handle, "<ButtonPress-1>", lambda event, tag='left_handle': self.move_start_hor(event, tag)
+            'left_handle', "<ButtonPress-1>", lambda event, tag='left_handle': self.move_start_hor(event, tag)
         )
         self.canvas.tag_bind(
-            right_handle, '<B1-Motion>', lambda event, tag='right_handle': self.move_hor(event, tag)
+            'right_handle', '<B1-Motion>', lambda event, tag='right_handle': self.move_hor(event, tag)
         )
         self.canvas.tag_bind(
-            right_handle, "<ButtonPress-1>", lambda event, tag='right_handle': self.move_start_hor(event, tag)
+            'right_handle', "<ButtonPress-1>", lambda event, tag='right_handle': self.move_start_hor(event, tag)
         )
 
     def get_tags_for_angle_movement(self, tag):
