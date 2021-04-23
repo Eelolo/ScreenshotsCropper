@@ -109,17 +109,9 @@ class Cropping_area:
         pass
 
     def angle_move_start(self, event, tag):
-        coords = self.canvas.coords(tag)
+        coords = self.canvas.coords(tag)[0:2]
 
-        differences = []
-        for idx in range(0, len(coords), 2):
-            x = coords[idx]
-            y = coords[idx+1]
-            diff_x = event.x - x
-            diff_y = event.y - y
-            differences.extend([diff_x, diff_y])
-
-        self.differences = differences
+        self.difference = coords[0] - event.x, coords[1] - event.y
 
     def move_start_hor(self, event, tag):
         x, y, x1, y1 = self.canvas.coords(tag)
