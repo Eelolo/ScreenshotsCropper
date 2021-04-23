@@ -17,12 +17,11 @@ class Cropping_area:
         upper_left = 0, 0, 0, 50, 5, 50, 5, 5, 50, 5, 50, 0
         lower_left = 0, height, 0, height-50, 5, height-50, 5, height-5,  50, height-5, 50, height
 
-        upper_right = width, 0, width-50, 0, width-50, 5, width-5, 5, width-5, 50, width, 50
+        upper_right = width, 0, width, 50, width-5, 50, width-5, 5, width-50, 5, width-50, 0
         lower_right = (
-            width, height, width-50, height, width-50, height-5, width-5, height-5, width-5,
-            height-50, width, height-50
+            width, height, width, height-50, width-5, height-50, width-5, height-5, width-50,
+            height-5, width-50, height
         )
-
         upper_handle = self.canvas.create_rectangle(
             up_coords,
             fill='white',
@@ -119,15 +118,42 @@ class Cropping_area:
 
         x = self.canvas.coords(handle_tag)[0]
 
-        x0,y0, x1,y1, x2,y2, x3,y3, x4,y4, x5,y5 = self.canvas.coords(upper_handle)
-        self.canvas.coords(upper_handle, x,y0, x,y1, x+5,y2, x+5,y3, x+50,y4, x+50,y5)
+        if handle_tag == 'left_handle':
+            x0,y0, x1,y1, x2,y2, x3,y3, x4,y4, x5,y5 = self.canvas.coords(upper_handle)
+            self.canvas.coords(upper_handle, x,y0, x,y1, x+5,y2, x+5,y3, x+50,y4, x+50,y5)
 
-        x0,y0, x1,y1, x2,y2, x3,y3, x4,y4, x5,y5 = self.canvas.coords(lower_handle)
-        self.canvas.coords(lower_handle, x,y0, x,y1, x+5,y2, x+5,y3, x+50,y4, x+50,y5)
+            x0,y0, x1,y1, x2,y2, x3,y3, x4,y4, x5,y5 = self.canvas.coords(lower_handle)
+            self.canvas.coords(lower_handle, x,y0, x,y1, x+5,y2, x+5,y3, x+50,y4, x+50,y5)
+        else:
+            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords(upper_handle)
+            self.canvas.coords(upper_handle, x, y0, x, y1, x-5, y2, x-5, y3, x-50, y4, x-50, y5)
+
+            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords(lower_handle)
+            self.canvas.coords(lower_handle, x, y0, x, y1, x-5, y2, x-5, y3, x-50, y4, x-50, y5)
+
+    def angle_handles_update_vert(self, handle_tag):
+        upper_handle, lower_handle = self.get_angle_handle_tags(handle_tag)
+
+        y = self.canvas.coords(handle_tag)[1]
+
+        if handle_tag == 'upper_handle':
+            x0,y0, x1,y1, x2,y2, x3,y3, x4,y4, x5,y5 = self.canvas.coords(upper_handle)
+            self.canvas.coords(upper_handle, x0,y, x1,y+50, x2,y+50, x3,y+5, x4,y+5, x5,y)
+
+            x0,y0, x1,y1, x2,y2, x3,y3, x4,y4, x5,y5 = self.canvas.coords(lower_handle)
+            self.canvas.coords(lower_handle, x0,y, x1,y+50, x2,y+50, x3,y+5, x4,y+5, x5,y)
+        else:
+            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords(upper_handle)
+            self.canvas.coords(upper_handle, x0, y, x1, y-50, x2, y-50, x3, y-5, x4, y-5, x5, y)
+
+            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords(lower_handle)
+            self.canvas.coords(lower_handle, x0, y, x1, y-50, x2, y-50, x3, y-5, x4, y-5, x5, y)
 
     def move_vert(self, event, tag):
         x, y, x1, y1 = self.canvas.coords(tag)
         self.canvas.coords(tag, x, event.y-self.to_upper_border, x1, event.y+self.to_lower_border)
+
+        self.angle_handles_update_vert(tag)
         self.update_handles_pos_vert()
 
     def update_handles_pos_hor(self):
