@@ -70,30 +70,60 @@ class Cropping_area:
             outline='black'
         )
 
-        self.canvas.tag_bind(upper_left_handle, '<B1-Motion>', lambda event, tag='upper_left_handle': self.angle_move(event, tag))
-        self.canvas.tag_bind(upper_left_handle, "<ButtonPress-1>", lambda event, tag='upper_left_handle': self.angle_move_start(event, tag))
+        self.canvas.tag_bind(
+            upper_left_handle, '<B1-Motion>', self.upper_left_handle_move
+        )
+        self.canvas.tag_bind(
+            upper_left_handle, "<ButtonPress-1>",
+            lambda event, tag='upper_left_handle': self.angle_move_start(event, tag)
+        )
+        self.canvas.tag_bind(
+            lower_left_handle, '<B1-Motion>', self.lower_left_handle_move
+        )
+        self.canvas.tag_bind(
+            lower_left_handle, "<ButtonPress-1>",
+            lambda event, tag='lower_left_handle': self.angle_move_start(event, tag)
+        )
+        self.canvas.tag_bind(
+            upper_right_handle, '<B1-Motion>', self.upper_right_handle_move
+        )
+        self.canvas.tag_bind(
+            upper_right_handle, "<ButtonPress-1>",
+            lambda event, tag='upper_right_handle': self.angle_move_start(event, tag)
+        )
+        self.canvas.tag_bind(
+            lower_right_handle, '<B1-Motion>', self.lower_right_handle_move
+        )
+        self.canvas.tag_bind(
+            lower_right_handle, "<ButtonPress-1>",
+            lambda event, tag='lower_right_handle': self.angle_move_start(event, tag)
+        )
 
-        self.canvas.tag_bind(lower_left_handle, '<B1-Motion>', lambda event, tag='lower_left_handle': self.angle_move(event, tag))
-        self.canvas.tag_bind(lower_left_handle, "<ButtonPress-1>", lambda event, tag='lower_left_handle': self.angle_move_start(event, tag))
 
-        self.canvas.tag_bind(upper_right_handle, '<B1-Motion>', lambda event, tag='upper_right_handle': self.angle_move(event, tag))
-        self.canvas.tag_bind(upper_right_handle, "<ButtonPress-1>", lambda event, tag='upper_right_handle': self.angle_move_start(event, tag))
-
-        self.canvas.tag_bind(lower_right_handle, '<B1-Motion>', lambda event, tag='lower_right_handle': self.angle_move(event, tag))
-        self.canvas.tag_bind(lower_right_handle, "<ButtonPress-1>", lambda event, tag='lower_right_handle': self.angle_move_start(event, tag))
-
-
-        self.canvas.tag_bind(upper_handle, '<B1-Motion>', lambda event, tag='upper_handle': self.move_vert(event, tag))
-        self.canvas.tag_bind(upper_handle, "<ButtonPress-1>", lambda event, tag='upper_handle': self.move_start_vert(event, tag))
-
-        self.canvas.tag_bind(lower_handle, '<B1-Motion>', lambda event, tag='lower_handle': self.move_vert(event, tag))
-        self.canvas.tag_bind(lower_handle, "<ButtonPress-1>", lambda event, tag='lower_handle': self.move_start_vert(event, tag))
-
-        self.canvas.tag_bind(left_handle, '<B1-Motion>', lambda event, tag='left_handle': self.move_hor(event, tag))
-        self.canvas.tag_bind(left_handle, "<ButtonPress-1>", lambda event, tag='left_handle': self.move_start_hor(event, tag))
-
-        self.canvas.tag_bind(right_handle, '<B1-Motion>', lambda event, tag='right_handle': self.move_hor(event, tag))
-        self.canvas.tag_bind(right_handle, "<ButtonPress-1>", lambda event, tag='right_handle': self.move_start_hor(event, tag))
+        self.canvas.tag_bind(
+            upper_handle, '<B1-Motion>', lambda event, tag='upper_handle': self.move_vert(event, tag)
+        )
+        self.canvas.tag_bind(
+            upper_handle, "<ButtonPress-1>", lambda event, tag='upper_handle': self.move_start_vert(event, tag)
+        )
+        self.canvas.tag_bind(
+            lower_handle, '<B1-Motion>', lambda event, tag='lower_handle': self.move_vert(event, tag)
+        )
+        self.canvas.tag_bind(
+            lower_handle, "<ButtonPress-1>", lambda event, tag='lower_handle': self.move_start_vert(event, tag)
+        )
+        self.canvas.tag_bind(
+            left_handle, '<B1-Motion>', lambda event, tag='left_handle': self.move_hor(event, tag)
+        )
+        self.canvas.tag_bind(
+            left_handle, "<ButtonPress-1>", lambda event, tag='left_handle': self.move_start_hor(event, tag)
+        )
+        self.canvas.tag_bind(
+            right_handle, '<B1-Motion>', lambda event, tag='right_handle': self.move_hor(event, tag)
+        )
+        self.canvas.tag_bind(
+            right_handle, "<ButtonPress-1>", lambda event, tag='right_handle': self.move_start_hor(event, tag)
+        )
 
     def get_tags_for_angle_movement(self, tag):
         if tag == 'upper_left_handle':
@@ -105,12 +135,32 @@ class Cropping_area:
         else:
             return 'right_handle', 'lower_handle', 'lower_left_handle', 'upper_right_handle'
 
-    def angle_move(self, event, tag):
-        pass
+    def upper_left_handle_move(self, event):
+        x, y = event.x + self.difference[0], event.y + self.difference[1]
+        self.canvas.coords(
+            'upper_left_handle', x, y, x, y + 50, x + 5, y + 50, x + 5, y + 5, x + 50, y + 5, x + 50, y
+        )
+
+    def upper_right_handle_move(self, event):
+        x, y = event.x + self.difference[0], event.y + self.difference[1]
+        self.canvas.coords(
+            'upper_right_handle', x, y, x, y + 50, x - 5, y + 50, x - 5, y + 5, x - 50, y + 5, x - 50, y
+        )
+
+    def lower_left_handle_move(self, event):
+        x, y = event.x + self.difference[0], event.y + self.difference[1]
+        self.canvas.coords(
+            'lower_left_handle', x, y, x, y - 50, x + 5, y - 50, x + 5, y - 5, x + 50, y - 5, x + 50, y
+        )
+
+    def lower_right_handle_move(self, event):
+        x, y = event.x + self.difference[0], event.y + self.difference[1]
+        self.canvas.coords(
+            'lower_right_handle', x, y, x, y - 50, x - 5, y - 50, x - 5, y - 5, x - 50, y - 5, x - 50, y
+        )
 
     def angle_move_start(self, event, tag):
         coords = self.canvas.coords(tag)[0:2]
-
         self.difference = coords[0] - event.x, coords[1] - event.y
 
     def move_start_hor(self, event, tag):
