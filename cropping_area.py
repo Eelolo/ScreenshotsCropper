@@ -91,7 +91,10 @@ class Cropping_area:
     def move_hor(self, event, tag):
         x, y, x1, y1 = self.canvas.coords(tag)
         self.canvas.coords(tag, event.x-self.to_left_border, y, event.x+self.to_right_border, y1)
-        self.update_handles_pos_gor()
+
+        self.angle_handles_update_hor(tag)
+        self.update_handles_pos_hor()
+
 
     def move_start_vert(self, event, tag):
         x, y, x1, y1 = self.canvas.coords(tag)
@@ -111,12 +114,23 @@ class Cropping_area:
         else:
             return None
 
+    def angle_handles_update_hor(self, handle_tag):
+        upper_handle, lower_handle = self.get_angle_handle_tags(handle_tag)
+
+        x = self.canvas.coords(handle_tag)[0]
+
+        x0,y0, x1,y1, x2,y2, x3,y3, x4,y4, x5,y5 = self.canvas.coords(upper_handle)
+        self.canvas.coords(upper_handle, x,y0, x,y1, x+5,y2, x+5,y3, x+50,y4, x+50,y5)
+
+        x0,y0, x1,y1, x2,y2, x3,y3, x4,y4, x5,y5 = self.canvas.coords(lower_handle)
+        self.canvas.coords(lower_handle, x,y0, x,y1, x+5,y2, x+5,y3, x+50,y4, x+50,y5)
+
     def move_vert(self, event, tag):
         x, y, x1, y1 = self.canvas.coords(tag)
         self.canvas.coords(tag, x, event.y-self.to_upper_border, x1, event.y+self.to_lower_border)
         self.update_handles_pos_vert()
 
-    def update_handles_pos_gor(self):
+    def update_handles_pos_hor(self):
         lx, _, lx1, _ = self.canvas.coords('left_handle')
         rx, _, rx1, _ = self.canvas.coords('right_handle')
 
@@ -127,6 +141,7 @@ class Cropping_area:
 
         self.canvas.coords('upper_handle', between_handles - 25, uy, between_handles + 25, uy1)
         self.canvas.coords('lower_handle', between_handles - 25, loy, between_handles + 25, loy1)
+
 
 
     def update_handles_pos_vert(self):

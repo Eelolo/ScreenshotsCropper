@@ -66,15 +66,11 @@ class App(Frame):
         self.lbl = Label(self, text='There is no image here.\nUse the Print Screen button.')
         self.img_canv = Canvas(self, borderwidth=0, highlightthickness=0)
 
-
-
     def draw_widgets(self):
         self.lbl.pack()
 
     def run(self):
         self.mainloop()
-
-
 
     def proportional_resize(self, image, new_height=800, new_width=None):
         width, height = image.size
