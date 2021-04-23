@@ -105,6 +105,21 @@ class Cropping_area:
         else:
             return 'right_handle', 'lower_handle', 'lower_left_handle', 'upper_right_handle'
 
+    def angle_move(self, event, tag):
+        pass
+
+    def angle_move_start(self, event, tag):
+        coords = self.canvas.coords(tag)
+
+        differences = []
+        for idx in range(0, len(coords), 2):
+            x = coords[idx]
+            y = coords[idx+1]
+            diff_x = event.x - x
+            diff_y = event.y - y
+            differences.extend([diff_x, diff_y])
+
+        self.differences = differences
 
     def move_start_hor(self, event, tag):
         x, y, x1, y1 = self.canvas.coords(tag)
