@@ -94,7 +94,6 @@ class Cropping_area:
         self.angle_handles_update_hor(tag)
         self.update_handles_pos_hor()
 
-
     def move_start_vert(self, event, tag):
         x, y, x1, y1 = self.canvas.coords(tag)
         self.to_upper_border = event.y - y
@@ -116,15 +115,17 @@ class Cropping_area:
     def angle_handles_update_hor(self, handle_tag):
         upper_handle, lower_handle = self.get_angle_handle_tags(handle_tag)
 
-        x = self.canvas.coords(handle_tag)[0]
-
         if handle_tag == 'left_handle':
+            x = self.canvas.coords(handle_tag)[0]
+
             x0,y0, x1,y1, x2,y2, x3,y3, x4,y4, x5,y5 = self.canvas.coords(upper_handle)
             self.canvas.coords(upper_handle, x,y0, x,y1, x+5,y2, x+5,y3, x+50,y4, x+50,y5)
 
             x0,y0, x1,y1, x2,y2, x3,y3, x4,y4, x5,y5 = self.canvas.coords(lower_handle)
             self.canvas.coords(lower_handle, x,y0, x,y1, x+5,y2, x+5,y3, x+50,y4, x+50,y5)
         else:
+            x = self.canvas.coords(handle_tag)[2]
+
             x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords(upper_handle)
             self.canvas.coords(upper_handle, x, y0, x, y1, x-5, y2, x-5, y3, x-50, y4, x-50, y5)
 
@@ -134,15 +135,17 @@ class Cropping_area:
     def angle_handles_update_vert(self, handle_tag):
         upper_handle, lower_handle = self.get_angle_handle_tags(handle_tag)
 
-        y = self.canvas.coords(handle_tag)[1]
-
         if handle_tag == 'upper_handle':
+            y = self.canvas.coords(handle_tag)[1]
+
             x0,y0, x1,y1, x2,y2, x3,y3, x4,y4, x5,y5 = self.canvas.coords(upper_handle)
             self.canvas.coords(upper_handle, x0,y, x1,y+50, x2,y+50, x3,y+5, x4,y+5, x5,y)
 
             x0,y0, x1,y1, x2,y2, x3,y3, x4,y4, x5,y5 = self.canvas.coords(lower_handle)
             self.canvas.coords(lower_handle, x0,y, x1,y+50, x2,y+50, x3,y+5, x4,y+5, x5,y)
         else:
+            y = self.canvas.coords(handle_tag)[3]
+
             x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords(upper_handle)
             self.canvas.coords(upper_handle, x0, y, x1, y-50, x2, y-50, x3, y-5, x4, y-5, x5, y)
 
