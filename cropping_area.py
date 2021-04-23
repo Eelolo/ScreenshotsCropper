@@ -95,6 +95,16 @@ class Cropping_area:
         self.canvas.tag_bind(right_handle, '<B1-Motion>', lambda event, tag='right_handle': self.move_hor(event, tag))
         self.canvas.tag_bind(right_handle, "<ButtonPress-1>", lambda event, tag='right_handle': self.move_start_hor(event, tag))
 
+    def get_tags_for_angle_movement(self, tag):
+        if tag == 'upper_left_handle':
+            return 'left_handle', 'upper_handle', 'lower_left_handle', 'upper_right_handle'
+        elif tag == 'upper_right_handle':
+            return 'right_handle', 'upper_handle', 'lower_right_handle', 'upper_left_handle'
+        elif tag == 'lower_left_handle':
+            return 'left_handle', 'lower_handle', 'upper_left_handle', 'lower_right_handle'
+        else:
+            return 'right_handle', 'lower_handle', 'lower_left_handle', 'upper_right_handle'
+
 
     def move_start_hor(self, event, tag):
         x, y, x1, y1 = self.canvas.coords(tag)
