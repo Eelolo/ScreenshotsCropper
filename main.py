@@ -43,18 +43,18 @@ class App(Frame):
         width = self.screenshot.width()
         height = self.screenshot.height()
 
-        left_coords = 2, height / 2 - 25, 7, height / 2 + 25
-        right_coords = width-1, height / 2 - 25, width - 6, height / 2 + 25
-        up_coords = width / 2 - 25, 2, width / 2 + 25, 7
-        down_coords = width / 2 - 25, height-2, width / 2 + 25, height - 7
+        left_coords = 0, height / 2 - 25, 5, height / 2 + 25
+        right_coords = width, height / 2 - 25, width - 5, height / 2 + 25
+        up_coords = width / 2 - 25, 0, width / 2 + 25, 5
+        down_coords = width / 2 - 25, height, width / 2 + 25, height - 5
 
-        upper_left = 2, 2, 2, 52, 7, 52, 7, 7, 52, 7, 52, 2
-        lower_left = 2, height, 2, height-50, 7, height-50, 7, height-5,  52, height-5, 52, height
+        upper_left = 0, 0, 0, 50, 5, 50, 5, 5, 50, 5, 50, 0
+        lower_left = 0, height, 0, height-50, 5, height-50, 5, height-5,  50, height-5, 50, height
 
-        upper_right = width-1, 2, width-52, 2, width-52, 7, width-6, 7, width-6, 52, width-1, 52
+        upper_right = width, 0, width-50, 0, width-50, 5, width-5, 5, width-5, 50, width, 50
         lower_right = (
-            width-1, height, width-51, height, width-51, height-5, width-6, height-5, width-6,
-            height-50, width-1, height-50
+            width, height, width-50, height, width-50, height-5, width-5, height-5, width-5,
+            height-50, width, height-50
         )
 
         upper_handle = self.img_canv.create_rectangle(
@@ -200,7 +200,7 @@ class App(Frame):
 
     def create_widgets(self):
         self.lbl = Label(self, text='There is no image here.\nUse the Print Screen button.')
-        self.img_canv = Canvas(self)
+        self.img_canv = Canvas(self, borderwidth=0, highlightthickness=0)
 
     def configure_widgets(self):
         self.img_canv.bind("<Motion>", self.change_cursor)
