@@ -70,6 +70,19 @@ class Cropping_area:
             outline='black'
         )
 
+        self.canvas.tag_bind(upper_left_handle, '<B1-Motion>', lambda event, tag='upper_left_handle': self.angle_move(event, tag))
+        self.canvas.tag_bind(upper_left_handle, "<ButtonPress-1>", lambda event, tag='upper_left_handle': self.angle_move_start(event, tag))
+
+        self.canvas.tag_bind(lower_left_handle, '<B1-Motion>', lambda event, tag='lower_left_handle': self.angle_move(event, tag))
+        self.canvas.tag_bind(lower_left_handle, "<ButtonPress-1>", lambda event, tag='lower_left_handle': self.angle_move_start(event, tag))
+
+        self.canvas.tag_bind(upper_right_handle, '<B1-Motion>', lambda event, tag='upper_right_handle': self.angle_move(event, tag))
+        self.canvas.tag_bind(upper_right_handle, "<ButtonPress-1>", lambda event, tag='upper_right_handle': self.angle_move_start(event, tag))
+
+        self.canvas.tag_bind(lower_right_handle, '<B1-Motion>', lambda event, tag='lower_right_handle': self.angle_move(event, tag))
+        self.canvas.tag_bind(lower_right_handle, "<ButtonPress-1>", lambda event, tag='lower_right_handle': self.angle_move_start(event, tag))
+
+
         self.canvas.tag_bind(upper_handle, '<B1-Motion>', lambda event, tag='upper_handle': self.move_vert(event, tag))
         self.canvas.tag_bind(upper_handle, "<ButtonPress-1>", lambda event, tag='upper_handle': self.move_start_vert(event, tag))
 
@@ -81,6 +94,7 @@ class Cropping_area:
 
         self.canvas.tag_bind(right_handle, '<B1-Motion>', lambda event, tag='right_handle': self.move_hor(event, tag))
         self.canvas.tag_bind(right_handle, "<ButtonPress-1>", lambda event, tag='right_handle': self.move_start_hor(event, tag))
+
 
     def move_start_hor(self, event, tag):
         x, y, x1, y1 = self.canvas.coords(tag)
