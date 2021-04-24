@@ -383,6 +383,7 @@ class Cropping_area:
     def area_move_start(self, event):
         self.area_move_start_coords = event
 
+    @update_area_coords
     def area_move(self, event):
         diff_x = event.x - self.area_move_start_coords.x
         diff_y = event.y - self.area_move_start_coords.y
