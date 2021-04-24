@@ -4,6 +4,7 @@ class Cropping_area:
         self.width = width
         self.height = height
         self.create_handles()
+        self.create_dashed_lines()
 
     def create_handles(self):
         width = self.width
@@ -86,6 +87,16 @@ class Cropping_area:
         self.canvas.tag_bind(
             'right_handle', "<ButtonPress-1>", lambda event, tag='right_handle': self.move_start_hor(event, tag)
         )
+
+    def create_dashed_lines(self):
+        self.canvas.create_line(50,3,658,3, dash=(10,), fill='white', width=2, tag='upper_left_line')
+        self.canvas.create_line(708,3,1315,3, dash=(10,), fill='white', width=2, tag='upper_right_line')
+        self.canvas.create_line(3,50,3,359, dash=(10,), fill='white', width=2, tag='left_upper_line')
+        self.canvas.create_line(3,409,3,718, dash=(10,), fill='white', width=2, tag='left_lower_line')
+        self.canvas.create_line(50,765,658,765, dash=(10,), fill='white', width=2, tag='lower_left_line')
+        self.canvas.create_line(708,765,1315,765, dash=(10,), fill='white', width=2, tag='lower_right_line')
+        self.canvas.create_line(1363,718,1363,409, dash=(10,), fill='white', width=2, tag='right_lower_line')
+        self.canvas.create_line(1363,359,1363,50, dash=(10,), fill='white', width=2, tag='right_upper_line')
 
     def get_tags_for_angle_movement(self, tag):
         if tag == 'upper_left_handle':
