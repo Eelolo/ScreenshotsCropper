@@ -14,6 +14,9 @@ class Cropping_area:
         self.area_coords = 0, 0, self.width, 0, 0, self.height, self.width, self.height
         self.area = self.width, self.height
 
+        self.canvas.bind('<ButtonPress-1>', self.area_move_start)
+        self.canvas.bind('<B1-Motion>', self.area_move)
+
     def create_handles(self):
         width = self.width
         height = self.height
@@ -105,8 +108,6 @@ class Cropping_area:
         self.canvas.create_line(708,765,1315,765, dash=(10,), fill='white', width=2, tag='lower_right_line')
         self.canvas.create_line(1363,718,1363,409, dash=(10,), fill='white', width=2, tag='right_lower_line')
         self.canvas.create_line(1363,50,1363,359,dash=(10,), fill='white', width=2, tag='right_upper_line')
-
-
 
     def update_lines_pos_hor(self, tag):
         if tag == 'left_handle':
@@ -367,7 +368,7 @@ class Cropping_area:
         lx1 = self.canvas.coords('left_handle')[2]
         rx = self.canvas.coords('right_handle')[0]
 
-        if event.x > lx1 and event.x < rx and event.y > uy1 and event.y < loy:
+        if lx1 < event.x < rx and event.y > uy1 and event.y < loy:
             return True
 
         return False
@@ -379,3 +380,67 @@ class Cropping_area:
         else:
             self.canvas.config(cursor='arrow')
 
+    def area_move_start(self, event):
+        self.area_move_start_coords = event
+
+    def area_move(self, event):
+        diff_x = event.x - self.area_move_start_coords.x
+        diff_y = event.y - self.area_move_start_coords.y
+
+        if self.in_crop_area_check(event):
+            x0, y0, x1, y1 = self.canvas.coords('upper_handle')
+            self.canvas.coords('upper_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+            x0, y0, x1, y1 = self.canvas.coords('lower_handle')
+            self.canvas.coords('lower_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+            x0, y0, x1, y1 = self.canvas.coords('left_handle')
+            self.canvas.coords('left_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+            x0, y0, x1, y1 = self.canvas.coords('right_handle')
+            self.canvas.coords('right_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+
+            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('upper_left_handle')
+            self.canvas.coords(
+                'upper_left_handle',
+                x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y,
+                x2 + diff_x, y2 + diff_y, x3 + diff_x, y3 + diff_y,
+                x4 + diff_x, y4 + diff_y, x5 + diff_x, y5 + diff_y
+            )
+            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('lower_left_handle')
+            self.canvas.coords(
+                'lower_left_handle',
+                x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y,
+                x2 + diff_x, y2 + diff_y, x3 + diff_x, y3 + diff_y,
+                x4 + diff_x, y4 + diff_y, x5 + diff_x, y5 + diff_y
+            )
+            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('upper_right_handle')
+            self.canvas.coords(
+                'upper_right_handle',
+                x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y,
+                x2 + diff_x, y2 + diff_y, x3 + diff_x, y3 + diff_y,
+                x4 + diff_x, y4 + diff_y, x5 + diff_x, y5 + diff_y
+            )
+            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('lower_right_handle')
+            self.canvas.coords(
+                'lower_right_handle',
+                x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y,
+                x2 + diff_x, y2 + diff_y, x3 + diff_x, y3 + diff_y,
+                x4 + diff_x, y4 + diff_y, x5 + diff_x, y5 + diff_y
+            )
+
+            x0, y0, x1, y1 = self.canvas.coords('upper_left_line')
+            self.canvas.coords('upper_left_line', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+            x0, y0, x1, y1 = self.canvas.coords('upper_right_line')
+            self.canvas.coords('upper_right_line', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+            x0, y0, x1, y1 = self.canvas.coords('left_upper_line')
+            self.canvas.coords('left_upper_line', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+            x0, y0, x1, y1 = self.canvas.coords('left_lower_line')
+            self.canvas.coords('left_lower_line', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+            x0, y0, x1, y1 = self.canvas.coords('lower_left_line')
+            self.canvas.coords('lower_left_line', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+            x0, y0, x1, y1 = self.canvas.coords('lower_right_line')
+            self.canvas.coords('lower_right_line', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+            x0, y0, x1, y1 = self.canvas.coords('right_lower_line')
+            self.canvas.coords('right_lower_line', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+            x0, y0, x1, y1 = self.canvas.coords('right_upper_line')
+            self.canvas.coords('right_upper_line', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+
+            self.area_move_start_coords = event
