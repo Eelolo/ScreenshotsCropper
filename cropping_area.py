@@ -230,12 +230,13 @@ class Cropping_area:
         self.to_right_border = x1 - event.x
 
     def move_hor(self, event, tag):
-        x, y, x1, y1 = self.canvas.coords(tag)
-        self.canvas.coords(tag, event.x-self.to_left_border, y, event.x+self.to_right_border, y1)
+        if event.x-self.to_left_border >= 0 and event.x+self.to_right_border <= self.width:
+            y, y1 = self.canvas.coords(tag)[1::2]
+            self.canvas.coords(tag, event.x-self.to_left_border, y, event.x+self.to_right_border, y1)
 
-        self.angle_handles_update_hor(tag)
-        self.update_handles_pos_hor()
-        self.update_lines_pos_hor(tag)
+            self.angle_handles_update_hor(tag)
+            self.update_handles_pos_hor()
+            self.update_lines_pos_hor(tag)
 
     def move_start_vert(self, event, tag):
         x, y, x1, y1 = self.canvas.coords(tag)
