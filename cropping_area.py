@@ -6,6 +6,11 @@ class Cropping_area:
         self.create_handles()
         self.create_dashed_lines()
 
+        self.to_lower_border = 1
+        self.to_upper_border = 4
+        self.to_left_border = 1
+        self.to_right_border = 4
+
     def create_handles(self):
         width = self.width
         height = self.height
