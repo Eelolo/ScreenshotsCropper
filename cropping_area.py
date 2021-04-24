@@ -179,16 +179,6 @@ class Cropping_area:
         lry, lry1 = self.canvas.coords('lower_right_line')[1::2]
         self.canvas.coords('lower_right_line', ux, lry, urx, lry1)
 
-    def get_tags_for_angle_movement(self, tag):
-        if tag == 'upper_left_handle':
-            return 'left_handle', 'upper_handle', 'lower_left_handle', 'upper_right_handle'
-        elif tag == 'upper_right_handle':
-            return 'right_handle', 'upper_handle', 'lower_right_handle', 'upper_left_handle'
-        elif tag == 'lower_left_handle':
-            return 'left_handle', 'lower_handle', 'upper_left_handle', 'lower_right_handle'
-        else:
-            return 'right_handle', 'lower_handle', 'lower_left_handle', 'upper_right_handle'
-
     def upper_left_handle_move(self, event):
         x, y = event.x + self.difference[0], event.y + self.difference[1]
         self.canvas.coords(
