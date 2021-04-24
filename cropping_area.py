@@ -96,7 +96,7 @@ class Cropping_area:
         self.canvas.create_line(50,765,658,765, dash=(10,), fill='white', width=2, tag='lower_left_line')
         self.canvas.create_line(708,765,1315,765, dash=(10,), fill='white', width=2, tag='lower_right_line')
         self.canvas.create_line(1363,718,1363,409, dash=(10,), fill='white', width=2, tag='right_lower_line')
-        self.canvas.create_line(1363,359,1363,50, dash=(10,), fill='white', width=2, tag='right_upper_line')
+        self.canvas.create_line(1363,50,1363,359,dash=(10,), fill='white', width=2, tag='right_upper_line')
 
     def update_lines_pos_hor(self, tag):
         if tag == 'left_handle':
@@ -126,6 +126,9 @@ class Cropping_area:
 
             self.canvas.coords('upper_left_line', ulx, y+3, ulx1, y+3)
             self.canvas.coords('upper_right_line', urx, y+3, urx1, y+3)
+
+            self.update_perpendicular_lines_vert()
+
         if tag == 'lower_handle':
             y = self.canvas.coords(tag)[1]
 
@@ -135,6 +138,26 @@ class Cropping_area:
             self.canvas.coords('lower_left_line', llx, y+3, llx1, y+3)
             self.canvas.coords('lower_right_line', lrx, y+3, lrx1, y+3)
 
+            self.update_perpendicular_lines_vert()
+
+    def update_perpendicular_lines_vert(self):
+        ury = self.canvas.coords('upper_right_handle')[3]
+        ly = self.canvas.coords('left_handle')[1]
+
+        lux, lux1 = self.canvas.coords('left_upper_line')[::2]
+        self.canvas.coords('left_upper_line', lux, ury, lux1, ly)
+
+        rux, rux1 = self.canvas.coords('right_upper_line')[::2]
+        self.canvas.coords('right_upper_line', rux, ury, rux1, ly)
+
+        lry = self.canvas.coords('lower_right_handle')[3]
+        ly = self.canvas.coords('left_handle')[3]
+
+        llx, llx1 = self.canvas.coords('left_lower_line')[::2]
+        self.canvas.coords('left_lower_line', llx, lry, llx1, ly)
+
+        rlx, rlx1 = self.canvas.coords('right_lower_line')[::2]
+        self.canvas.coords('right_lower_line', rlx, lry, rlx1, ly)
 
     def get_tags_for_angle_movement(self, tag):
         if tag == 'upper_left_handle':
