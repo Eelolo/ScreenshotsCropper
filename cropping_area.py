@@ -105,8 +105,8 @@ class Cropping_area:
             luy,luy1 = self.canvas.coords('left_upper_line')[1::2]
             lly,lly1 = self.canvas.coords('left_lower_line')[1::2]
 
-            self.canvas.coords('left_upper_line', x+3,luy,x+3,luy1)
-            self.canvas.coords('left_lower_line', x+3,lly,x+3,lly1)
+            self.canvas.coords('left_upper_line', x+3, luy, x+3, luy1)
+            self.canvas.coords('left_lower_line', x+3, lly, x+3, lly1)
 
         if tag == 'right_handle':
             x = self.canvas.coords(tag)[0]
@@ -114,8 +114,27 @@ class Cropping_area:
             ruy,ruy1 = self.canvas.coords('right_upper_line')[1::2]
             rly,rly1 = self.canvas.coords('right_lower_line')[1::2]
 
-            self.canvas.coords('right_upper_line', x+3,ruy,x+3,ruy1)
-            self.canvas.coords('right_lower_line', x+3,rly,x+3,rly1)
+            self.canvas.coords('right_upper_line', x+3, ruy, x+3, ruy1)
+            self.canvas.coords('right_lower_line', x+3, rly, x+3, rly1)
+
+    def update_lines_pos_vert(self, tag):
+        if tag == 'upper_handle':
+            y = self.canvas.coords(tag)[1]
+
+            ulx, ulx1 = self.canvas.coords('upper_left_line')[::2]
+            urx, urx1 = self.canvas.coords('upper_right_line')[::2]
+
+            self.canvas.coords('upper_left_line', ulx, y+3, ulx1, y+3)
+            self.canvas.coords('upper_right_line', urx, y+3, urx1, y+3)
+        if tag == 'lower_handle':
+            y = self.canvas.coords(tag)[1]
+
+            llx, llx1 = self.canvas.coords('lower_left_line')[::2]
+            lrx, lrx1 = self.canvas.coords('lower_right_line')[::2]
+
+            self.canvas.coords('lower_left_line', llx, y+3, llx1, y+3)
+            self.canvas.coords('lower_right_line', lrx, y+3, lrx1, y+3)
+
 
     def get_tags_for_angle_movement(self, tag):
         if tag == 'upper_left_handle':
@@ -244,6 +263,7 @@ class Cropping_area:
 
         self.angle_handles_update_vert(tag)
         self.update_handles_pos_vert()
+        self.update_lines_pos_vert(tag)
 
     def update_handles_pos_hor(self):
         lx, _, lx1, _ = self.canvas.coords('left_handle')
@@ -256,6 +276,9 @@ class Cropping_area:
 
         self.canvas.coords('upper_handle', between_handles - 25, uy, between_handles + 25, uy1)
         self.canvas.coords('lower_handle', between_handles - 25, loy, between_handles + 25, loy1)
+
+        self.update_lines_pos_hor('upper_handle')
+        self.update_lines_pos_hor('lower_handle')
 
     def update_handles_pos_vert(self):
         _, uy, _, uy1 = self.canvas.coords('upper_handle')
