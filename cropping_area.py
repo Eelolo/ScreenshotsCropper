@@ -11,6 +11,9 @@ class Cropping_area:
         self.to_left_border = 1
         self.to_right_border = 4
 
+        self.area_coords = 0, 0, self.width, 0, 0, self.height, self.width, self.height
+        self.area = self.width, self.height
+
     def create_handles(self):
         width = self.width
         height = self.height
@@ -103,6 +106,8 @@ class Cropping_area:
         self.canvas.create_line(1363,718,1363,409, dash=(10,), fill='white', width=2, tag='right_lower_line')
         self.canvas.create_line(1363,50,1363,359,dash=(10,), fill='white', width=2, tag='right_upper_line')
 
+
+
     def update_lines_pos_hor(self, tag):
         if tag == 'left_handle':
             x = self.canvas.coords(tag)[0]
@@ -184,6 +189,22 @@ class Cropping_area:
         lry, lry1 = self.canvas.coords('lower_right_line')[1::2]
         self.canvas.coords('lower_right_line', ux, lry, urx, lry1)
 
+    def update_area_coords(func):
+        def wrapper(*args):
+            func(*args)
+            self = args[0]
+
+            ulx, uly = self.canvas.coords('upper_left_handle')[:2]
+            urx, ury = self.canvas.coords('upper_right_handle')[:2]
+            llx, lly = self.canvas.coords('lower_left_handle')[:2]
+            lrx, lry = self.canvas.coords('lower_right_handle')[:2]
+
+            self.area_coords = ulx, uly, urx, ury, llx, lly, lrx, lry
+            self.area = urx - ulx, lly - uly
+
+        return wrapper
+
+    @update_area_coords
     def upper_left_handle_move(self, event):
         x, y = event.x + self.difference[0], event.y + self.difference[1]
         self.canvas.coords(
@@ -193,6 +214,7 @@ class Cropping_area:
         self.move_vert(event, 'upper_handle')
         self.move_hor(event, 'left_handle')
 
+    @update_area_coords
     def upper_right_handle_move(self, event):
         x, y = event.x + self.difference[0], event.y + self.difference[1]
         self.canvas.coords(
@@ -202,6 +224,7 @@ class Cropping_area:
         self.move_vert(event, 'upper_handle')
         self.move_hor(event, 'right_handle')
 
+    @update_area_coords
     def lower_left_handle_move(self, event):
         x, y = event.x + self.difference[0], event.y + self.difference[1]
         self.canvas.coords(
@@ -211,6 +234,7 @@ class Cropping_area:
         self.move_vert(event, 'lower_handle')
         self.move_hor(event, 'left_handle')
 
+    @update_area_coords
     def lower_right_handle_move(self, event):
         x, y = event.x + self.difference[0], event.y + self.difference[1]
         self.canvas.coords(
@@ -229,6 +253,7 @@ class Cropping_area:
         self.to_left_border = event.x - x
         self.to_right_border = x1 - event.x
 
+    @update_area_coords
     def move_hor(self, event, tag):
         if event.x - self.to_left_border >= 0 and event.x + self.to_right_border <= self.width:
             y, y1 = self.canvas.coords(tag)[1::2]
@@ -296,6 +321,7 @@ class Cropping_area:
             x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords(lower_handle)
             self.canvas.coords(lower_handle, x0, y, x1, y-50, x2, y-50, x3, y-5, x4, y-5, x5, y)
 
+    @update_area_coords
     def move_vert(self, event, tag):
         if event.y - self.to_upper_border >= 0 and event.y + self.to_lower_border <= self.height:
             x, x1 = self.canvas.coords(tag)[::2]
@@ -352,3 +378,4 @@ class Cropping_area:
             self.canvas.config(cursor='fleur')
         else:
             self.canvas.config(cursor='arrow')
+
