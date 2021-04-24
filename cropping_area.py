@@ -117,6 +117,8 @@ class Cropping_area:
             self.canvas.coords('right_upper_line', x+3, ruy, x+3, ruy1)
             self.canvas.coords('right_lower_line', x+3, rly, x+3, rly1)
 
+        self.update_perpendicular_lines_hor()
+
     def update_lines_pos_vert(self, tag):
         if tag == 'upper_handle':
             y = self.canvas.coords(tag)[1]
@@ -127,7 +129,6 @@ class Cropping_area:
             self.canvas.coords('upper_left_line', ulx, y+3, ulx1, y+3)
             self.canvas.coords('upper_right_line', urx, y+3, urx1, y+3)
 
-            self.update_perpendicular_lines_vert()
 
         if tag == 'lower_handle':
             y = self.canvas.coords(tag)[1]
@@ -138,7 +139,7 @@ class Cropping_area:
             self.canvas.coords('lower_left_line', llx, y+3, llx1, y+3)
             self.canvas.coords('lower_right_line', lrx, y+3, lrx1, y+3)
 
-            self.update_perpendicular_lines_vert()
+        self.update_perpendicular_lines_vert()
 
     def update_perpendicular_lines_vert(self):
         ury = self.canvas.coords('upper_right_handle')[3]
@@ -158,6 +159,25 @@ class Cropping_area:
 
         rlx, rlx1 = self.canvas.coords('right_lower_line')[::2]
         self.canvas.coords('right_lower_line', rlx, lry, rlx1, ly)
+
+    def update_perpendicular_lines_hor(self):
+        ulx = self.canvas.coords('upper_left_handle')[8]
+        ux = self.canvas.coords('upper_handle')[0]
+
+        uly, uly1 = self.canvas.coords('upper_left_line')[1::2]
+        self.canvas.coords('upper_left_line', ulx, uly, ux, uly1)
+
+        lly, lly1 = self.canvas.coords('lower_left_line')[1::2]
+        self.canvas.coords('lower_left_line', ulx, lly, ux, lly1)
+
+        urx = self.canvas.coords('upper_right_handle')[8]
+        ux = self.canvas.coords('upper_handle')[2]
+
+        ury, ury1 = self.canvas.coords('upper_right_line')[1::2]
+        self.canvas.coords('upper_right_line', ux, ury, urx, ury1)
+
+        lry, lry1 = self.canvas.coords('lower_right_line')[1::2]
+        self.canvas.coords('lower_right_line', ux, lry, urx, lry1)
 
     def get_tags_for_angle_movement(self, tag):
         if tag == 'upper_left_handle':
