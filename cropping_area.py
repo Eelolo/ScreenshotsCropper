@@ -98,6 +98,25 @@ class Cropping_area:
         self.canvas.create_line(1363,718,1363,409, dash=(10,), fill='white', width=2, tag='right_lower_line')
         self.canvas.create_line(1363,359,1363,50, dash=(10,), fill='white', width=2, tag='right_upper_line')
 
+    def update_lines_pos_hor(self, tag):
+        if tag == 'left_handle':
+            x = self.canvas.coords(tag)[0]
+
+            luy,luy1 = self.canvas.coords('left_upper_line')[1::2]
+            lly,lly1 = self.canvas.coords('left_lower_line')[1::2]
+
+            self.canvas.coords('left_upper_line', x+3,luy,x+3,luy1)
+            self.canvas.coords('left_lower_line', x+3,lly,x+3,lly1)
+
+        if tag == 'right_handle':
+            x = self.canvas.coords(tag)[0]
+
+            ruy,ruy1 = self.canvas.coords('right_upper_line')[1::2]
+            rly,rly1 = self.canvas.coords('right_lower_line')[1::2]
+
+            self.canvas.coords('right_upper_line', x+3,ruy,x+3,ruy1)
+            self.canvas.coords('right_lower_line', x+3,rly,x+3,rly1)
+
     def get_tags_for_angle_movement(self, tag):
         if tag == 'upper_left_handle':
             return 'left_handle', 'upper_handle', 'lower_left_handle', 'upper_right_handle'
@@ -159,6 +178,7 @@ class Cropping_area:
 
         self.angle_handles_update_hor(tag)
         self.update_handles_pos_hor()
+        self.update_lines_pos_hor(tag)
 
     def move_start_vert(self, event, tag):
         x, y, x1, y1 = self.canvas.coords(tag)
