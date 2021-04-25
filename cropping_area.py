@@ -392,7 +392,21 @@ class Cropping_area:
         indent_x = int(self.area[0] / 6)
         indent_y = int(self.area[1] / 6)
 
-        if lx1+indent_x < event.x < rx-indent_x and event.y > uy1+indent_y and event.y < loy-indent_y:
+        if lx1 + indent_x < event.x < rx - indent_x and event.y > uy1 + indent_y and event.y < loy - indent_y:
+            return True
+
+        return False
+
+    def in_gor_move_area_check(self, event):
+        lx, ly, lx1, ly1 = self.canvas.coords('left_handle')
+        rx, ry, rx1, ry1 = self.canvas.coords('right_handle')
+
+        indent_x = int(self.area[0] / 6)
+        indent_y = int(self.area[1] / 6)
+
+        if lx - indent_x < event.x < lx1 + indent_x and ly - indent_y < event.y < ly1 + indent_y:
+            return True
+        elif rx - indent_x < event.x < rx1 + indent_x and ry - indent_y < event.y < ry1 + indent_y:
             return True
 
         return False
@@ -401,6 +415,8 @@ class Cropping_area:
         # cursors = ['fleur', 'sizing', 'sb_h_double_arrow', 'sb_v_double_arrow']
         if self.in_crop_area_check(event):
             self.canvas.config(cursor='fleur')
+        elif self.in_gor_move_area_check(event):
+            self.canvas.config(cursor='sb_h_double_arrow')
         else:
             self.canvas.config(cursor='arrow')
 
