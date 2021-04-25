@@ -49,10 +49,8 @@ class App(Frame):
         if not self.img_canv.find_all():
             self.create_image()
         else:
-            width = self.screenshot.width()
-            height = self.screenshot.height()
-            self.img_canv.configure(width=width, height=height)
-            self.img_canv.itemconfigure('screenshot', image=self.screenshot)
+            self.img_canv.configure(width=self.width, height=self.height)
+            self.img_canv.itemconfigure('screenshot', image=self.screenshot_tk)
 
     def withdraw_window(self):
         self.root.withdraw()
