@@ -425,14 +425,36 @@ class Cropping_area:
 
         return False
 
+    def in_angles_move_area_check(self, event):
+        x, y = self.area_coords[:2]
+        y1, x1 = self.area_coords[:-3:-1]
+
+        indent_x = int(self.area[0] / 6)
+        indent_y = int(self.area[1] / 6)
+
+        if x - indent_x < event.x < x1 + indent_x and y - indent_y < event.y < y1 + indent_y:
+            return True
+
+        return False
+
     def change_cursor(self, event):
-        # cursors = ['fleur', 'sizing', 'sb_h_double_arrow', 'sb_v_double_arrow']
         if self.in_crop_area_check(event):
             self.canvas.config(cursor='fleur')
         elif self.in_gor_move_area_check(event):
             self.canvas.config(cursor='sb_h_double_arrow')
         elif self.in_vert_move_area_check(event):
             self.canvas.config(cursor='sb_v_double_arrow')
+        elif self.in_angles_move_area_check(event):
+            if event.x < self.area_coords[0] + self.area[0] / 2:
+                if event.y > self.area_coords[1] + self.area[1] / 2:
+                    self.canvas.config(cursor='top_right_corner')
+                else:
+                    self.canvas.config(cursor='bottom_right_corner')
+            else:
+                if event.y > self.area_coords[1] + self.area[1] / 2:
+                    self.canvas.config(cursor='top_left_corner')
+                else:
+                    self.canvas.config(cursor='bottom_left_corner')
         else:
             self.canvas.config(cursor='arrow')
 
