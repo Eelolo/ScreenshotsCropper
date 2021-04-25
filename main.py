@@ -38,13 +38,11 @@ class App(Frame):
         time.sleep(0.1)
         self.grab_image()
         self.update_image()
-        self.cropping_area = Cropping_area(self.img_canv, self.screenshot.width(), self.screenshot.height())
+        self.cropping_area = Cropping_area(self)
 
     def create_image(self):
-        width = self.screenshot.width()
-        height = self.screenshot.height()
-        self.img_canv.configure(width=width, height=height)
-        self.img_canv.create_image(0, 0, anchor='nw', image=self.screenshot, tag='screenshot')
+        self.img_canv.configure(width=self.width, height=self.height)
+        self.img_canv.create_image(0, 0, anchor='nw', image=self.screenshot_tk, tag='screenshot')
         self.img_canv.pack()
 
     def update_image(self):
@@ -86,10 +84,10 @@ class App(Frame):
 
     def grab_image(self):
         self.screenshot = ImageGrab.grabclipboard()
-        height = int(self.screenshot.size[0]/2.5)
-        self.screenshot = self.proportional_resize(self.screenshot, new_height=height)
-        self.screenshot = ImageTk.PhotoImage(self.screenshot)
-
+        new_height = int(self.screenshot.size[0]/2.5)
+        self.screenshot = self.proportional_resize(self.screenshot, new_height=new_height)
+        self.width, self.height = self.screenshot.size
+        self.screenshot_tk = ImageTk.PhotoImage(self.screenshot)
 
 if __name__ == '__main__':
     root = Tk()

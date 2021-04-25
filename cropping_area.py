@@ -1,8 +1,12 @@
+from PIL import ImageEnhance, ImageTk
+
+
 class Cropping_area:
-    def __init__(self, canvas, width, height):
-        self.canvas = canvas
-        self.width = width
-        self.height = height
+    def __init__(self, main):
+        self.main = main
+        self.canvas = self.main.img_canv
+        self.width = self.main.width
+        self.height = self.main.height
         self.create_handles()
         self.create_dashed_lines()
 
@@ -16,6 +20,20 @@ class Cropping_area:
 
         self.canvas.bind('<ButtonPress-1>', self.area_move_start)
         self.canvas.bind('<B1-Motion>', self.area_move)
+        self.canvas.bind('<ButtonRelease-1>', self.update_dark_mask)
+
+    def update_dark_mask(self, event=None):
+        im = self.main.screenshot.copy()
+        ulx, uly, _, _, _, _, lrx, lry = self.area_coords
+
+        enhancer = ImageEnhance.Brightness(im)
+        with_mask = enhancer.enhance(0.5)
+
+        area = im.crop((int(ulx),int(uly),int(lrx),int(lry)))
+        with_mask.paste(area, (int(ulx),int(uly),int(lrx),int(lry)))
+
+        self.with_mask = ImageTk.PhotoImage(with_mask)
+        self.canvas.itemconfigure('screenshot', image=self.with_mask)
 
     def create_handles(self):
         width = self.width
@@ -263,6 +281,7 @@ class Cropping_area:
             self.angle_handles_update_hor(tag)
             self.update_handles_pos_hor()
             self.update_lines_pos_hor(tag)
+            self.update_dark_mask()
 
     def move_start_vert(self, event, tag):
         x, y, x1, y1 = self.canvas.coords(tag)
@@ -331,6 +350,7 @@ class Cropping_area:
             self.angle_handles_update_vert(tag)
             self.update_handles_pos_vert()
             self.update_lines_pos_vert(tag)
+            self.update_dark_mask()
 
     def update_handles_pos_hor(self):
         lx, _, lx1, _ = self.canvas.coords('left_handle')
@@ -445,3 +465,5 @@ class Cropping_area:
             self.canvas.coords('right_upper_line', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
 
             self.area_move_start_coords = event
+
+            self.update_dark_mask()
