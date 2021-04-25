@@ -9,6 +9,7 @@ class Cropping_area:
         self.height = self.main.height
         self.create_handles()
         self.create_dashed_lines()
+        self.configure_widgets()
 
         self.to_lower_border = 1
         self.to_upper_border = 4
@@ -379,8 +380,8 @@ class Cropping_area:
         self.canvas.coords('left_handle', lx, between_handles - 25, lx1, between_handles + 25)
         self.canvas.coords('right_handle', rx, between_handles - 25, rx1, between_handles + 25)
 
-    # def configure_widgets(self):
-    #     self.canvas.bind("<Motion>", self.change_cursor)
+    def configure_widgets(self):
+        self.canvas.bind("<Motion>", self.change_cursor)
 
     def in_crop_area_check(self, event):
         uy1 = self.canvas.coords('upper_handle')[3]
@@ -388,7 +389,10 @@ class Cropping_area:
         lx1 = self.canvas.coords('left_handle')[2]
         rx = self.canvas.coords('right_handle')[0]
 
-        if lx1 < event.x < rx and event.y > uy1 and event.y < loy:
+        indent_x = int(self.area[0] / 6)
+        indent_y = int(self.area[1] / 6)
+
+        if lx1+indent_x < event.x < rx-indent_x and event.y > uy1+indent_y and event.y < loy-indent_y:
             return True
 
         return False
