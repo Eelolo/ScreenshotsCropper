@@ -251,30 +251,44 @@ class Cropping_area:
         self.btn_prssd = tag
 
     def move_start_hor(self, event, tag):
-        x, y, x1, y1 = self.canvas.coords(tag)
-        self.to_left_border = event.x - x
-        self.to_right_border = x1 - event.x
+        self.move_start_hor_coords = event
 
         self.btn_prssd = tag
 
     @update_area_coords
     def move_hor(self, event, tag):
-        if event.x - self.to_left_border >= 0 and event.x + self.to_right_border <= self.width:
-            y, y1 = self.canvas.coords(tag)[1::2]
-            self.canvas.coords(tag, event.x - self.to_left_border, y, event.x + self.to_right_border, y1)
+        diff_x = event.x - self.move_start_hor_coords.x
+        x0, y0, x1, y1 = self.canvas.coords(tag)
+
+        if x0 + diff_x >= 0 and x1 + diff_x <= self.width:
+            self.canvas.coords(tag,  x0 + diff_x, y0, x1 + diff_x, y1)
 
             self.angle_handles_update_hor(tag)
             self.update_handles_pos_hor()
             self.update_lines_pos_hor(tag)
             self.update_dark_mask()
 
+            self.move_start_hor_coords = event
+
     def move_start_vert(self, event, tag):
-        x, y, x1, y1 = self.canvas.coords(tag)
-        self.to_upper_border = event.y - y
-        self.to_lower_border = y1 - event.y
-        self.event = event
+        self.move_start_vert_coords = event
 
         self.btn_prssd = tag
+
+    @update_area_coords
+    def move_vert(self, event, tag):
+        diff_y = event.y - self.move_start_vert_coords.y
+        x0, y0, x1, y1 = self.canvas.coords(tag)
+
+        if y0 + diff_y >= 0 and y1 + diff_y <= self.height:
+            self.canvas.coords(tag, x0, y0 + diff_y, x1, y1 + diff_y)
+
+            self.angle_handles_update_vert(tag)
+            self.update_handles_pos_vert()
+            self.update_lines_pos_vert(tag)
+            self.update_dark_mask()
+
+            self.move_start_vert_coords = event
 
     def get_angle_handle_tags(self, handle_tag):
         if handle_tag == 'upper_handle':
@@ -327,17 +341,6 @@ class Cropping_area:
 
             x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords(lower_handle)
             self.canvas.coords(lower_handle, x0, y, x1, y-50, x2, y-50, x3, y-5, x4, y-5, x5, y)
-
-    @update_area_coords
-    def move_vert(self, event, tag):
-        if event.y - self.to_upper_border >= 0 and event.y + self.to_lower_border <= self.height:
-            x, x1 = self.canvas.coords(tag)[::2]
-            self.canvas.coords(tag, x, event.y - self.to_upper_border, x1, event.y + self.to_lower_border)
-
-            self.angle_handles_update_vert(tag)
-            self.update_handles_pos_vert()
-            self.update_lines_pos_vert(tag)
-            self.update_dark_mask()
 
     def update_handles_pos_hor(self):
         lx, _, lx1, _ = self.canvas.coords('left_handle')
