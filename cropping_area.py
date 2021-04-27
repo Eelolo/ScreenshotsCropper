@@ -340,12 +340,12 @@ class CroppingArea:
     def angle_move_start(self, event, tag):
         self.angle_move_start_coords = event
 
-        self.btn_prssd = tag
+        self.btn_pressed = tag
 
     def move_start_hor(self, event, tag):
         self.move_start_hor_coords = event
 
-        self.btn_prssd = tag
+        self.btn_pressed = tag
 
     @update_area_coords
     @update_dark_mask
@@ -365,7 +365,7 @@ class CroppingArea:
     def move_start_vert(self, event, tag):
         self.move_start_vert_coords = event
 
-        self.btn_prssd = tag
+        self.btn_pressed = tag
 
     @update_area_coords
     @update_dark_mask
@@ -469,10 +469,10 @@ class CroppingArea:
 
     @update_dark_mask
     def button_release(self, event):
-        self.btn_prssd = None
+        self.btn_pressed = None
 
     def define_move_start_function(self, event):
-        if not self.btn_prssd:
+        if not self.btn_pressed:
             if self.in_crop_area_check(event):
                 self.area_move_start(event)
             elif self.in_gor_move_area_check(event):
@@ -499,23 +499,23 @@ class CroppingArea:
                         self.angle_move_start(event, 'upper_right_handle')
 
     def define_move_function(self, event):
-        if self.btn_prssd == 'area':
+        if self.btn_pressed == 'area':
             self.area_move(event)
-        elif self.btn_prssd == 'left_handle':
+        elif self.btn_pressed == 'left_handle':
             self.move_hor(event, 'left_handle')
-        elif self.btn_prssd == 'right_handle':
+        elif self.btn_pressed == 'right_handle':
             self.move_hor(event, 'right_handle')
-        elif self.btn_prssd == 'lower_handle':
+        elif self.btn_pressed == 'lower_handle':
             self.move_vert(event, 'lower_handle')
-        elif self.btn_prssd == 'upper_handle':
+        elif self.btn_pressed == 'upper_handle':
             self.move_vert(event, 'upper_handle')
-        elif self.btn_prssd == 'lower_left_handle':
+        elif self.btn_pressed == 'lower_left_handle':
             self.lower_left_handle_move(event)
-        elif self.btn_prssd == 'upper_left_handle':
+        elif self.btn_pressed == 'upper_left_handle':
             self.upper_left_handle_move(event)
-        elif self.btn_prssd == 'lower_right_handle':
+        elif self.btn_pressed == 'lower_right_handle':
             self.lower_right_handle_move(event)
-        elif self.btn_prssd == 'upper_right_handle':
+        elif self.btn_pressed == 'upper_right_handle':
             self.upper_right_handle_move(event)
 
     def in_crop_area_check(self, event):
@@ -594,7 +594,7 @@ class CroppingArea:
             self.canvas.config(cursor='arrow')
 
     def area_move_start(self, event):
-        self.btn_prssd = 'area'
+        self.btn_pressed = 'area'
         self.area_move_start_coords = event
 
     @update_area_coords
