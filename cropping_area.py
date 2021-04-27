@@ -7,9 +7,6 @@ class CroppingArea:
         self.canvas = self.main.img_canv
         self.width = self.main.width
         self.height = self.main.height
-        self.create_handles()
-        self.create_dashed_lines()
-        self.configure_widgets()
 
         self.to_lower_border = 1
         self.to_upper_border = 4
@@ -20,6 +17,10 @@ class CroppingArea:
         self.area = self.width, self.height
 
         self.btn_pressed = None
+
+        self.create_handles()
+        self.create_dashed_lines()
+        self.configure_widgets()
 
     def create_handles(self):
         width = self.width
