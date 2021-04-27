@@ -38,7 +38,7 @@ class App(Frame):
         time.sleep(0.1)
         self.grab_image()
         self.update_image()
-        self.cropping_area = Cropping_area(self)
+        self.cropping_area = CroppingArea(self)
 
     def create_image(self):
         self.img_canv.configure(width=self.width, height=self.height)
