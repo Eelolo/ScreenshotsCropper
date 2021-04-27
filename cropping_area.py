@@ -177,37 +177,38 @@ class CroppingArea:
         diff_y = event.y - self.angle_move_start_coords.y
 
         if x0 + diff_x >= 0 and y0 + diff_y >= 0:
-            self.canvas.coords(
-                'upper_left_handle',
-                x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y,
-                x2 + diff_x, y2 + diff_y, x3 + diff_x, y3 + diff_y,
-                x4 + diff_x, y4 + diff_y, x5 + diff_x, y5 + diff_y
-            )
+            if self.area[0] >= 150 and self.area[1] >= 150:
+                self.canvas.coords(
+                    'upper_left_handle',
+                    x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y,
+                    x2 + diff_x, y2 + diff_y, x3 + diff_x, y3 + diff_y,
+                    x4 + diff_x, y4 + diff_y, x5 + diff_x, y5 + diff_y
+                )
 
-            x0, y0, x1, y1 = self.canvas.coords('left_handle')
-            self.canvas.coords('left_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+                x0, y0, x1, y1 = self.canvas.coords('left_handle')
+                self.canvas.coords('left_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
 
-            x0, y0, x1, y1 = self.canvas.coords('upper_handle')
-            self.canvas.coords('upper_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+                x0, y0, x1, y1 = self.canvas.coords('upper_handle')
+                self.canvas.coords('upper_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
 
-            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('lower_left_handle')
-            self.canvas.coords(
-                'lower_left_handle',
-                x0 + diff_x, y0, x1 + diff_x, y1, x2 + diff_x, y2,
-                x3 + diff_x, y3, x4 + diff_x, y4, x5 + diff_x, y5
-            )
-            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('upper_right_handle')
-            self.canvas.coords(
-                'upper_right_handle',
-                x0, y0 + diff_y, x1, y1 + diff_y, x2, y2 + diff_y,
-                x3, y3 + diff_y, x4, y4 + diff_y, x5, y5 + diff_y
-            )
-            self.angle_move_start_coords = event
+                x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('lower_left_handle')
+                self.canvas.coords(
+                    'lower_left_handle',
+                    x0 + diff_x, y0, x1 + diff_x, y1, x2 + diff_x, y2,
+                    x3 + diff_x, y3, x4 + diff_x, y4, x5 + diff_x, y5
+                )
+                x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('upper_right_handle')
+                self.canvas.coords(
+                    'upper_right_handle',
+                    x0, y0 + diff_y, x1, y1 + diff_y, x2, y2 + diff_y,
+                    x3, y3 + diff_y, x4, y4 + diff_y, x5, y5 + diff_y
+                )
+                self.angle_move_start_coords = event
 
-            self.update_handles_pos_vert()
-            self.update_handles_pos_hor()
-            self.update_lines_pos_hor('left_handle')
-            self.update_lines_pos_vert('upper_handle')
+                self.update_handles_pos_vert()
+                self.update_handles_pos_hor()
+                self.update_lines_pos_hor('left_handle')
+                self.update_lines_pos_vert('upper_handle')
 
     @update_area_coords
     @update_dark_mask
@@ -218,37 +219,38 @@ class CroppingArea:
         diff_y = event.y - self.angle_move_start_coords.y
 
         if x0 + diff_x <= self.width and y0 + diff_y >= 0:
-            self.canvas.coords(
-                'upper_right_handle',
-                x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y,
-                x2 + diff_x, y2 + diff_y, x3 + diff_x, y3 + diff_y,
-                x4 + diff_x, y4 + diff_y, x5 + diff_x, y5 + diff_y
-            )
+            if self.area[0] >= 150 and self.area[1] >= 150:
+                self.canvas.coords(
+                    'upper_right_handle',
+                    x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y,
+                    x2 + diff_x, y2 + diff_y, x3 + diff_x, y3 + diff_y,
+                    x4 + diff_x, y4 + diff_y, x5 + diff_x, y5 + diff_y
+                )
 
-            x0, y0, x1, y1 = self.canvas.coords('right_handle')
-            self.canvas.coords('right_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+                x0, y0, x1, y1 = self.canvas.coords('right_handle')
+                self.canvas.coords('right_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
 
-            x0, y0, x1, y1 = self.canvas.coords('upper_handle')
-            self.canvas.coords('upper_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+                x0, y0, x1, y1 = self.canvas.coords('upper_handle')
+                self.canvas.coords('upper_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
 
-            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('lower_right_handle')
-            self.canvas.coords(
-                'lower_right_handle',
-                x0 + diff_x, y0, x1 + diff_x, y1, x2 + diff_x, y2,
-                x3 + diff_x, y3, x4 + diff_x, y4, x5 + diff_x, y5
-            )
-            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('upper_left_handle')
-            self.canvas.coords(
-                'upper_left_handle',
-                x0, y0 + diff_y, x1, y1 + diff_y, x2, y2 + diff_y,
-                x3, y3 + diff_y, x4, y4 + diff_y, x5, y5 + diff_y
-            )
-            self.angle_move_start_coords = event
+                x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('lower_right_handle')
+                self.canvas.coords(
+                    'lower_right_handle',
+                    x0 + diff_x, y0, x1 + diff_x, y1, x2 + diff_x, y2,
+                    x3 + diff_x, y3, x4 + diff_x, y4, x5 + diff_x, y5
+                )
+                x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('upper_left_handle')
+                self.canvas.coords(
+                    'upper_left_handle',
+                    x0, y0 + diff_y, x1, y1 + diff_y, x2, y2 + diff_y,
+                    x3, y3 + diff_y, x4, y4 + diff_y, x5, y5 + diff_y
+                )
+                self.angle_move_start_coords = event
 
-            self.update_handles_pos_vert()
-            self.update_handles_pos_hor()
-            self.update_lines_pos_hor('right_handle')
-            self.update_lines_pos_vert('upper_handle')
+                self.update_handles_pos_vert()
+                self.update_handles_pos_hor()
+                self.update_lines_pos_hor('right_handle')
+                self.update_lines_pos_vert('upper_handle')
 
     @update_area_coords
     @update_dark_mask
@@ -259,37 +261,38 @@ class CroppingArea:
         diff_y = event.y - self.angle_move_start_coords.y
 
         if x0 + diff_x >= 0 and y0 + diff_y <= self.height:
-            self.canvas.coords(
-                'lower_left_handle',
-                x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y,
-                x2 + diff_x, y2 + diff_y, x3 + diff_x, y3 + diff_y,
-                x4 + diff_x, y4 + diff_y, x5 + diff_x, y5 + diff_y
-            )
+            if self.area[0] >= 150 and self.area[1] >= 150:
+                self.canvas.coords(
+                    'lower_left_handle',
+                    x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y,
+                    x2 + diff_x, y2 + diff_y, x3 + diff_x, y3 + diff_y,
+                    x4 + diff_x, y4 + diff_y, x5 + diff_x, y5 + diff_y
+                )
 
-            x0, y0, x1, y1 = self.canvas.coords('left_handle')
-            self.canvas.coords('left_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+                x0, y0, x1, y1 = self.canvas.coords('left_handle')
+                self.canvas.coords('left_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
 
-            x0, y0, x1, y1 = self.canvas.coords('lower_handle')
-            self.canvas.coords('lower_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+                x0, y0, x1, y1 = self.canvas.coords('lower_handle')
+                self.canvas.coords('lower_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
 
-            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('upper_left_handle')
-            self.canvas.coords(
-                'upper_left_handle',
-                x0 + diff_x, y0, x1 + diff_x, y1, x2 + diff_x, y2,
-                x3 + diff_x, y3, x4 + diff_x, y4, x5 + diff_x, y5
-            )
-            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('lower_right_handle')
-            self.canvas.coords(
-                'lower_right_handle',
-                x0, y0 + diff_y, x1, y1 + diff_y, x2, y2 + diff_y,
-                x3, y3 + diff_y, x4, y4 + diff_y, x5, y5 + diff_y
-            )
-            self.angle_move_start_coords = event
+                x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('upper_left_handle')
+                self.canvas.coords(
+                    'upper_left_handle',
+                    x0 + diff_x, y0, x1 + diff_x, y1, x2 + diff_x, y2,
+                    x3 + diff_x, y3, x4 + diff_x, y4, x5 + diff_x, y5
+                )
+                x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('lower_right_handle')
+                self.canvas.coords(
+                    'lower_right_handle',
+                    x0, y0 + diff_y, x1, y1 + diff_y, x2, y2 + diff_y,
+                    x3, y3 + diff_y, x4, y4 + diff_y, x5, y5 + diff_y
+                )
+                self.angle_move_start_coords = event
 
-            self.update_handles_pos_vert()
-            self.update_handles_pos_hor()
-            self.update_lines_pos_hor('left_handle')
-            self.update_lines_pos_vert('lower_handle')
+                self.update_handles_pos_vert()
+                self.update_handles_pos_hor()
+                self.update_lines_pos_hor('left_handle')
+                self.update_lines_pos_vert('lower_handle')
 
     @update_area_coords
     @update_dark_mask
@@ -300,38 +303,39 @@ class CroppingArea:
         diff_y = event.y - self.angle_move_start_coords.y
 
         if x0 + diff_x <= self.width and y0 + diff_y <= self.height:
-            self.canvas.coords(
-                'lower_right_handle',
-                x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y,
-                x2 + diff_x, y2 + diff_y, x3 + diff_x, y3 + diff_y,
-                x4 + diff_x, y4 + diff_y, x5 + diff_x, y5 + diff_y
-            )
+            if self.area[0] >= 150 and self.area[1] >= 150:
+                self.canvas.coords(
+                    'lower_right_handle',
+                    x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y,
+                    x2 + diff_x, y2 + diff_y, x3 + diff_x, y3 + diff_y,
+                    x4 + diff_x, y4 + diff_y, x5 + diff_x, y5 + diff_y
+                )
 
-            x0, y0, x1, y1 = self.canvas.coords('right_handle')
-            self.canvas.coords('right_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+                x0, y0, x1, y1 = self.canvas.coords('right_handle')
+                self.canvas.coords('right_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
 
-            x0, y0, x1, y1 = self.canvas.coords('lower_handle')
-            self.canvas.coords('lower_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+                x0, y0, x1, y1 = self.canvas.coords('lower_handle')
+                self.canvas.coords('lower_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
 
-            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('upper_right_handle')
-            self.canvas.coords(
-                'upper_right_handle',
-                x0 + diff_x, y0, x1 + diff_x, y1, x2 + diff_x, y2,
-                x3 + diff_x, y3, x4 + diff_x, y4, x5 + diff_x, y5
-            )
-            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('lower_left_handle')
-            self.canvas.coords(
-                'lower_left_handle',
-                x0, y0 + diff_y, x1, y1 + diff_y, x2, y2 + diff_y,
-                x3, y3 + diff_y, x4, y4 + diff_y, x5, y5 + diff_y
-            )
+                x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('upper_right_handle')
+                self.canvas.coords(
+                    'upper_right_handle',
+                    x0 + diff_x, y0, x1 + diff_x, y1, x2 + diff_x, y2,
+                    x3 + diff_x, y3, x4 + diff_x, y4, x5 + diff_x, y5
+                )
+                x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('lower_left_handle')
+                self.canvas.coords(
+                    'lower_left_handle',
+                    x0, y0 + diff_y, x1, y1 + diff_y, x2, y2 + diff_y,
+                    x3, y3 + diff_y, x4, y4 + diff_y, x5, y5 + diff_y
+                )
 
-            self.angle_move_start_coords = event
+                self.angle_move_start_coords = event
 
-            self.update_handles_pos_vert()
-            self.update_handles_pos_hor()
-            self.update_lines_pos_hor('right_handle')
-            self.update_lines_pos_vert('lower_handle')
+                self.update_handles_pos_vert()
+                self.update_handles_pos_hor()
+                self.update_lines_pos_hor('right_handle')
+                self.update_lines_pos_vert('lower_handle')
 
     def angle_move_start(self, event, tag):
         self.angle_move_start_coords = event
@@ -350,13 +354,16 @@ class CroppingArea:
         x0, y0, x1, y1 = self.canvas.coords(tag)
 
         if x0 + diff_x >= 0 and x1 + diff_x <= self.width:
-            self.canvas.coords(tag, x0 + diff_x, y0, x1 + diff_x, y1)
+            if self.area[0] >= 150 or diff_x < 0 and tag == 'left_handle' or \
+                    diff_x > 0 and tag == 'right_handle':
 
-            self.angle_handles_update_hor(tag)
-            self.update_handles_pos_vert()
-            self.update_lines_pos_hor(tag)
+                self.canvas.coords(tag, x0 + diff_x, y0, x1 + diff_x, y1)
 
-            self.move_start_hor_coords = event
+                self.angle_handles_update_hor(tag)
+                self.update_handles_pos_vert()
+                self.update_lines_pos_hor(tag)
+
+                self.move_start_hor_coords = event
 
     def move_start_vert(self, event, tag):
         self.move_start_vert_coords = event
@@ -370,13 +377,16 @@ class CroppingArea:
         x0, y0, x1, y1 = self.canvas.coords(tag)
 
         if y0 + diff_y >= 0 and y1 + diff_y <= self.height:
-            self.canvas.coords(tag, x0, y0 + diff_y, x1, y1 + diff_y)
+            if self.area[1] >= 150 or diff_y < 0 and tag == 'upper_handle' or \
+                    diff_y > 0 and tag == 'lower_handle':
 
-            self.angle_handles_update_vert(tag)
-            self.update_handles_pos_hor()
-            self.update_lines_pos_vert(tag)
+                self.canvas.coords(tag, x0, y0 + diff_y, x1, y1 + diff_y)
 
-            self.move_start_vert_coords = event
+                self.angle_handles_update_vert(tag)
+                self.update_handles_pos_hor()
+                self.update_lines_pos_vert(tag)
+
+                self.move_start_vert_coords = event
 
     def get_angle_handle_tags(self, handle_tag):
         if handle_tag == 'upper_handle':
