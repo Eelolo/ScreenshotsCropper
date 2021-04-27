@@ -8,11 +8,6 @@ class CroppingArea:
         self.width = self.main.width
         self.height = self.main.height
 
-        self.to_lower_border = 1
-        self.to_upper_border = 4
-        self.to_left_border = 1
-        self.to_right_border = 4
-
         self.area_coords = 0, 0, self.width, 0, 0, self.height, self.width, self.height
         self.area = self.width, self.height
 
