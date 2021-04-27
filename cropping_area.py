@@ -527,7 +527,7 @@ class CroppingArea:
         indent_x = int(self.area[0] / 6)
         indent_y = int(self.area[1] / 6)
 
-        if event.x > lx1 + indent_x < rx - indent_x and uy1 + indent_y < event.y < loy - indent_y:
+        if lx1 + indent_x < event.x < rx - indent_x and uy1 + indent_y < event.y < loy - indent_y:
             return True
 
         return False
