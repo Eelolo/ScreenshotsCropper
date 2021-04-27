@@ -21,19 +21,6 @@ class CroppingArea:
 
         self.btn_pressed = None
 
-    def update_dark_mask(self, event=None):
-        im = self.main.screenshot.copy()
-        ulx, uly, _, _, _, _, lrx, lry = self.area_coords
-
-        enhancer = ImageEnhance.Brightness(im)
-        with_mask = enhancer.enhance(0.5)
-
-        area = im.crop((int(ulx), int(uly), int(lrx), int(lry)))
-        with_mask.paste(area, (int(ulx), int(uly), int(lrx), int(lry)))
-
-        self.with_mask = ImageTk.PhotoImage(with_mask)
-        self.canvas.itemconfigure('screenshot', image=self.with_mask)
-
     def create_handles(self):
         width = self.width
         height = self.height
@@ -166,7 +153,27 @@ class CroppingArea:
 
         return wrapper
 
+    def update_dark_mask(func):
+        def wrapper(*args):
+            func(*args)
+            self = args[0]
+
+            image = self.main.screenshot.copy()
+            ulx, uly, _, _, _, _, lrx, lry = self.area_coords
+
+            enhancer = ImageEnhance.Brightness(image)
+            with_mask = enhancer.enhance(0.5)
+
+            area = image.crop((int(ulx), int(uly), int(lrx), int(lry)))
+            with_mask.paste(area, (int(ulx), int(uly), int(lrx), int(lry)))
+
+            self.with_mask = ImageTk.PhotoImage(with_mask)
+            self.canvas.itemconfigure('screenshot', image=self.with_mask)
+
+        return wrapper
+
     @update_area_coords
+    @update_dark_mask
     def upper_left_handle_move(self, event):
         x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('upper_left_handle')
 
@@ -205,9 +212,9 @@ class CroppingArea:
             self.update_handles_pos_hor()
             self.update_lines_pos_hor('left_handle')
             self.update_lines_pos_vert('upper_handle')
-            self.update_dark_mask()
 
     @update_area_coords
+    @update_dark_mask
     def upper_right_handle_move(self, event):
         x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('upper_right_handle')
 
@@ -246,9 +253,9 @@ class CroppingArea:
             self.update_handles_pos_hor()
             self.update_lines_pos_hor('right_handle')
             self.update_lines_pos_vert('upper_handle')
-            self.update_dark_mask()
 
     @update_area_coords
+    @update_dark_mask
     def lower_left_handle_move(self, event):
         x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('lower_left_handle')
 
@@ -287,9 +294,9 @@ class CroppingArea:
             self.update_handles_pos_hor()
             self.update_lines_pos_hor('left_handle')
             self.update_lines_pos_vert('lower_handle')
-            self.update_dark_mask()
 
     @update_area_coords
+    @update_dark_mask
     def lower_right_handle_move(self, event):
         x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('lower_right_handle')
 
@@ -329,7 +336,6 @@ class CroppingArea:
             self.update_handles_pos_hor()
             self.update_lines_pos_hor('right_handle')
             self.update_lines_pos_vert('lower_handle')
-            self.update_dark_mask()
 
     def angle_move_start(self, event, tag):
         self.angle_move_start_coords = event
@@ -342,6 +348,7 @@ class CroppingArea:
         self.btn_prssd = tag
 
     @update_area_coords
+    @update_dark_mask
     def move_hor(self, event, tag):
         diff_x = event.x - self.move_start_hor_coords.x
         x0, y0, x1, y1 = self.canvas.coords(tag)
@@ -352,7 +359,6 @@ class CroppingArea:
             self.angle_handles_update_hor(tag)
             self.update_handles_pos_vert()
             self.update_lines_pos_hor(tag)
-            self.update_dark_mask()
 
             self.move_start_hor_coords = event
 
@@ -362,6 +368,7 @@ class CroppingArea:
         self.btn_prssd = tag
 
     @update_area_coords
+    @update_dark_mask
     def move_vert(self, event, tag):
         diff_y = event.y - self.move_start_vert_coords.y
         x0, y0, x1, y1 = self.canvas.coords(tag)
@@ -372,7 +379,6 @@ class CroppingArea:
             self.angle_handles_update_vert(tag)
             self.update_handles_pos_hor()
             self.update_lines_pos_vert(tag)
-            self.update_dark_mask()
 
             self.move_start_vert_coords = event
 
@@ -461,9 +467,9 @@ class CroppingArea:
         self.canvas.bind('<B1-Motion>', self.define_move_function)
         self.canvas.bind('<ButtonRelease-1>', self.button_release)
 
+    @update_dark_mask
     def button_release(self, event):
         self.btn_prssd = None
-        self.update_dark_mask()
 
     def define_move_start_function(self, event):
         if not self.btn_prssd:
@@ -592,6 +598,7 @@ class CroppingArea:
         self.area_move_start_coords = event
 
     @update_area_coords
+    @update_dark_mask
     def area_move(self, event):
         diff_x = event.x - self.area_move_start_coords.x
         diff_y = event.y - self.area_move_start_coords.y
@@ -654,5 +661,3 @@ class CroppingArea:
             self.canvas.coords('right_upper_line', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
 
             self.area_move_start_coords = event
-
-            self.update_dark_mask()
