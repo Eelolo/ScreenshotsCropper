@@ -510,7 +510,7 @@ class Cropping_area:
             self.upper_left_handle_move(event)
         elif self.btn_prssd == 'lower_right_handle':
             self.lower_right_handle_move(event)
-        else:
+        elif self.btn_prssd == 'upper_right_handle':
             self.upper_right_handle_move(event)
 
     def in_crop_area_check(self, event):
