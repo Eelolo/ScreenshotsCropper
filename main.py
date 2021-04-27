@@ -3,7 +3,7 @@ from PIL import ImageGrab, ImageTk, Image
 from pystray import MenuItem, Icon, Menu
 import keyboard
 import time
-from cropping_area import Cropping_area
+from cropping_area import CroppingArea
 
 
 class App(Frame):
