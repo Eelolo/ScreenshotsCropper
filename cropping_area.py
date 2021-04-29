@@ -172,9 +172,9 @@ class CroppingArea:
         self.angle_move_start_coords = event
 
         x0, y0, x1, y1, x2, y2, x3, y3 = self.area_coords
-        self.start_edge_dist_l = x0 - (x0 - event.x)
+        self.start_edge_dist_l = x0 - event.x
         self.start_edge_dist_r = x1 - event.x
-        self.start_edge_dist_u = y0 - (y0 - event.y)
+        self.start_edge_dist_u = y0 - event.y
         self.start_edge_dist_d = y2 - event.y
 
         self.btn_pressed = tag
@@ -187,21 +187,21 @@ class CroppingArea:
         diff_x = event.x - self.angle_move_start_coords.x
         diff_y = event.y - self.angle_move_start_coords.y
 
-        edge_dist_l = x0 - (x0 - event.x)
-        edge_dist_u = y0 - (y0 - event.y)
+        edge_dist_l = x0 - event.x
+        edge_dist_u = y0 - event.y
 
-        if x0 + diff_x < 0 or x0 == 0 and edge_dist_l < self.start_edge_dist_l:
+        if x0 + diff_x < 0 or x0 == 0 and edge_dist_l > self.start_edge_dist_l:
             diff_x = 0 - x0
 
-        if y0 + diff_y < 0 or y0 == 0 and edge_dist_u < self.start_edge_dist_u:
+        if y0 + diff_y < 0 or y0 == 0 and edge_dist_u > self.start_edge_dist_u:
             diff_y = 0 - y0
 
         ux = int(self.canvas.coords('upper_handle')[0])
-        if x4 + diff_x >  ux or int(x4) == ux and edge_dist_l > self.start_edge_dist_l:
+        if x4 + diff_x >  ux or int(x4) == ux and edge_dist_l < self.start_edge_dist_l:
             diff_x = self.canvas.coords('upper_handle')[0] - x4
 
         ly = int(self.canvas.coords('left_handle')[1])
-        if y1 + diff_y >  ly or int(y1) == ly and edge_dist_u > self.start_edge_dist_u:
+        if y1 + diff_y >  ly or int(y1) == ly and edge_dist_u < self.start_edge_dist_u:
             diff_y = self.canvas.coords('left_handle')[1] - y1
 
         self.canvas.coords(
@@ -245,12 +245,12 @@ class CroppingArea:
         diff_y = event.y - self.angle_move_start_coords.y
 
         edge_dist_r = x0 - event.x
-        edge_dist_u = y0 - (y0 - event.y)
+        edge_dist_u = y0 - event.y
 
         if x0 + diff_x > self.width or x0 == self.width and edge_dist_r < self.start_edge_dist_r:
             diff_x = self.width - x0
 
-        if y0 + diff_y < 0 or y0 == 0 and edge_dist_u < self.start_edge_dist_u:
+        if y0 + diff_y < 0 or y0 == 0 and edge_dist_u > self.start_edge_dist_u:
             diff_y = 0 - y0
 
         ux = int(self.canvas.coords('upper_handle')[2])
@@ -258,7 +258,7 @@ class CroppingArea:
             diff_x = self.canvas.coords('upper_handle')[2] - x4
 
         ry = int(self.canvas.coords('right_handle')[1])
-        if y1 + diff_y > ry or int(y1) == ry and edge_dist_u > self.start_edge_dist_u:
+        if y1 + diff_y > ry or int(y1) == ry and edge_dist_u < self.start_edge_dist_u:
             diff_y = self.canvas.coords('right_handle')[1] - y1
 
         self.canvas.coords(
@@ -301,17 +301,17 @@ class CroppingArea:
         diff_x = event.x - self.angle_move_start_coords.x
         diff_y = event.y - self.angle_move_start_coords.y
 
-        edge_dist_l = x0 - (x0 - event.x)
+        edge_dist_l = x0 - event.x
         edge_dist_d = y0 - event.y
 
-        if x0 + diff_x < 0 or x0 == 0 and edge_dist_l < self.start_edge_dist_l:
+        if x0 + diff_x < 0 or x0 == 0 and edge_dist_l > self.start_edge_dist_l:
             diff_x = 0 - x0
 
         if y0 + diff_y > self.height or y0 == self.height and edge_dist_d < self.start_edge_dist_d:
             diff_y = self.height - y0
 
         lx = int(self.canvas.coords('lower_handle')[0])
-        if x4 + diff_x > lx or int(x4) == lx and edge_dist_l > self.start_edge_dist_l:
+        if x4 + diff_x > lx or int(x4) == lx and edge_dist_l < self.start_edge_dist_l:
             diff_x = self.canvas.coords('lower_handle')[0] - x4
 
         ly = int(self.canvas.coords('left_handle')[3])
@@ -412,7 +412,7 @@ class CroppingArea:
         self.move_start_hor_coords = event
 
         x0, x1 = self.canvas.coords(tag)[::2]
-        self.start_edge_dist_l = x0 - (x0 - event.x)
+        self.start_edge_dist_l = x0 - event.x
         self.start_edge_dist_r = x1 - event.x
 
         self.btn_pressed = tag
@@ -423,15 +423,15 @@ class CroppingArea:
         diff_x = event.x - self.move_start_hor_coords.x
         x0, y0, x1, y1 = self.canvas.coords(tag)
 
-        edge_dist_l = x0 - (x0 - event.x)
+        edge_dist_l = x0 - event.x
         edge_dist_r = x1 - event.x
 
         if tag == 'left_handle':
-            if x0 + diff_x < 0 or x0 == 0 and edge_dist_l < self.start_edge_dist_l:
+            if x0 + diff_x < 0 or x0 == 0 and edge_dist_l > self.start_edge_dist_l:
                 diff_x = 0 - x0
 
             rx = self.canvas.coords('right_handle')[0]
-            if x0 + diff_x + 150 > rx or x0 + 145 == rx and edge_dist_l > self.start_edge_dist_l:
+            if x0 + diff_x + 150 > rx or x0 + 145 == rx and edge_dist_l < self.start_edge_dist_l:
                 diff_x = self.canvas.coords('right_handle')[2] - x0 - 150
         else:
             if x1 + diff_x > self.width or x1 == self.width and edge_dist_r < self.start_edge_dist_r:
@@ -453,7 +453,7 @@ class CroppingArea:
         self.move_start_vert_coords = event
 
         y0, y1 = self.canvas.coords(tag)[1::2]
-        self.start_edge_dist_u = y0 - (y0 - event.y)
+        self.start_edge_dist_u = y0 - event.y
         self.start_edge_dist_d = y1 - event.y
 
         self.btn_pressed = tag
@@ -464,15 +464,15 @@ class CroppingArea:
         diff_y = event.y - self.move_start_vert_coords.y
         x0, y0, x1, y1 = self.canvas.coords(tag)
 
-        edge_dist_u = y0 - (y0 - event.y)
+        edge_dist_u = y0 - event.y
         edge_dist_d = y1 - event.y
 
         if tag == 'upper_handle':
-            if y0 + diff_y < 0 or y0 == 0 and edge_dist_u < self.start_edge_dist_u:
+            if y0 + diff_y < 0 or y0 == 0 and edge_dist_u > self.start_edge_dist_u:
                 diff_y = 0 - y0
 
             ly = self.canvas.coords('lower_handle')[1]
-            if y0 + diff_y + 150 > ly or y0 + 145 == ly and edge_dist_u > self.start_edge_dist_u:
+            if y0 + diff_y + 150 > ly or y0 + 145 == ly and edge_dist_u < self.start_edge_dist_u:
                 diff_y = self.canvas.coords('lower_handle')[3] - y0 - 150
         else:
             if y1 + diff_y > self.height or y1 == self.height and edge_dist_d < self.start_edge_dist_d:
@@ -706,9 +706,9 @@ class CroppingArea:
         self.area_move_start_coords = event
 
         x0, y0, x1, y1, x2, y2, x3, y3 = self.area_coords
-        self.start_edge_dist_l = x0 - (x0 - event.x)
+        self.start_edge_dist_l = x0 - event.x
         self.start_edge_dist_r = x1 - event.x
-        self.start_edge_dist_u = y0 - (y0 - event.y)
+        self.start_edge_dist_u = y0 - event.y
         self.start_edge_dist_d = y2 - event.y
 
     @update_area_coords
@@ -718,18 +718,18 @@ class CroppingArea:
         diff_y = event.y - self.area_move_start_coords.y
 
         x0, y0, x1, y1, x2, y2, x3, y3 = self.area_coords
-        edge_dist_l = x0 - (x0 - event.x)
+        edge_dist_l = x0 - event.x
         edge_dist_r = x1 - event.x
-        edge_dist_u = y0 - (y0 - event.y)
+        edge_dist_u = y0 - event.y
         edge_dist_d = y2 - event.y
 
-        if x0 + diff_x < 0 or x0 == 0 and edge_dist_l < self.start_edge_dist_l:
+        if x0 + diff_x < 0 or x0 == 0 and edge_dist_l > self.start_edge_dist_l:
             diff_x = 0 - x0
 
         if x1 + diff_x > self.width or x1 == self.width and edge_dist_r < self.start_edge_dist_r:
             diff_x = self.width - x1
 
-        if y0 + diff_y < 0 or y0 == 0 and edge_dist_u < self.start_edge_dist_u:
+        if y0 + diff_y < 0 or y0 == 0 and edge_dist_u > self.start_edge_dist_u:
             diff_y = 0 - y0
 
         if y2 + diff_y > self.height or y2 == self.height and edge_dist_d < self.start_edge_dist_d:
