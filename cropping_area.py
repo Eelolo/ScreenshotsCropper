@@ -1,4 +1,5 @@
 from PIL import ImageEnhance, ImageTk
+from confirm_btns import ButtonsMenu
 
 
 class CroppingArea:
@@ -16,6 +17,10 @@ class CroppingArea:
         self.create_handles()
         self.create_dashed_lines()
         self.configure_widgets()
+        self.create_buttons()
+
+    def create_buttons(self):
+        self.btns_menu = ButtonsMenu(self.main, self)
 
     def create_handles(self):
         width = self.width
