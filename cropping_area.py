@@ -241,14 +241,23 @@ class CroppingArea:
 
         for idx, item in enumerate(array):
             if item[2] == 'diff_xy':
-                array[idx] = self.add_difference(item[0], diff_x=item[3], diff_y=item[4]), item[1]
+                array[idx] = item[1], self.add_difference(item[0], diff_x=item[3], diff_y=item[4])
             if item[2] == 'diff_x':
-                array[idx] = self.add_difference(item[0], diff_x=item[3]), item[1]
+                array[idx] = item[1], self.add_difference(item[0], diff_x=item[3])
             if item[2] == 'diff_y':
-                array[idx] = self.add_difference(item[0], diff_y=item[3]), item[1]
+                array[idx] = item[1], self.add_difference(item[0], diff_y=item[3])
 
         return array
 
+    def multiple_coords_changing(self, array):
+        # array = [
+        #     (tag, []),
+        #     (tag, []),
+        #     (tag, [])
+        # ]
+
+        for item in array:
+            self.canvas.coords(item[0], item[1])
 
     @update_area_coords
     @update_dark_mask
