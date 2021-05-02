@@ -92,43 +92,41 @@ class CroppingArea:
 
     def update_lines_pos_hor(self, tag):
         if tag == 'left_handle':
+            tag0 = 'left_upper_line'
+            tag1 = 'left_lower_line'
+        elif tag == 'right_handle':
+            tag0 = 'right_upper_line'
+            tag1 = 'right_lower_line'
+
+        if tag in ('left_handle', 'right_handle'):
             x = self.canvas.coords(tag)[0]
+            pad = self.handle_width / 2
 
-            luy, luy1 = self.canvas.coords('left_upper_line')[1::2]
-            lly, lly1 = self.canvas.coords('left_lower_line')[1::2]
+            y0, y1 = self.canvas.coords(tag0)[1::2]
+            y2, y3 = self.canvas.coords(tag1)[1::2]
 
-            self.canvas.coords('left_upper_line', x + 3, luy, x + 3, luy1)
-            self.canvas.coords('left_lower_line', x + 3, lly, x + 3, lly1)
-
-        if tag == 'right_handle':
-            x = self.canvas.coords(tag)[0]
-
-            ruy, ruy1 = self.canvas.coords('right_upper_line')[1::2]
-            rly, rly1 = self.canvas.coords('right_lower_line')[1::2]
-
-            self.canvas.coords('right_upper_line', x + 3, ruy, x + 3, ruy1)
-            self.canvas.coords('right_lower_line', x + 3, rly, x + 3, rly1)
+            self.canvas.coords(tag0, x + pad, y0, x + pad, y1)
+            self.canvas.coords(tag1, x + pad, y2, x + pad, y3)
 
         self.update_perpendicular_lines_hor()
 
     def update_lines_pos_vert(self, tag):
         if tag == 'upper_handle':
+            tag0 = 'upper_left_line'
+            tag1 = 'upper_right_line'
+        elif tag == 'lower_handle':
+            tag0 = 'lower_left_line'
+            tag1 = 'lower_right_line'
+
+        if tag in ('upper_handle', 'lower_handle'):
             y = self.canvas.coords(tag)[1]
+            pad = self.handle_width / 2
 
-            ulx, ulx1 = self.canvas.coords('upper_left_line')[::2]
-            urx, urx1 = self.canvas.coords('upper_right_line')[::2]
+            x0, x1 = self.canvas.coords(tag0)[::2]
+            x2, x3 = self.canvas.coords(tag1)[::2]
 
-            self.canvas.coords('upper_left_line', ulx, y + 3, ulx1, y + 3)
-            self.canvas.coords('upper_right_line', urx, y + 3, urx1, y + 3)
-
-        if tag == 'lower_handle':
-            y = self.canvas.coords(tag)[1]
-
-            llx, llx1 = self.canvas.coords('lower_left_line')[::2]
-            lrx, lrx1 = self.canvas.coords('lower_right_line')[::2]
-
-            self.canvas.coords('lower_left_line', llx, y + 3, llx1, y + 3)
-            self.canvas.coords('lower_right_line', lrx, y + 3, lrx1, y + 3)
+            self.canvas.coords(tag0, x0, y + pad, x1, y + pad)
+            self.canvas.coords(tag1, x2, y + pad, x3, y + pad)
 
         self.update_perpendicular_lines_vert()
 
