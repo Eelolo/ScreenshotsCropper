@@ -508,7 +508,7 @@ class CroppingArea:
         edge_dist_u = y0 - event.y
         edge_dist_d = y1 - event.y
 
-        min_h = self.handle_width * 3
+        min_h = self.handle_height * 3
         h_w = self.handle_width
 
         if tag == 'upper_handle':
