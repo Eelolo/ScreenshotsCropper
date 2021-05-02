@@ -4,6 +4,7 @@ from pystray import MenuItem, Icon, Menu
 import keyboard
 import time
 from cropping_area import CroppingArea
+from toolbar import ToolBar
 
 
 class App(Frame):
@@ -39,6 +40,7 @@ class App(Frame):
         self.grab_image()
         self.update_image()
         self.create_cropping_area()
+        self.create_toolbar()
 
     def create_cropping_area(self):
         if hasattr(self, 'cropping_area'):
@@ -46,6 +48,11 @@ class App(Frame):
             del self.cropping_area
 
         self.cropping_area = CroppingArea(self)
+
+    def create_toolbar(self):
+        if not hasattr(self, 'toolbar'):
+            self.toolbar = ToolBar(self)
+            self.toolbar.pack()
 
     def create_image(self):
         self.img_canv.configure(width=self.width, height=self.height)
