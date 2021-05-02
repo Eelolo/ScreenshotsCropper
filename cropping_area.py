@@ -213,6 +213,25 @@ class CroppingArea:
 
         self.btn_pressed = tag
 
+    def add_difference(self, array, diff_x=0, diff_y=0):
+        start = 0
+        step = 1
+
+        if diff_x and not diff_y:
+            step = 2
+        elif diff_y and not diff_x:
+            start = 1
+            step = 2
+
+        for idx in range(start, len(array), step):
+            if idx == 0 or idx % 2 == 0:
+                array[idx] += diff_x
+
+            if idx != 0 and idx % 2 != 0:
+                array[idx] += diff_y
+
+        return array
+
     @update_area_coords
     @update_dark_mask
     def upper_left_handle_move(self, event):
@@ -238,31 +257,21 @@ class CroppingArea:
         if y1 + diff_y >  ly or int(y1) == ly and edge_dist_u < self.start_edge_dist_u:
             diff_y = self.canvas.coords('left_handle')[1] - y1
 
-        self.canvas.coords(
-            'upper_left_handle',
-            x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y,
-            x2 + diff_x, y2 + diff_y, x3 + diff_x, y3 + diff_y,
-            x4 + diff_x, y4 + diff_y, x5 + diff_x, y5 + diff_y
-        )
+        points = self.add_difference(self.canvas.coords('upper_left_handle'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('upper_left_handle', points)
 
-        x0, y0, x1, y1 = self.canvas.coords('left_handle')
-        self.canvas.coords('left_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+        points = self.add_difference(self.canvas.coords('left_handle'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('left_handle', points)
 
-        x0, y0, x1, y1 = self.canvas.coords('upper_handle')
-        self.canvas.coords('upper_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+        points = self.add_difference(self.canvas.coords('upper_handle'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('upper_handle', points)
 
-        x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('lower_left_handle')
-        self.canvas.coords(
-            'lower_left_handle',
-            x0 + diff_x, y0, x1 + diff_x, y1, x2 + diff_x, y2,
-            x3 + diff_x, y3, x4 + diff_x, y4, x5 + diff_x, y5
-        )
-        x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('upper_right_handle')
-        self.canvas.coords(
-            'upper_right_handle',
-            x0, y0 + diff_y, x1, y1 + diff_y, x2, y2 + diff_y,
-            x3, y3 + diff_y, x4, y4 + diff_y, x5, y5 + diff_y
-        )
+        points = self.add_difference(self.canvas.coords('lower_left_handle'), diff_x=diff_x)
+        self.canvas.coords('lower_left_handle', points)
+
+        points = self.add_difference(self.canvas.coords('upper_right_handle'), diff_y=diff_y)
+        self.canvas.coords('upper_right_handle', points)
+
         self.angle_move_start_coords = event
 
         self.update_handles_pos_vert()
@@ -295,31 +304,21 @@ class CroppingArea:
         if y1 + diff_y > ry or int(y1) == ry and edge_dist_u < self.start_edge_dist_u:
             diff_y = self.canvas.coords('right_handle')[1] - y1
 
-        self.canvas.coords(
-            'upper_right_handle',
-            x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y,
-            x2 + diff_x, y2 + diff_y, x3 + diff_x, y3 + diff_y,
-            x4 + diff_x, y4 + diff_y, x5 + diff_x, y5 + diff_y
-        )
+        points = self.add_difference(self.canvas.coords('upper_right_handle'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('upper_right_handle', points)
 
-        x0, y0, x1, y1 = self.canvas.coords('right_handle')
-        self.canvas.coords('right_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+        points = self.add_difference(self.canvas.coords('right_handle'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('right_handle', points)
 
-        x0, y0, x1, y1 = self.canvas.coords('upper_handle')
-        self.canvas.coords('upper_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+        points = self.add_difference(self.canvas.coords('upper_handle'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('upper_handle', points)
 
-        x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('lower_right_handle')
-        self.canvas.coords(
-            'lower_right_handle',
-            x0 + diff_x, y0, x1 + diff_x, y1, x2 + diff_x, y2,
-            x3 + diff_x, y3, x4 + diff_x, y4, x5 + diff_x, y5
-        )
-        x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('upper_left_handle')
-        self.canvas.coords(
-            'upper_left_handle',
-            x0, y0 + diff_y, x1, y1 + diff_y, x2, y2 + diff_y,
-            x3, y3 + diff_y, x4, y4 + diff_y, x5, y5 + diff_y
-        )
+        points = self.add_difference(self.canvas.coords('lower_right_handle'), diff_x=diff_x)
+        self.canvas.coords('lower_right_handle', points)
+
+        points = self.add_difference(self.canvas.coords('upper_left_handle'), diff_y=diff_y)
+        self.canvas.coords('upper_left_handle', points)
+
         self.angle_move_start_coords = event
 
         self.update_handles_pos_vert()
@@ -352,31 +351,21 @@ class CroppingArea:
         if y2 + diff_y < ly or int(y2) == ly and edge_dist_d > self.start_edge_dist_d:
             diff_y = self.canvas.coords('left_handle')[3] - y2
 
-        self.canvas.coords(
-            'lower_left_handle',
-            x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y,
-            x2 + diff_x, y2 + diff_y, x3 + diff_x, y3 + diff_y,
-            x4 + diff_x, y4 + diff_y, x5 + diff_x, y5 + diff_y
-        )
+        points = self.add_difference(self.canvas.coords('lower_left_handle'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('lower_left_handle', points)
 
-        x0, y0, x1, y1 = self.canvas.coords('left_handle')
-        self.canvas.coords('left_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+        points = self.add_difference(self.canvas.coords('left_handle'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('left_handle', points)
 
-        x0, y0, x1, y1 = self.canvas.coords('lower_handle')
-        self.canvas.coords('lower_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+        points = self.add_difference(self.canvas.coords('lower_handle'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('lower_handle', points)
 
-        x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('upper_left_handle')
-        self.canvas.coords(
-            'upper_left_handle',
-            x0 + diff_x, y0, x1 + diff_x, y1, x2 + diff_x, y2,
-            x3 + diff_x, y3, x4 + diff_x, y4, x5 + diff_x, y5
-        )
-        x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('lower_right_handle')
-        self.canvas.coords(
-            'lower_right_handle',
-            x0, y0 + diff_y, x1, y1 + diff_y, x2, y2 + diff_y,
-            x3, y3 + diff_y, x4, y4 + diff_y, x5, y5 + diff_y
-        )
+        points = self.add_difference(self.canvas.coords('upper_left_handle'), diff_x=diff_x)
+        self.canvas.coords('upper_left_handle', points)
+
+        points = self.add_difference(self.canvas.coords('lower_right_handle'), diff_y=diff_y)
+        self.canvas.coords('lower_right_handle', points)
+
         self.angle_move_start_coords = event
 
         self.update_handles_pos_vert()
@@ -409,31 +398,20 @@ class CroppingArea:
         if y1 + diff_y < ry or int(y1) == ry and edge_dist_d > self.start_edge_dist_d:
             diff_y = self.canvas.coords('right_handle')[3] - y1
 
-        self.canvas.coords(
-            'lower_right_handle',
-            x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y,
-            x2 + diff_x, y2 + diff_y, x3 + diff_x, y3 + diff_y,
-            x4 + diff_x, y4 + diff_y, x5 + diff_x, y5 + diff_y
-        )
+        points = self.add_difference(self.canvas.coords('lower_right_handle'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('lower_right_handle', points)
 
-        x0, y0, x1, y1 = self.canvas.coords('right_handle')
-        self.canvas.coords('right_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+        points = self.add_difference(self.canvas.coords('right_handle'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('right_handle', points)
 
-        x0, y0, x1, y1 = self.canvas.coords('lower_handle')
-        self.canvas.coords('lower_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+        points = self.add_difference(self.canvas.coords('lower_handle'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('lower_handle', points)
 
-        x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('upper_right_handle')
-        self.canvas.coords(
-            'upper_right_handle',
-            x0 + diff_x, y0, x1 + diff_x, y1, x2 + diff_x, y2,
-            x3 + diff_x, y3, x4 + diff_x, y4, x5 + diff_x, y5
-        )
-        x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('lower_left_handle')
-        self.canvas.coords(
-            'lower_left_handle',
-            x0, y0 + diff_y, x1, y1 + diff_y, x2, y2 + diff_y,
-            x3, y3 + diff_y, x4, y4 + diff_y, x5, y5 + diff_y
-        )
+        points = self.add_difference(self.canvas.coords('upper_right_handle'), diff_x=diff_x)
+        self.canvas.coords('upper_right_handle', points )
+
+        points = self.add_difference(self.canvas.coords('lower_left_handle'), diff_y=diff_y)
+        self.canvas.coords('lower_left_handle', points)
 
         self.angle_move_start_coords = event
 
@@ -475,7 +453,8 @@ class CroppingArea:
             if x1 + diff_x - 150 < lx or x1 - 150 == lx and edge_dist_r > self.start_edge_dist_r:
                 diff_x = self.canvas.coords('left_handle')[0] - x1 + 150
 
-        self.canvas.coords(tag, x0 + diff_x, y0, x1 + diff_x, y1)
+        points = self.add_difference([x0, y0, x1, y1], diff_x=diff_x)
+        self.canvas.coords(tag, points)
 
         self.angle_handles_update_hor(tag)
         self.update_handles_pos_vert()
@@ -516,7 +495,8 @@ class CroppingArea:
             if y1 + diff_y - 150 < uy or y1 - 150 == uy and edge_dist_d > self.start_edge_dist_d:
                 diff_y = self.canvas.coords('upper_handle')[1] - y1 + 150
 
-        self.canvas.coords(tag, x0, y0 + diff_y, x1, y1 + diff_y)
+        points = self.add_difference([x0, y0, x1, y1], diff_y=diff_y)
+        self.canvas.coords(tag, points)
 
         self.angle_handles_update_vert(tag)
         self.update_handles_pos_hor()
@@ -769,59 +749,39 @@ class CroppingArea:
         if y2 + diff_y > self.height or y2 == self.height and edge_dist_d < self.start_edge_dist_d:
             diff_y = self.height - y2
 
-        x0, y0, x1, y1 = self.canvas.coords('upper_handle')
-        self.canvas.coords('upper_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
-        x0, y0, x1, y1 = self.canvas.coords('lower_handle')
-        self.canvas.coords('lower_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
-        x0, y0, x1, y1 = self.canvas.coords('left_handle')
-        self.canvas.coords('left_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
-        x0, y0, x1, y1 = self.canvas.coords('right_handle')
-        self.canvas.coords('right_handle', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+        points = self.add_difference(self.canvas.coords('upper_handle'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('upper_handle', points)
+        points = self.add_difference(self.canvas.coords('lower_handle'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('lower_handle', points)
+        points = self.add_difference(self.canvas.coords('left_handle'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('left_handle', points)
+        points = self.add_difference(self.canvas.coords('right_handle'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('right_handle', points)
 
-        x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('upper_left_handle')
-        self.canvas.coords(
-            'upper_left_handle',
-            x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y,
-            x2 + diff_x, y2 + diff_y, x3 + diff_x, y3 + diff_y,
-            x4 + diff_x, y4 + diff_y, x5 + diff_x, y5 + diff_y
-        )
-        x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('lower_left_handle')
-        self.canvas.coords(
-            'lower_left_handle',
-            x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y,
-            x2 + diff_x, y2 + diff_y, x3 + diff_x, y3 + diff_y,
-            x4 + diff_x, y4 + diff_y, x5 + diff_x, y5 + diff_y
-        )
-        x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('upper_right_handle')
-        self.canvas.coords(
-            'upper_right_handle',
-            x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y,
-            x2 + diff_x, y2 + diff_y, x3 + diff_x, y3 + diff_y,
-            x4 + diff_x, y4 + diff_y, x5 + diff_x, y5 + diff_y
-        )
-        x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords('lower_right_handle')
-        self.canvas.coords(
-            'lower_right_handle',
-            x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y,
-            x2 + diff_x, y2 + diff_y, x3 + diff_x, y3 + diff_y,
-            x4 + diff_x, y4 + diff_y, x5 + diff_x, y5 + diff_y
-        )
+        points = self.add_difference(self.canvas.coords('upper_left_handle'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('upper_left_handle', points)
+        points = self.add_difference(self.canvas.coords('lower_left_handle'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('lower_left_handle', points)
+        points = self.add_difference(self.canvas.coords('upper_right_handle'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('upper_right_handle', points)
+        points = self.add_difference(self.canvas.coords('lower_right_handle'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('lower_right_handle', points)
 
-        x0, y0, x1, y1 = self.canvas.coords('upper_left_line')
-        self.canvas.coords('upper_left_line', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
-        x0, y0, x1, y1 = self.canvas.coords('upper_right_line')
-        self.canvas.coords('upper_right_line', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
-        x0, y0, x1, y1 = self.canvas.coords('left_upper_line')
-        self.canvas.coords('left_upper_line', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
-        x0, y0, x1, y1 = self.canvas.coords('left_lower_line')
-        self.canvas.coords('left_lower_line', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
-        x0, y0, x1, y1 = self.canvas.coords('lower_left_line')
-        self.canvas.coords('lower_left_line', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
-        x0, y0, x1, y1 = self.canvas.coords('lower_right_line')
-        self.canvas.coords('lower_right_line', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
-        x0, y0, x1, y1 = self.canvas.coords('right_lower_line')
-        self.canvas.coords('right_lower_line', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
-        x0, y0, x1, y1 = self.canvas.coords('right_upper_line')
-        self.canvas.coords('right_upper_line', x0 + diff_x, y0 + diff_y, x1 + diff_x, y1 + diff_y)
+        points = self.add_difference(self.canvas.coords('upper_left_line'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('upper_left_line', points)
+        points = self.add_difference(self.canvas.coords('upper_right_line'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('upper_right_line', points)
+        points = self.add_difference(self.canvas.coords('left_upper_line'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('left_upper_line', points)
+        points = self.add_difference(self.canvas.coords('left_lower_line'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('left_lower_line', points)
+        points = self.add_difference(self.canvas.coords('lower_left_line'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('lower_left_line', points)
+        points = self.add_difference(self.canvas.coords('lower_right_line'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('lower_right_line', points)
+        points = self.add_difference(self.canvas.coords('right_lower_line'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('right_lower_line', points)
+        points = self.add_difference(self.canvas.coords('right_upper_line'), diff_x=diff_x, diff_y=diff_y)
+        self.canvas.coords('right_upper_line', points)
 
         self.area_move_start_coords = event
