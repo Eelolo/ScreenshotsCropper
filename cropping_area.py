@@ -9,6 +9,9 @@ class CroppingArea:
         self.width = self.main.width
         self.height = self.main.height
 
+        self.handle_width = 5
+        self.handle_height = 50
+
         self.area_coords = 0, 0, self.width, 0, 0, self.height, self.width, self.height
         self.area = self.width, self.height
 
@@ -23,21 +26,29 @@ class CroppingArea:
         self.btns_menu = ButtonsMenu(self.main, self)
 
     def create_handles(self):
-        width = self.width
-        height = self.height
+        img_w = self.width
+        img_h = self.height
+        center_x = img_w / 2
+        center_y = img_h / 2
+        h_h = self.handle_height
+        h_w = self.handle_width
 
-        left_coords = 0, height / 2 - 25, 5, height / 2 + 25
-        right_coords = width, height / 2 - 25, width - 5, height / 2 + 25
-        up_coords = width / 2 - 25, 0, width / 2 + 25, 5
-        down_coords = width / 2 - 25, height, width / 2 + 25, height - 5
+        left_coords = 0, center_y - h_h / 2, h_w, center_y + h_h / 2
+        right_coords = img_w, center_y - h_h / 2, img_w - h_w, center_y + h_h / 2
+        up_coords = center_x - h_h / 2, 0, center_x + h_h / 2, h_w
+        down_coords = center_x - h_h / 2, img_h, center_x + h_h / 2, img_h - h_w
 
-        upper_left_coords = 0, 0, 0, 50, 5, 50, 5, 5, 50, 5, 50, 0
-        lower_left_coords = 0, height, 0, height - 50, 5, height - 50, 5, height - 5, 50, height - 5, 50, height
+        upper_left_coords = 0, 0, 0, h_h, h_w, h_h, h_w, h_w, h_h, h_w, h_h, 0
 
-        upper_right_coords = width, 0, width, 50, width - 5, 50, width - 5, 5, width - 50, 5, width - 50, 0
+        lower_left_coords = (
+            0, img_h, 0, img_h - h_h, h_w, img_h - h_h, h_w, img_h - h_w, h_h, img_h - h_w, h_h, img_h
+        )
+        upper_right_coords = (
+            img_w, 0, img_w, h_h, img_w - h_w, h_h, img_w - h_w, h_w, img_w - h_h, h_w, img_w - h_h, 0
+        )
         lower_right_coords = (
-            width, height, width, height - 50, width - 5, height - 50, width - 5, height - 5, width - 50,
-            height - 5, width - 50, height
+            img_w, img_h, img_w, img_h - h_h, img_w - h_w, img_h - h_h, img_w - h_w, img_h - h_w, img_w - h_h,
+            img_h - h_w, img_w - h_h, img_h
         )
         self.canvas.create_rectangle(up_coords, fill='white', tag='upper_handle')
         self.canvas.create_rectangle(down_coords, fill='white', tag='lower_handle')
