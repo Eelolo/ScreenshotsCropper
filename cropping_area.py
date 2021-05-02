@@ -804,5 +804,8 @@ class CroppingArea:
         self.area_move_start_coords = event
 
     def delete_cropping_area(self):
-        self.delete_buttons()
+        if hasattr(self, 'btns_menu'):
+            self.btns_menu.delete_buttons()
+            del self.btns_menu
+
         self.canvas.delete('cropping_area')
