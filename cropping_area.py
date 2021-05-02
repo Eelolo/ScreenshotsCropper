@@ -232,6 +232,24 @@ class CroppingArea:
 
         return array
 
+    def multiple_adding_difference(self, array):
+        # array = [
+        #     [[], tag, 'diff_xy', diff_x, diff_y],
+        #     [[], tag, 'diff_x', diff_x],
+        #     [[], tag, 'diff_y', diff_y],
+        # ]
+
+        for idx, item in enumerate(array):
+            if item[2] == 'diff_xy':
+                array[idx] = self.add_difference(item[0], diff_x=item[3], diff_y=item[4]), item[1]
+            if item[2] == 'diff_x':
+                array[idx] = self.add_difference(item[0], diff_x=item[3]), item[1]
+            if item[2] == 'diff_y':
+                array[idx] = self.add_difference(item[0], diff_y=item[3]), item[1]
+
+        return array
+
+
     @update_area_coords
     @update_dark_mask
     def upper_left_handle_move(self, event):
