@@ -99,22 +99,22 @@ class ButtonsMenu:
 
         points = self.get_round_rect_points(x0, y0, x1, y1, radius=10)
         self.canvas.create_polygon(
-            points, smooth=True, fill="gray", outline='black', width=2, tags=('ButtonsMenu', 'decline_btn')
+            points, smooth=True, fill="gray", outline='black', width=2, tags=('buttons_menu', 'decline_btn')
         )
         point = self.get_text_pos(x0, y0, x1, y1)
         self.canvas.create_text(
-            point, text='Decline', fill='white', tags=('ButtonsMenu', 'decline_text')
+            point, text='Decline', fill='white', tags=('buttons_menu', 'decline_text')
         )
 
         x0, y0, x1, y1 = self.get_accept_btn_angles()
 
         points = self.get_round_rect_points(x0, y0, x1, y1, radius=10)
         self.canvas.create_polygon(
-            points, smooth=True, fill="white", outline='black', width=2, tags=('ButtonsMenu', 'accept_btn')
+            points, smooth=True, fill="white", outline='black', width=2, tags=('buttons_menu', 'accept_btn')
         )
         point = self.get_text_pos(x0, y0, x1, y1)
         self.canvas.create_text(
-            point, text='Accept', fill='black', tags=('ButtonsMenu', 'accept_text')
+            point, text='Accept', fill='black', tags=('buttons_menu', 'accept_text')
         )
 
     def update_btns_pos(self, event):
@@ -133,3 +133,6 @@ class ButtonsMenu:
 
         point = self.get_text_pos(x0, y0, x1, y1)
         self.canvas.coords('accept_text', point)
+
+    def delete_buttons(self):
+        self.canvas.delete('buttons_menu')

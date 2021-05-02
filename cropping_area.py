@@ -23,8 +23,14 @@ class CroppingArea:
         self.configure_widgets()
         self.create_buttons()
 
-    def create_buttons(self):
-        self.btns_menu = ButtonsMenu(self.main, self)
+    def create_buttons(self, event=None):
+        if self.area != (self.width, self.height) and not hasattr(self, 'btns_menu'):
+            self.btns_menu = ButtonsMenu(self.main, self)
+
+    def delete_buttons(self, event=None):
+        if self.area == (self.width, self.height) and hasattr(self, 'btns_menu'):
+            self.btns_menu.delete_buttons()
+            del self.btns_menu
 
     def create_handles(self):
         img_w = self.width
@@ -610,6 +616,8 @@ class CroppingArea:
         self.canvas.bind('<ButtonPress-1>', self.define_move_start_function)
         self.canvas.bind('<B1-Motion>', self.define_move_function)
         self.canvas.bind('<ButtonRelease-1>', self.button_release)
+        self.canvas.bind('<B1-Motion>', self.create_buttons, '+')
+        self.canvas.bind('<B1-Motion>', self.delete_buttons, '+')
 
     @update_dark_mask
     def button_release(self, event):
@@ -796,4 +804,5 @@ class CroppingArea:
         self.area_move_start_coords = event
 
     def delete_cropping_area(self):
+        self.delete_buttons()
         self.canvas.delete('cropping_area')
