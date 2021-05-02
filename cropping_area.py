@@ -449,20 +449,23 @@ class CroppingArea:
         edge_dist_l = x0 - event.x
         edge_dist_r = x1 - event.x
 
+        min_h = self.handle_height * 3
+        h_w = self.handle_width
+
         if tag == 'left_handle':
             if x0 + diff_x < 0 or x0 == 0 and edge_dist_l > self.start_edge_dist_l:
                 diff_x = 0 - x0
 
             rx = self.canvas.coords('right_handle')[0]
-            if x0 + diff_x + 150 > rx or x0 + 145 == rx and edge_dist_l < self.start_edge_dist_l:
-                diff_x = self.canvas.coords('right_handle')[2] - x0 - 150
+            if x0 + diff_x + min_h > rx or x0 + min_h - h_w == rx and edge_dist_l < self.start_edge_dist_l:
+                diff_x = self.canvas.coords('right_handle')[2] - x0 - min_h
         else:
             if x1 + diff_x > self.width or x1 == self.width and edge_dist_r < self.start_edge_dist_r:
                 diff_x = self.width - x1
 
             lx = self.canvas.coords('left_handle')[0]
-            if x1 + diff_x - 150 < lx or x1 - 150 == lx and edge_dist_r > self.start_edge_dist_r:
-                diff_x = self.canvas.coords('left_handle')[0] - x1 + 150
+            if x1 + diff_x - min_h < lx or x1 - min_h == lx and edge_dist_r > self.start_edge_dist_r:
+                diff_x = self.canvas.coords('left_handle')[0] - x1 + min_h
 
         points = self.add_difference([x0, y0, x1, y1], diff_x=diff_x)
         self.canvas.coords(tag, points)
@@ -491,20 +494,23 @@ class CroppingArea:
         edge_dist_u = y0 - event.y
         edge_dist_d = y1 - event.y
 
+        min_h = self.handle_width * 3
+        h_w = self.handle_width
+
         if tag == 'upper_handle':
             if y0 + diff_y < 0 or y0 == 0 and edge_dist_u > self.start_edge_dist_u:
                 diff_y = 0 - y0
 
             ly = self.canvas.coords('lower_handle')[1]
-            if y0 + diff_y + 150 > ly or y0 + 145 == ly and edge_dist_u < self.start_edge_dist_u:
-                diff_y = self.canvas.coords('lower_handle')[3] - y0 - 150
+            if y0 + diff_y + min_h > ly or y0 + min_h - h_w == ly and edge_dist_u < self.start_edge_dist_u:
+                diff_y = self.canvas.coords('lower_handle')[3] - y0 - min_h
         else:
             if y1 + diff_y > self.height or y1 == self.height and edge_dist_d < self.start_edge_dist_d:
                 diff_y = self.height - y1
 
             uy = self.canvas.coords('upper_handle')[1]
-            if y1 + diff_y - 150 < uy or y1 - 150 == uy and edge_dist_d > self.start_edge_dist_d:
-                diff_y = self.canvas.coords('upper_handle')[1] - y1 + 150
+            if y1 + diff_y - min_h < uy or y1 - min_h == uy and edge_dist_d > self.start_edge_dist_d:
+                diff_y = self.canvas.coords('upper_handle')[1] - y1 + min_h
 
         points = self.add_difference([x0, y0, x1, y1], diff_y=diff_y)
         self.canvas.coords(tag, points)
