@@ -579,12 +579,10 @@ class CroppingArea:
         _, loy, _, loy1 = self.canvas.coords('lower_handle')
 
         between_handles = rx - ((rx - lx1) / 2)
+        half_h_h = self.handle_height / 2
 
-        self.canvas.coords('upper_handle', between_handles - 25, uy, between_handles + 25, uy1)
-        self.canvas.coords('lower_handle', between_handles - 25, loy, between_handles + 25, loy1)
-
-        self.update_lines_pos_hor('upper_handle')
-        self.update_lines_pos_hor('lower_handle')
+        self.canvas.coords('upper_handle', between_handles - half_h_h, uy, between_handles + half_h_h, uy1)
+        self.canvas.coords('lower_handle', between_handles - half_h_h, loy, between_handles + half_h_h, loy1)
 
     def update_handles_pos_hor(self):
         _, uy, _, uy1 = self.canvas.coords('upper_handle')
@@ -594,9 +592,10 @@ class CroppingArea:
         rx, _, rx1, _ = self.canvas.coords('right_handle')
 
         between_handles = uy - ((uy - loy1) / 2)
+        half_h_h = self.handle_height / 2
 
-        self.canvas.coords('left_handle', lx, between_handles - 25, lx1, between_handles + 25)
-        self.canvas.coords('right_handle', rx, between_handles - 25, rx1, between_handles + 25)
+        self.canvas.coords('left_handle', lx, between_handles - half_h_h, lx1, between_handles + half_h_h)
+        self.canvas.coords('right_handle', rx, between_handles - half_h_h, rx1, between_handles + half_h_h)
 
     def configure_widgets(self):
         self.canvas.bind("<Motion>", self.change_cursor)
