@@ -51,15 +51,23 @@ class CroppingArea:
             img_w, img_h, img_w, img_h - h_h, img_w - h_w, img_h - h_h, img_w - h_w, img_h - h_w, img_w - h_h,
             img_h - h_w, img_w - h_h, img_h
         )
-        self.canvas.create_rectangle(up_coords, fill='white', tag='upper_handle')
-        self.canvas.create_rectangle(down_coords, fill='white', tag='lower_handle')
-        self.canvas.create_rectangle(left_coords, fill='white', tag='left_handle')
-        self.canvas.create_rectangle(right_coords, fill='white', tag='right_handle')
+        self.canvas.create_rectangle(up_coords, fill='white', tags=('upper_handle', 'cropping_area'))
+        self.canvas.create_rectangle(down_coords, fill='white', tags=('lower_handle', 'cropping_area'))
+        self.canvas.create_rectangle(left_coords, fill='white', tags=('left_handle', 'cropping_area'))
+        self.canvas.create_rectangle(right_coords, fill='white', tags=('right_handle', 'cropping_area'))
 
-        self.canvas.create_polygon(upper_left_coords, fill='white', tag='upper_left_handle', outline='black')
-        self.canvas.create_polygon(lower_left_coords, fill='white', tag='lower_left_handle', outline='black')
-        self.canvas.create_polygon(upper_right_coords, fill='white', tag='upper_right_handle', outline='black')
-        self.canvas.create_polygon(lower_right_coords, fill='white', tag='lower_right_handle', outline='black')
+        self.canvas.create_polygon(
+            upper_left_coords, fill='white', tags=('upper_left_handle', 'cropping_area'), outline='black'
+        )
+        self.canvas.create_polygon(
+            lower_left_coords, fill='white', tags=('lower_left_handle', 'cropping_area'), outline='black'
+        )
+        self.canvas.create_polygon(
+            upper_right_coords, fill='white', tags=('upper_right_handle', 'cropping_area'), outline='black'
+        )
+        self.canvas.create_polygon(
+            lower_right_coords, fill='white', tags=('lower_right_handle', 'cropping_area'), outline='black'
+        )
 
     def create_dashed_lines(self):
         img_w = self.width
@@ -81,14 +89,14 @@ class CroppingArea:
         right_lower_line = img_w - pad_lor, img_h - h_h, img_w - pad_lor, center_y + h_h / 2
         right_upper_line = img_w - pad_lor, h_h, img_w - pad_lor, center_y - h_h / 2
 
-        self.canvas.create_line(upper_left_line, dash=(10,), fill='white', width=l_w, tag='upper_left_line')
-        self.canvas.create_line(upper_right_line, dash=(10,), fill='white', width=l_w, tag='upper_right_line')
-        self.canvas.create_line(left_upper_line, dash=(10,), fill='white', width=l_w, tag='left_upper_line')
-        self.canvas.create_line(left_lower_line, dash=(10,), fill='white', width=l_w, tag='left_lower_line')
-        self.canvas.create_line(lower_left_line, dash=(10,), fill='white', width=l_w, tag='lower_left_line')
-        self.canvas.create_line(lower_right_line, dash=(10,), fill='white', width=l_w, tag='lower_right_line')
-        self.canvas.create_line(right_lower_line, dash=(10,), fill='white', width=l_w, tag='right_lower_line')
-        self.canvas.create_line(right_upper_line, dash=(10,), fill='white', width=l_w, tag='right_upper_line')
+        self.canvas.create_line(upper_left_line, dash=(10,), fill='white', width=l_w, tags=('upper_left_line', 'cropping_area'))
+        self.canvas.create_line(upper_right_line, dash=(10,), fill='white', width=l_w, tags=('upper_right_line', 'cropping_area'))
+        self.canvas.create_line(left_upper_line, dash=(10,), fill='white', width=l_w, tags=('left_upper_line', 'cropping_area'))
+        self.canvas.create_line(left_lower_line, dash=(10,), fill='white', width=l_w, tags=('left_lower_line', 'cropping_area'))
+        self.canvas.create_line(lower_left_line, dash=(10,), fill='white', width=l_w, tags=('lower_left_line', 'cropping_area'))
+        self.canvas.create_line(lower_right_line, dash=(10,), fill='white', width=l_w, tags=('lower_right_line', 'cropping_area'))
+        self.canvas.create_line(right_lower_line, dash=(10,), fill='white', width=l_w, tags=('right_lower_line', 'cropping_area'))
+        self.canvas.create_line(right_upper_line, dash=(10,), fill='white', width=l_w, tags=('right_upper_line', 'cropping_area'))
 
     def update_lines_pos_hor(self, tag):
         if tag == 'left_handle':
@@ -786,3 +794,6 @@ class CroppingArea:
         self.multiple_coords_changing(points)
 
         self.area_move_start_coords = event
+
+    def delete_cropping_area(self):
+        self.canvas.delete('cropping_area')

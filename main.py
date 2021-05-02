@@ -38,6 +38,13 @@ class App(Frame):
         time.sleep(0.1)
         self.grab_image()
         self.update_image()
+        self.create_cropping_area()
+
+    def create_cropping_area(self):
+        if hasattr(self, 'cropping_area'):
+            self.cropping_area.delete_cropping_area()
+            del self.cropping_area
+
         self.cropping_area = CroppingArea(self)
 
     def create_image(self):
