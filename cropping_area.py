@@ -536,42 +536,40 @@ class CroppingArea:
     def angle_handles_update_hor(self, handle_tag):
         upper_handle, lower_handle = self.get_angle_handle_tags(handle_tag)
 
+        h_h = self.handle_height
+        h_w = self.handle_width
+
         if handle_tag == 'left_handle':
             x = self.canvas.coords(handle_tag)[0]
-
-            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords(upper_handle)
-            self.canvas.coords(upper_handle, x, y0, x, y1, x + 5, y2, x + 5, y3, x + 50, y4, x + 50, y5)
-
-            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords(lower_handle)
-            self.canvas.coords(lower_handle, x, y0, x, y1, x + 5, y2, x + 5, y3, x + 50, y4, x + 50, y5)
         else:
             x = self.canvas.coords(handle_tag)[2]
+            h_h = -h_h
+            h_w = -h_w
 
-            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords(upper_handle)
-            self.canvas.coords(upper_handle, x, y0, x, y1, x - 5, y2, x - 5, y3, x - 50, y4, x - 50, y5)
+        x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords(upper_handle)
+        self.canvas.coords(upper_handle, x, y0, x, y1, x + h_w, y2, x + h_w, y3, x + h_h, y4, x + h_h, y5)
 
-            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords(lower_handle)
-            self.canvas.coords(lower_handle, x, y0, x, y1, x - 5, y2, x - 5, y3, x - 50, y4, x - 50, y5)
+        x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords(lower_handle)
+        self.canvas.coords(lower_handle, x, y0, x, y1, x + h_w, y2, x + h_w, y3, x + h_h, y4, x + h_h, y5)
 
     def angle_handles_update_vert(self, handle_tag):
         upper_handle, lower_handle = self.get_angle_handle_tags(handle_tag)
 
+        h_h = self.handle_height
+        h_w = self.handle_width
+
         if handle_tag == 'upper_handle':
             y = self.canvas.coords(handle_tag)[1]
-
-            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords(upper_handle)
-            self.canvas.coords(upper_handle, x0, y, x1, y + 50, x2, y + 50, x3, y + 5, x4, y + 5, x5, y)
-
-            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords(lower_handle)
-            self.canvas.coords(lower_handle, x0, y, x1, y + 50, x2, y + 50, x3, y + 5, x4, y + 5, x5, y)
         else:
             y = self.canvas.coords(handle_tag)[3]
+            h_h = -h_h
+            h_w = -h_w
 
-            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords(upper_handle)
-            self.canvas.coords(upper_handle, x0, y, x1, y - 50, x2, y - 50, x3, y - 5, x4, y - 5, x5, y)
+        x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords(upper_handle)
+        self.canvas.coords(upper_handle, x0, y, x1, y + h_h, x2, y + h_h, x3, y + h_w, x4, y + h_w, x5, y)
 
-            x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords(lower_handle)
-            self.canvas.coords(lower_handle, x0, y, x1, y - 50, x2, y - 50, x3, y - 5, x4, y - 5, x5, y)
+        x0, y0, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5 = self.canvas.coords(lower_handle)
+        self.canvas.coords(lower_handle, x0, y, x1, y + h_h, x2, y + h_h, x3, y + h_w, x4, y + h_w, x5, y)
 
     def update_handles_pos_vert(self):
         lx, _, lx1, _ = self.canvas.coords('left_handle')
