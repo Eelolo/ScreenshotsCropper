@@ -13,11 +13,10 @@ class App(Frame):
         Frame.__init__(self, root)
 
         self.icon = None
-        self.icon_img = Image.open("ico.png")
+        self.icon_img = Image.open("icons/ico.png")
 
         self.configure_root()
         self.create_widgets()
-        # self.configure_widgets()
         self.draw_widgets()
 
     def configure_root(self):
