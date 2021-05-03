@@ -15,6 +15,10 @@ class App(Frame):
 
         self.dark_bg = rgb_to_tk_color((32, 34, 37))
         self.light_bg = rgb_to_tk_color((54, 57, 63))
+        self.close_icon=ImageTk.PhotoImage(Image.open('icons/close.png'))
+
+        self.top_panel_h = 50
+        self.content_pad = 15
 
         self.icon = None
         self.icon_img = Image.open("icons/ico.png")
@@ -28,6 +32,7 @@ class App(Frame):
         self.root.overrideredirect(True)
         self.root.wm_attributes("-topmost", 1)
         self.root.resizable(False, False)
+        root.bind("<FocusOut>", self.withdraw_window)
 
     def quit_window(self):
         self.icon.stop()
@@ -45,11 +50,21 @@ class App(Frame):
         time.sleep(0.1)
         self.grab_image()
         self.update_image()
-        self.root.geometry(f'{self.width + 30}x{self.height + 30 + 100}')
-        self.bg_canv.configure(width=self.width + 30, height=self.height + 30 + 100)
+        self.root.geometry(f'{self.width + self.content_pad * 2}x{self.height + self.top_panel_h + self.content_pad}')
+        self.bg_canv.configure(width=self.width + self.content_pad * 2, height=self.height + self.top_panel_h + self.content_pad)
         self.bg_canv.pack()
-        self.bg_canv.create_window(15,30, anchor='nw', window=self.img_frame)
+        self.bg_canv.create_window(self.content_pad, self.top_panel_h, anchor='nw', window=self.img_frame)
         self.img_canv.pack()
+        self.upper_frame = Frame(self, width=self.width+self.content_pad * 2, height=self.top_panel_h, bg='red')
+        self.close_btn = Button(
+            self.upper_frame, command=self.withdraw_window, fg='white',
+            activeforeground='red', image=self.close_icon,
+            relief='flat', bg=self.light_bg, activebackground='red', bd=0
+        )
+        self.close_btn.pack(side='right')
+
+        self.bg_canv.create_window(self.width-self.content_pad, 0, anchor='nw', window=self.upper_frame)
+
         self.create_cropping_area()
         self.create_toolbar()
 
@@ -63,7 +78,7 @@ class App(Frame):
     def create_toolbar(self):
         if not hasattr(self, 'toolbar'):
             self.toolbar = ToolBar(self)
-            self.bg_canv.create_window(15, 768 + 30, anchor='nw', window=self.toolbar)
+            self.bg_canv.create_window(15, 768 + 50, anchor='nw', window=self.toolbar)
 
     def create_image(self):
         self.img_canv.configure(width=self.width, height=self.height)
@@ -76,7 +91,7 @@ class App(Frame):
             self.img_canv.configure(width=self.width, height=self.height)
             self.img_canv.itemconfigure('screenshot', image=self.screenshot_tk)
 
-    def withdraw_window(self):
+    def withdraw_window(self, event=None):
         self.root.withdraw()
         menu = Menu(MenuItem('Show', self.show_window, default=True), MenuItem('Quit', self.quit_window))
         self.icon = Icon("ScreenshotsCutter", self.icon_img, "Screenshots\nCutter", menu)
