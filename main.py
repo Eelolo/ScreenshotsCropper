@@ -26,6 +26,7 @@ class App(Frame):
     def configure_root(self):
         self.root.protocol('WM_DELETE_WINDOW', self.withdraw_window)
         self.root.overrideredirect(True)
+        self.root.wm_attributes("-topmost", 1)
         self.root.resizable(False, False)
 
     def quit_window(self):
