@@ -24,7 +24,7 @@ class ToolBar(Frame):
     def create_widgets(self):
         self.canvas = Canvas(self, width=1365, height=100, bg=self.dark_bg, highlightthickness=0, bd=0)
 
-        points = get_round_rect_points(10, 10, 1355, 90, radius=25)
+        points = get_round_rect_points(0, 10, 1365, 90, radius=25)
         self.canvas.create_polygon(points, fill=self.light_bg, smooth=True)
 
         self.left_frame = Frame(self)

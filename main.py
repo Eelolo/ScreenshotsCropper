@@ -44,6 +44,11 @@ class App(Frame):
         time.sleep(0.1)
         self.grab_image()
         self.update_image()
+        self.root.geometry(f'{self.width + 30}x{self.height + 30 + 100}')
+        self.bg_canv.configure(width=self.width + 30, height=self.height + 30 + 100)
+        self.bg_canv.pack()
+        self.bg_canv.create_window(15,30, anchor='nw', window=self.img_frame)
+        self.img_canv.pack()
         self.create_cropping_area()
         self.create_toolbar()
 
@@ -57,12 +62,11 @@ class App(Frame):
     def create_toolbar(self):
         if not hasattr(self, 'toolbar'):
             self.toolbar = ToolBar(self)
-            self.toolbar.pack()
+            self.bg_canv.create_window(15, 768 + 30, anchor='nw', window=self.toolbar)
 
     def create_image(self):
         self.img_canv.configure(width=self.width, height=self.height)
         self.img_canv.create_image(0, 0, anchor='nw', image=self.screenshot_tk, tag='screenshot')
-        self.img_canv.pack()
 
     def update_image(self):
         if not self.img_canv.find_all():
@@ -79,7 +83,10 @@ class App(Frame):
 
     def create_widgets(self):
         self.lbl = Label(self, text='There is no image here.\nUse the Print Screen button.')
-        self.img_canv = Canvas(self, borderwidth=0, highlightthickness=0)
+        self.bg_canv = Canvas(self, bg=self.dark_bg, highlightthickness=0, bd=0)
+        self.img_frame = Frame(self)
+        self.img_canv = Canvas(self.img_frame, borderwidth=0, highlightthickness=0)
+
 
     def draw_widgets(self):
         self.lbl.pack()
