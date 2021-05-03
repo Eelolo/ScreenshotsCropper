@@ -1,3 +1,6 @@
+from functions.functions import get_round_rect_points, get_center_pos
+
+
 class ButtonsMenu:
     def __init__(self, main, cropping_area):
         self.main = main
@@ -14,17 +17,6 @@ class ButtonsMenu:
 
     def configure_widgets(self):
         self.canvas.bind('<B1-Motion>', self.update_btns_pos, '+')
-
-    def get_round_rect_points(self, x1, y1, x2, y2, radius=10):
-        points = [
-            x1 + radius, y1, x1 + radius, y1, x2 - radius, y1, x2 - radius, y1,
-            x2, y1, x2, y1 + radius, x2, y1 + radius, x2, y2 - radius,
-            x2, y2 - radius, x2, y2, x2 - radius, y2, x2 - radius, y2,
-            x1 + radius, y2, x1 + radius, y2, x1, y2, x1, y2 - radius,
-            x1, y2 - radius, x1, y1 + radius, x1, y1 + radius, x1, y1
-        ]
-
-        return points
 
     def get_accept_btn_angles(self):
         left_angle = self.cropping_area.area_coords[0]
@@ -88,31 +80,25 @@ class ButtonsMenu:
 
         return x0, y0, x1, y1
 
-    def get_text_pos(self, x0, y0, x1, y1):
-        x = int(x0 - (x0 - x1) / 2)
-        y = int(y0 - (y0 - y1) / 2)
-
-        return x, y
-
     def create_buttons(self):
         x0, y0, x1, y1 = self.get_decline_btn_angles()
 
-        points = self.get_round_rect_points(x0, y0, x1, y1, radius=10)
+        points = get_round_rect_points(x0, y0, x1, y1, radius=10)
         self.canvas.create_polygon(
             points, smooth=True, fill="gray", outline='black', width=2, tags=('buttons_menu', 'decline_btn')
         )
-        point = self.get_text_pos(x0, y0, x1, y1)
+        point = get_center_pos(x0, y0, x1, y1)
         self.canvas.create_text(
             point, text='Decline', fill='white', tags=('buttons_menu', 'decline_text')
         )
 
         x0, y0, x1, y1 = self.get_accept_btn_angles()
 
-        points = self.get_round_rect_points(x0, y0, x1, y1, radius=10)
+        points = get_round_rect_points(x0, y0, x1, y1, radius=10)
         self.canvas.create_polygon(
             points, smooth=True, fill="white", outline='black', width=2, tags=('buttons_menu', 'accept_btn')
         )
-        point = self.get_text_pos(x0, y0, x1, y1)
+        point = get_center_pos(x0, y0, x1, y1)
         self.canvas.create_text(
             point, text='Accept', fill='black', tags=('buttons_menu', 'accept_text')
         )
@@ -120,18 +106,18 @@ class ButtonsMenu:
     def update_btns_pos(self, event):
         x0, y0, x1, y1 = self.get_decline_btn_angles()
 
-        points = self.get_round_rect_points(x0, y0, x1, y1)
+        points = get_round_rect_points(x0, y0, x1, y1)
         self.canvas.coords('decline_btn', points)
 
-        point = self.get_text_pos(x0, y0, x1, y1)
+        point = get_center_pos(x0, y0, x1, y1)
         self.canvas.coords('decline_text', point)
 
         x0, y0, x1, y1 = self.get_accept_btn_angles()
 
-        points = self.get_round_rect_points(x0, y0, x1, y1)
+        points = get_round_rect_points(x0, y0, x1, y1)
         self.canvas.coords('accept_btn', points)
 
-        point = self.get_text_pos(x0, y0, x1, y1)
+        point = get_center_pos(x0, y0, x1, y1)
         self.canvas.coords('accept_text', point)
 
     def delete_buttons(self):
