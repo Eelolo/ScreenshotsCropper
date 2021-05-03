@@ -15,8 +15,8 @@ class ToolBar(Frame):
         self.text_img = ImageTk.PhotoImage(Image.open('icons/text.png'))
         self.clipboard_img = ImageTk.PhotoImage(Image.open('icons/clipboard.png'))
 
-        self.dark_bg = rgb_to_tk_color((32, 34, 37))
-        self.light_bg = rgb_to_tk_color((54, 57, 63))
+        self.dark_bg = self.main.dark_bg
+        self.light_bg = self.main.light_bg
 
         self.create_widgets()
         self.draw_widgets()
@@ -55,7 +55,7 @@ class ToolBar(Frame):
         )
         self.diskette_btn = Button(
             self.right_frame, image=self.diskette_img, height=50, width=50,
-            relief='flat', bg=self.light_bg, activebackground=self.light_bg, bd=0
+            relief='flat', bg=self.light_bg, activebackground=self.light_bg, bd=0, command=self.main.withdraw_window
         )
 
     def draw_widgets(self):

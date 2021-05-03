@@ -5,12 +5,16 @@ import keyboard
 import time
 from cropping_area import CroppingArea
 from toolbar import ToolBar
+from functions.functions import rgb_to_tk_color
 
 
 class App(Frame):
     def __init__(self, root):
         self.root = root
         Frame.__init__(self, root)
+
+        self.dark_bg = rgb_to_tk_color((32, 34, 37))
+        self.light_bg = rgb_to_tk_color((54, 57, 63))
 
         self.icon = None
         self.icon_img = Image.open("icons/ico.png")
@@ -21,6 +25,8 @@ class App(Frame):
 
     def configure_root(self):
         self.root.protocol('WM_DELETE_WINDOW', self.withdraw_window)
+        self.root.overrideredirect(True)
+        self.root.resizable(False, False)
 
     def quit_window(self):
         self.icon.stop()
