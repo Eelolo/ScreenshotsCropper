@@ -1,9 +1,11 @@
 from tkinter import *
 from PIL import Image, ImageTk
-from functions.functions import rgb_to_tk_color, get_round_rect_points
+from functions.functions import get_round_rect_points
 
 
 class ToolBar(Frame):
+    BTN_W = 50
+
     def __init__(self, main):
         self.main = main
         Frame.__init__(self, main)
@@ -18,44 +20,60 @@ class ToolBar(Frame):
         self.dark_bg = self.main.dark_bg
         self.light_bg = self.main.light_bg
 
+        self.width = self.main.width
+        self.height = self.BTN_W * 2
+        self.pad = self.main.content_pad
+
         self.create_widgets()
+        self.configure_widgets()
         self.draw_widgets()
 
-    def create_widgets(self):
-        self.canvas = Canvas(self, width=1365, height=100, bg=self.dark_bg, highlightthickness=0, bd=0)
+    def configure_widgets(self):
+        width = self.main.root.winfo_width()
+        height = self.main.root.winfo_height() + self.height - self.pad
+        self.main.root.geometry(f'{width}x{height}')
+        self.main.bg_canv.configure(height=height)
 
-        points = get_round_rect_points(0, 10, 1365, 90, radius=25)
+    def create_widgets(self):
+        self.canvas = Canvas(
+            self, width=self.width, height=self.height, bg=self.dark_bg, highlightthickness=0, bd=0
+        )
+
+        x0, y0, x1, y1 = 0, self.pad, self.width, self.height - self.pad
+        points = get_round_rect_points(x0, y0, x1, y1, radius=25)
         self.canvas.create_polygon(points, fill=self.light_bg, smooth=True)
 
         self.left_frame = Frame(self)
         self.right_frame = Frame(self)
-        self.canvas.create_window(25, 25, anchor='nw', window=self.left_frame)
-        self.canvas.create_window(1190, 25, anchor='nw', window=self.right_frame)
+
+        self.canvas.create_window(0, self.BTN_W / 2, anchor='nw', window=self.left_frame)
+        self.canvas.create_window(self.width, self.BTN_W / 2, anchor='ne', window=self.right_frame)
+
 
         self.crop_btn = Button(
-            self.left_frame, image=self.crop_img, height=50, width=50,
+            self.left_frame, image=self.crop_img,
             relief='flat', bg=self.light_bg, activebackground=self.light_bg, bd=0
         )
         self.text_btn = Button(
-            self.left_frame, image=self.text_img, height=50, width=50,
+            self.left_frame, image=self.text_img,
             relief='flat', bg=self.light_bg, activebackground=self.light_bg, bd=0
         )
         self.arrow_btn = Button(
-            self.left_frame, image=self.arrow_img, height=50, width=50,
+            self.left_frame, image=self.arrow_img,
             relief='flat', bg=self.light_bg, activebackground=self.light_bg, bd=0
         )
         self.line_btn = Button(
-            self.left_frame, image=self.line_img, height=50, width=50,
+            self.left_frame, image=self.line_img,
             relief='flat', bg=self.light_bg, activebackground=self.light_bg, bd=0
         )
 
         self.clipboard_btn = Button(
-            self.right_frame, image=self.clipboard_img, height=50, width=50,
+            self.right_frame, image=self.clipboard_img,
             relief='flat', bg=self.light_bg, activebackground=self.light_bg, bd=0
         )
         self.diskette_btn = Button(
-            self.right_frame, image=self.diskette_img, height=50, width=50,
-            relief='flat', bg=self.light_bg, activebackground=self.light_bg, bd=0, command=self.main.withdraw_window
+            self.right_frame, image=self.diskette_img,
+            relief='flat', bg=self.light_bg, activebackground=self.light_bg, bd=0
         )
 
     def draw_widgets(self):
