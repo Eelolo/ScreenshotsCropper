@@ -34,6 +34,9 @@ class App(Frame):
         self.root.wm_attributes("-topmost", 1)
         self.root.resizable(False, False)
 
+        self.root.bind('<Button-1>', self.root_move_start)
+        self.root.bind('<B1-Motion>', self.root_move)
+
     def quit_window(self):
         self.icon.stop()
         self.root.destroy()
@@ -134,9 +137,26 @@ class App(Frame):
         self.width, self.height = self.screenshot.size
         self.screenshot_tk = ImageTk.PhotoImage(self.screenshot)
 
+    def root_move_start(self, event):
+        self.root.diff_x = event.x
+        self.root.diff_y = event.y
+
+
+    def root_move(self, event):
+        if str(event.widget) == '.!app.!canvas':
+            x = self.root.winfo_pointerx() - self.root.diff_x
+            y = self.root.winfo_pointery() - self.root.diff_y
+            self.root.geometry(f'+{x}+{y}')
+
+
 if __name__ == '__main__':
     root = Tk()
     app = App(root)
     app.pack()
     keyboard.add_hotkey('Print Screen', app.show_after_printscreen)
     app.run()
+
+
+#
+#
+
