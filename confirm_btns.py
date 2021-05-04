@@ -7,6 +7,9 @@ class ButtonsMenu:
         self.cropping_area = cropping_area
         self.canvas = self.cropping_area.canvas
 
+        self.dark_bg = self.main.dark_bg
+        self.light_bg = self.main.light_bg
+
         self.btn_width = 100
         self.btn_height = 25
         self.btn_pad_x = 8
@@ -85,7 +88,7 @@ class ButtonsMenu:
 
         points = get_round_rect_points(x0, y0, x1, y1, radius=10)
         self.canvas.create_polygon(
-            points, smooth=True, fill="gray", outline='black', width=2, tags=('buttons_menu', 'decline_btn')
+            points, smooth=True, fill=self.light_bg, outline=self.dark_bg, width=2, tags=('buttons_menu', 'decline_btn')
         )
         point = get_center_pos(x0, y0, x1, y1)
         self.canvas.create_text(
@@ -96,7 +99,7 @@ class ButtonsMenu:
 
         points = get_round_rect_points(x0, y0, x1, y1, radius=10)
         self.canvas.create_polygon(
-            points, smooth=True, fill="white", outline='black', width=2, tags=('buttons_menu', 'accept_btn')
+            points, smooth=True, fill='white', outline=self.dark_bg, width=2, tags=('buttons_menu', 'accept_btn')
         )
         point = get_center_pos(x0, y0, x1, y1)
         self.canvas.create_text(
