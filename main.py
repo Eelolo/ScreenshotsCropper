@@ -9,6 +9,9 @@ from functions.functions import proportional_resize, rgb_to_tk_color
 
 
 class WelcomeWindow(Frame):
+    WIDTH = 200
+    HEIGHT = 300
+
     def __init__(self, root):
         self.root = root
         Frame.__init__(self, root)
@@ -51,6 +54,7 @@ class WelcomeWindow(Frame):
         self.root.overrideredirect(True)
         self.root.wm_attributes("-topmost", 1)
         self.root.resizable(False, False)
+        self.center_window()
 
         self.root.bind('<Button-1>', self.root_move_start)
         self.root.bind('<B1-Motion>', self.root_move)
@@ -71,6 +75,11 @@ class WelcomeWindow(Frame):
             y = self.root.winfo_pointery() - self.root.diff_y
             self.root.geometry(f'+{x}+{y}')
 
+    def center_window(self):
+        x = (self.root.winfo_screenwidth() // 2) - (self.WIDTH // 2)
+        y = (self.root.winfo_screenheight() // 2) - (self.HEIGHT // 2)
+
+        self.root.geometry(f'{self.WIDTH}x{self.HEIGHT}+{x}+{y}')
 
 # class App(Frame):
 #     def __init__(self, root):
