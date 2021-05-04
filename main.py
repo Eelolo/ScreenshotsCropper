@@ -5,7 +5,7 @@ import keyboard
 import time
 from cropping_area import CroppingArea
 from toolbar import ToolBar
-from functions.functions import rgb_to_tk_color
+from functions.functions import proportional_resize, rgb_to_tk_color
 
 
 class App(Frame):
@@ -122,22 +122,10 @@ class App(Frame):
     def run(self):
         self.mainloop()
 
-    def proportional_resize(self, image, new_height=800, new_width=None):
-        width, height = image.size
-
-        if not new_width:
-            new_width = int((width * new_height) / height)
-        else:
-            new_height = int((height * new_width) / width)
-
-        image = image.resize((new_width, new_height))
-
-        return image
-
     def grab_image(self):
         self.screenshot = ImageGrab.grabclipboard()
         new_height = int(self.screenshot.size[0]/2.5)
-        self.screenshot = self.proportional_resize(self.screenshot, new_height=new_height)
+        self.screenshot = proportional_resize(self.screenshot, new_height=new_height)
         self.width, self.height = self.screenshot.size
         self.screenshot_tk = ImageTk.PhotoImage(self.screenshot)
 

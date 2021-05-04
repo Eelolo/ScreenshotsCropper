@@ -1,4 +1,17 @@
 
+def proportional_resize(image, new_height=800, new_width=None):
+    width, height = image.size
+
+    if not new_width:
+        new_width = int((width * new_height) / height)
+    else:
+        new_height = int((height * new_width) / width)
+
+    image = image.resize((new_width, new_height))
+
+    return image
+
+
 def rgb_to_tk_color(rgb):
     return "#%02x%02x%02x" % rgb
 
