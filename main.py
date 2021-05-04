@@ -9,8 +9,8 @@ from functions.functions import proportional_resize, rgb_to_tk_color
 
 
 class WelcomeWindow(Frame):
-    WIDTH = 200
-    HEIGHT = 300
+    WIDTH = 300
+    HEIGHT = 200
 
     def __init__(self, root):
         self.root = root
@@ -27,6 +27,29 @@ class WelcomeWindow(Frame):
         self.create_widgets()
         self.draw_widgets()
 
+
+    def configure_root(self):
+        self.root.protocol('WM_DELETE_WINDOW', self.withdraw_window)
+        self.root.overrideredirect(True)
+        self.root.wm_attributes("-topmost", 1)
+        self.root.resizable(False, False)
+        self.center_window()
+
+        self.root.bind('<Button-1>', self.root_move_start)
+        self.root.bind('<B1-Motion>', self.root_move)
+
+
+    def create_widgets(self):
+        # self.lbl = Label(self, text='There is no image here.\nUse the Print Screen button.')
+        # self.bg_canv = Canvas(self, bg=self.dark_bg, highlightthickness=0, bd=0)
+        # self.img_frame = Frame(self)
+        # self.img_canv = Canvas(self.img_frame, borderwidth=0, highlightthickness=0)
+
+        self.bg_canv = Canvas(self, bg=self.dark_bg, highlightthickness=0, bd=0)
+
+    def draw_widgets(self):
+        self.bg_canv.pack()
+
     def quit_window(self):
         self.icon.stop()
         self.root.destroy()
@@ -42,25 +65,6 @@ class WelcomeWindow(Frame):
         menu = Menu(MenuItem('Show', self.show_window, default=True), MenuItem('Quit', self.quit_window))
         self.icon = Icon("ScreenshotsCutter", self.icon_img, "Screenshots\nCropper", menu)
         self.icon.run()
-
-    def create_widgets(self):
-        self.lbl = Label(self, text='There is no image here.\nUse the Print Screen button.')
-        self.bg_canv = Canvas(self, bg=self.dark_bg, highlightthickness=0, bd=0)
-        self.img_frame = Frame(self)
-        self.img_canv = Canvas(self.img_frame, borderwidth=0, highlightthickness=0)
-
-    def configure_root(self):
-        self.root.protocol('WM_DELETE_WINDOW', self.withdraw_window)
-        self.root.overrideredirect(True)
-        self.root.wm_attributes("-topmost", 1)
-        self.root.resizable(False, False)
-        self.center_window()
-
-        self.root.bind('<Button-1>', self.root_move_start)
-        self.root.bind('<B1-Motion>', self.root_move)
-
-    def draw_widgets(self):
-        self.lbl.pack()
 
     def run(self):
         self.mainloop()
