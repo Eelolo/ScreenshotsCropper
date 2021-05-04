@@ -34,6 +34,10 @@ class ToolBar(Frame):
         self.main.root.geometry(f'{width}x{height}')
         self.main.bg_canv.configure(height=height)
 
+        x = (self.main.root.winfo_screenwidth() // 2) - (width // 2)
+        y = (self.main.root.winfo_screenheight() // 2) - (height // 2)
+        self.main.root.geometry('{}x{}+{}+{}'.format(width, height, x, y))
+
     def create_widgets(self):
         self.canvas = Canvas(
             self, width=self.width, height=self.height, bg=self.dark_bg, highlightthickness=0, bd=0

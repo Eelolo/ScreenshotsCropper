@@ -53,7 +53,11 @@ class App(Frame):
         time.sleep(0.1)
         self.grab_image()
         self.update_image()
-        self.root.geometry(f'{self.width + self.content_pad * 2}x{self.height + self.top_panel_h + self.content_pad}')
+
+        width = self.width + self.content_pad * 2
+        height = self.height + self.top_panel_h + self.content_pad
+        self.root.geometry(f'{width}x{height}')
+
         self.bg_canv.configure(width=self.width + self.content_pad * 2, height=self.height + self.top_panel_h + self.content_pad)
         self.bg_canv.pack()
         self.bg_canv.create_window(self.content_pad, self.top_panel_h, anchor='nw', window=self.img_frame)
