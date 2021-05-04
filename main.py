@@ -22,6 +22,7 @@ class App(Frame):
 
         self.icon = None
         self.icon_img = Image.open("icons/ico.png")
+        self.icon_white = ImageTk.PhotoImage(Image.open("icons/ico_white.png"))
 
         self.configure_root()
         self.create_widgets()
@@ -32,7 +33,6 @@ class App(Frame):
         self.root.overrideredirect(True)
         self.root.wm_attributes("-topmost", 1)
         self.root.resizable(False, False)
-        root.bind("<FocusOut>", self.withdraw_window)
 
     def quit_window(self):
         self.icon.stop()
@@ -64,6 +64,11 @@ class App(Frame):
         self.close_btn.pack(side='right')
 
         self.bg_canv.create_window(self.width-self.content_pad, 0, anchor='nw', window=self.upper_frame)
+        self.bg_canv.create_line(70, 40, self.root.winfo_width() - 15, 40, fill=self.light_bg, width=3)
+        self.bg_canv.create_image(20, 5, anchor='nw', image=self.icon_white)
+
+        x = self.root.winfo_width() / 2
+        self.bg_canv.create_text(x, 20, text='ScreenShotsCropper', fill='white', font=12)
 
         self.create_cropping_area()
         self.create_toolbar()
