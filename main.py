@@ -106,7 +106,7 @@ class App(Frame):
     def withdraw_window(self, event=None):
         self.root.withdraw()
         menu = Menu(MenuItem('Show', self.show_window, default=True), MenuItem('Quit', self.quit_window))
-        self.icon = Icon("ScreenshotsCutter", self.icon_img, "Screenshots\nCutter", menu)
+        self.icon = Icon("ScreenshotsCutter", self.icon_img, "Screenshots\nCropper", menu)
         self.icon.run()
 
     def create_widgets(self):
