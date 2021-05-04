@@ -5,7 +5,7 @@ import keyboard
 import time
 from cropping_area import CroppingArea
 from toolbar import ToolBar
-from functions.functions import proportional_resize, rgb_to_tk_color
+from functions.functions import proportional_resize, rgb_to_tk_color, get_round_rect_points
 
 
 class WelcomeWindow(Frame):
@@ -19,6 +19,9 @@ class WelcomeWindow(Frame):
         self.dark_bg = rgb_to_tk_color((32, 34, 37))
         self.light_bg = rgb_to_tk_color((54, 57, 63))
         self.close_icon = ImageTk.PhotoImage(Image.open('icons/close.png'))
+
+        self.top_panel_h = 50
+        self.content_pad = 15
 
         self.icon = None
         self.icon_img = Image.open("icons/ico.png")
@@ -46,6 +49,13 @@ class WelcomeWindow(Frame):
         # self.img_canv = Canvas(self.img_frame, borderwidth=0, highlightthickness=0)
 
         self.bg_canv = Canvas(self, bg=self.dark_bg, highlightthickness=0, bd=0)
+
+        x0 = self.content_pad
+        y0 = self.content_pad + self.top_panel_h
+        x1 = self.WIDTH - self.content_pad
+        y1 = self.HEIGHT - self.content_pad
+        points = get_round_rect_points(x0, y0, x1, y1, radius=25)
+        self.bg_canv.create_polygon(points, fill=self.light_bg, smooth=True)
 
     def draw_widgets(self):
         self.bg_canv.pack()
