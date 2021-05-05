@@ -35,7 +35,6 @@ class WelcomeWindow(Frame):
         self.create_widgets()
         self.draw_widgets()
 
-
     def configure_root(self):
         self.root.protocol('WM_DELETE_WINDOW', self.withdraw_window)
         self.root.overrideredirect(True)
@@ -45,7 +44,6 @@ class WelcomeWindow(Frame):
 
         self.root.bind('<Button-1>', self.root_move_start)
         self.root.bind('<B1-Motion>', self.root_move)
-
 
     def create_widgets(self):
         # self.lbl = Label(self, text='There is no image here.\nUse the Print Screen button.')
@@ -115,7 +113,7 @@ class WelcomeWindow(Frame):
         self.root.diff_y = event.y
 
     def root_move(self, event):
-        if str(event.widget) == '.!app.!canvas':
+        if str(event.widget) == '.!welcomewindow.!canvas':
             x = self.root.winfo_pointerx() - self.root.diff_x
             y = self.root.winfo_pointery() - self.root.diff_y
             self.root.geometry(f'+{x}+{y}')
