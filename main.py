@@ -19,8 +19,10 @@ class WelcomeWindow(Frame):
         self.dark_bg = rgb_to_tk_color((32, 34, 37))
         self.light_bg = rgb_to_tk_color((54, 57, 63))
         self.close_icon = ImageTk.PhotoImage(Image.open('icons/close.png'))
+        self.icon_white = ImageTk.PhotoImage(Image.open("icons/ico_white.png"))
 
         self.top_panel_h = 50
+        self.top_panel_inner_pad = 5
         self.content_pad = 15
 
         self.icon = None
@@ -56,6 +58,29 @@ class WelcomeWindow(Frame):
         y1 = self.HEIGHT - self.content_pad
         points = get_round_rect_points(x0, y0, x1, y1, radius=25)
         self.bg_canv.create_polygon(points, fill=self.light_bg, smooth=True)
+
+        self.close_btn = Button(
+            self, command=self.withdraw_window, fg='white',
+            activeforeground='red', image=self.close_icon,
+            relief='flat', bg=self.light_bg, activebackground='red', bd=0
+        )
+
+        x = self.WIDTH - self.content_pad
+        y = 0
+        self.bg_canv.create_window(x, y, anchor='ne', window=self.close_btn)
+
+        x = self.content_pad + self.icon_white.width() + self.top_panel_inner_pad
+        x1 = self.WIDTH - self.content_pad
+        y = self.icon_white.height()
+        self.bg_canv.create_line(x, y, x1, y, fill=self.light_bg, width=3)
+
+        x = self.content_pad
+        y = self.top_panel_inner_pad
+        self.bg_canv.create_image(x, y, anchor='nw', image=self.icon_white)
+
+        x = self.WIDTH / 2
+        y = self.top_panel_h / 2.5
+        self.bg_canv.create_text(x, y, text='ScreenShotsCropper', fill='white', font=12)
 
     def draw_widgets(self):
         self.bg_canv.pack()
