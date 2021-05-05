@@ -115,7 +115,7 @@ class WelcomeWindow(Frame):
         self.root.diff_y = event.y
 
     def root_move(self, event):
-        if str(event.widget) == '.!welcomewindow.!canvas':
+        if str(event.widget) == f'.{self.winfo_name()}.!canvas':
             x = self.root.winfo_pointerx() - self.root.diff_x
             y = self.root.winfo_pointery() - self.root.diff_y
             self.root.geometry(f'+{x}+{y}')
