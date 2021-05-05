@@ -5,7 +5,7 @@ import keyboard
 import time
 from cropping_area import CroppingArea
 from toolbar import ToolBar
-from functions.functions import proportional_resize, rgb_to_tk_color, get_round_rect_points
+from functions.functions import proportional_resize, rgb_to_tk_color, get_round_rect_points, get_center_pos
 
 
 class WelcomeWindow(Frame):
@@ -24,6 +24,9 @@ class WelcomeWindow(Frame):
         self.top_panel_h = 50
         self.top_panel_inner_pad = 5
         self.content_pad = 15
+
+        self.welcome_text = 'There is no image here.\n\nUse the Print Screen button.'
+        self.icons_gray = rgb_to_tk_color((200, 200, 200))
 
         self.icon = None
         self.icon_img = Image.open("icons/ico.png")
@@ -81,6 +84,9 @@ class WelcomeWindow(Frame):
         x = self.WIDTH / 2
         y = self.top_panel_h / 2.5
         self.bg_canv.create_text(x, y, text='ScreenShotsCropper', fill='white', font=12)
+
+        x, y = get_center_pos(0, self.top_panel_h, self.WIDTH, self.HEIGHT)
+        self.bg_canv.create_text(x, y, text=self.welcome_text, fill=self.icons_gray, font=12)
 
     def draw_widgets(self):
         self.bg_canv.pack()
