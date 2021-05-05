@@ -40,6 +40,8 @@ class WelcomeWindow(Frame):
         self.root.overrideredirect(True)
         self.root.wm_attributes("-topmost", 1)
         self.root.resizable(False, False)
+        self.root.geometry(f'{self.WIDTH}x{self.HEIGHT}')
+
         self.center_window()
 
         self.root.bind('<Button-1>', self.root_move_start)
@@ -122,7 +124,7 @@ class WelcomeWindow(Frame):
         x = (self.root.winfo_screenwidth() // 2) - (self.WIDTH // 2)
         y = (self.root.winfo_screenheight() // 2) - (self.HEIGHT // 2)
 
-        self.root.geometry(f'{self.WIDTH}x{self.HEIGHT}+{x}+{y}')
+        self.root.geometry(f'+{x}+{y}')
 
 # class App(Frame):
 #     def __init__(self, root):
